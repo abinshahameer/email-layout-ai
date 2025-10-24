@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { ImagePlus, X } from "lucide-react";
 
 interface ArticleSectionProps {
   content: {
@@ -8,6 +10,8 @@ interface ArticleSectionProps {
     description?: string;
     quote?: string;
     link?: string;
+    image?: string;
+    imageAlt?: string;
     isHero?: boolean;
   };
   onUpdate: (content: any) => void;
@@ -83,6 +87,58 @@ export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
         >
           {content.title || "Click to add title..."}
         </h3>
+      )}
+
+      {content.image && (
+        <div className="relative mb-4 group">
+          <img
+            src={content.image}
+            alt={content.imageAlt || "Article image"}
+            className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+          />
+          <Button
+            variant="destructive"
+            size="sm"
+            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => onUpdate({ ...content, image: undefined, imageAlt: undefined })}
+          >
+            <X className="w-4 h-4" />
+          </Button>
+        </div>
+      )}
+
+      {!content.image && isEditing !== "image" && (
+        <Button
+          variant="outline"
+          size="sm"
+          className="mb-3"
+          onClick={() => setIsEditing("image")}
+        >
+          <ImagePlus className="w-4 h-4 mr-2" />
+          Add Image
+        </Button>
+      )}
+
+      {isEditing === "image" && !content.image && (
+        <div className="mb-3 space-y-2 p-3 border rounded-md bg-muted/30">
+          <Input
+            placeholder="Image URL (https://...)"
+            onChange={(e) => {
+              if (e.target.value) {
+                onUpdate({ ...content, image: e.target.value });
+                setIsEditing(null);
+              }
+            }}
+            autoFocus
+          />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsEditing(null)}
+          >
+            Cancel
+          </Button>
+        </div>
       )}
 
       {isEditing === "description" ? (

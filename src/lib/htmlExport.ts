@@ -129,6 +129,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
           bodyContent += `
             <div class="article">
               <h3>${section.content.title || ""}</h3>
+              ${section.content.image ? `<img src="${section.content.image}" alt="${section.content.imageAlt || 'Article image'}" style="width: 100%; height: auto; margin-bottom: 12px; border-radius: 4px;" />` : ""}
               <p>${section.content.description || ""}</p>
               ${section.content.link ? `<a href="${section.content.link}">${section.content.link}</a>` : ""}
             </div>
