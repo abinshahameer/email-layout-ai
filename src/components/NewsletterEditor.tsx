@@ -22,21 +22,46 @@ const NewsletterEditor = () => {
       id: "header",
       type: "header",
       content: {
-        company: "TATA CONSULTANCY SERVICES",
-        title: "Integrations & Functionalities",
-        date: new Date().toLocaleDateString("en-US", { 
-          month: "long", 
-          day: "numeric", 
-          year: "numeric" 
-        })
+        logo: "TCS",
+        date: "Oct 23th 2025",
+        episode: "Episode 02",
+        lab: "Rapid Innovation Labs"
       }
     },
     {
-      id: "main-article",
+      id: "hero",
       type: "article",
       content: {
-        title: "DeepSomatic: Cancer Variant Detection",
-        description: "DeepSomatic detects cancer variants in genomic data. First, sequencing data from the tumor cells and non-cancerous cells are turned into an image. DeepSomatic passes these images through its convolutional neural network to differentiate between the reference genome, the non-cancer germline variants in that individual, and the cancer-caused somatic variants in the tumor, while discarding variations caused by small sequencing errors. The result is a list of cancer-caused variants, or mutations."
+        title: "RAPID CIRCUIT",
+        isHero: true,
+        quote: "Backup is not a feature; its a foundation."
+      }
+    },
+    {
+      id: "article-1",
+      type: "article",
+      content: {
+        title: "PookieAI",
+        description: "PookieAI is an intelligent automation platform designed to integrate with over 30 top integrations on Zapier. PookieAI offers real-time data sync, bi-directional sync across generative AI agents, intelligent workflow automation, support for existing tools for no-disruption onboarding, engagement analytics tools, and everyday email/calendar management. With this breadth, PookieAI is a one-to elevate your workflow and enhance intelligent task execution.",
+        link: "https://pookieai.about"
+      }
+    },
+    {
+      id: "article-2",
+      type: "article",
+      content: {
+        title: "DeepSemantic",
+        description: "Google Research, in collaboration with the University of California, Berkeley, recently introduced DeepSomatic v1.8—an upgrade that enhances somatic variant detection using deep learning. The model leverages convolutional neural networks to detect mutations. Compatible with Illumina, Pacific Biosciences (PacBio), and Oxford Nanopore Technologies (ONT) sequencing data, DeepSomatic provides highly accurate variant calls, seamlessly integrating with existing tools validated on real clinical samples.",
+        link: "https://research.google/blog/deepsomatic-accurate-somatic"
+      }
+    },
+    {
+      id: "article-3",
+      type: "article",
+      content: {
+        title: "Claude Code for Web",
+        description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
+        link: "https://www.anthropic.com/news/claude-code-on-the-web"
       }
     },
     {

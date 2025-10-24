@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 15%;
 
-    --primary: 217 91% 45%;
+    --primary: 213 94% 48%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 32% 91%;
@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --muted: 210 40% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 207 90% 54%;
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -34,23 +34,26 @@ All colors MUST be HSL.
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 217 91% 45%;
+    --ring: 213 94% 48%;
 
-    --radius: 0.5rem;
+    --radius: 0rem;
 
     --sidebar-background: 220 13% 18%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 45%;
+    --sidebar-primary: 213 94% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 217 19% 27%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 19% 27%;
-    --sidebar-ring: 217 91% 45%;
+    --sidebar-ring: 213 94% 48%;
     
     /* Newsletter specific tokens */
-    --newsletter-header-bg: 220 13% 18%;
-    --newsletter-section-border: 214 32% 91%;
-    --newsletter-highlight: 207 90% 54%;
+    --newsletter-header-bg: 220 13% 23%;
+    --newsletter-hero-gradient-start: 213 94% 48%;
+    --newsletter-hero-gradient-end: 217 91% 35%;
+    --newsletter-section-border: 214 32% 88%;
+    --newsletter-sidebar-bg: 215 16% 47%;
+    --newsletter-link: 213 94% 48%;
   }
 
   .dark {
