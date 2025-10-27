@@ -1,100 +1,28 @@
 import { NewsletterSection } from "@/components/NewsletterEditor";
 
 export const exportToHTML = (sections: NewsletterSection[]): string => {
+  // Outlook-compatible inline styles
   const styles = `
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
     }
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-      background-color: #ffffff;
+    table {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
     }
-    .header {
-      background-color: #3d4f5f;
-      color: #ffffff;
-      padding: 16px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .header-left {
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .header-right {
-      display: flex;
-      gap: 24px;
-      font-size: 14px;
-    }
-    .hero {
-      background: linear-gradient(to right, #1e6ef5, #1557b0);
-      color: #ffffff;
-      padding: 48px;
-      position: relative;
-    }
-    .hero h1 {
-      margin: 0;
-      font-size: 48px;
-      font-weight: 900;
-      letter-spacing: 2px;
-    }
-    .hero-quote {
-      position: absolute;
-      top: 48px;
-      right: 48px;
-      max-width: 250px;
-      font-size: 13px;
-      font-style: italic;
-    }
-    .article {
-      padding: 24px;
-      border-bottom: 1px solid #e8e8e8;
-    }
-    .article h3 {
-      margin: 0 0 12px 0;
-      font-size: 16px;
-      font-weight: 700;
-      color: #1e6ef5;
-    }
-    .article p {
-      margin: 0 0 12px 0;
-      line-height: 1.6;
-      font-size: 13px;
-      color: #333333;
-    }
-    .article a {
-      color: #1e6ef5;
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
       text-decoration: none;
-      font-size: 13px;
-    }
-    .article a:hover {
-      text-decoration: underline;
-    }
-    .footer {
-      background-color: #f1f5f9;
-      padding: 32px;
-      text-align: center;
-    }
-    .footer-links {
-      margin-bottom: 16px;
-    }
-    .footer-links a {
-      color: #1e6ef5;
-      text-decoration: none;
-      margin: 0 12px;
-      font-size: 14px;
-    }
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
-    .footer p {
-      margin: 0;
-      font-size: 12px;
-      color: #64748b;
+      -ms-interpolation-mode: bicubic;
     }
   `;
 
@@ -104,48 +32,136 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     switch (section.type) {
       case "header":
         bodyContent += `
-          <div class="header">
-            <div class="header-left">
-              <strong>TCS</strong> TATA CONSULTANCY<br/>SERVICES
-            </div>
-            <div class="header-right">
-              <span>${section.content.date || ""}</span>
-              <span>${section.content.episode || ""}</span>
-              <span>${section.content.lab || ""}</span>
-            </div>
-          </div>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #3d4f5f; color: #ffffff;">
+            <tr>
+              <td style="padding: 16px 32px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="font-size: 12px; font-weight: 600; text-align: left;">
+                      <strong>${section.content.logo || "TCS"}</strong><br/>
+                      TATA CONSULTANCY SERVICES
+                    </td>
+                    <td style="font-size: 14px; text-align: right;">
+                      <span style="margin-right: 24px;">${section.content.date || ""}</span>
+                      <span style="margin-right: 24px;">${section.content.episode || ""}</span>
+                      <span>${section.content.lab || ""}</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
         `;
         break;
 
       case "article":
         if (section.content.isHero) {
           bodyContent += `
-            <div class="hero">
-              <h1>${section.content.title || ""}</h1>
-              ${section.content.quote ? `<div class="hero-quote">" ${section.content.quote} "</div>` : ""}
-            </div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background: linear-gradient(to right, #1e6ef5, #1557b0);">
+              <tr>
+                <td style="padding: 48px; position: relative; color: #ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td style="font-size: 48px; font-weight: 900; letter-spacing: 2px; color: #ffffff;">
+                        ${section.content.title || ""}
+                      </td>
+                      ${section.content.quote ? `
+                        <td style="max-width: 250px; font-size: 13px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top;">
+                          " ${section.content.quote} "
+                        </td>
+                      ` : ""}
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
           `;
         } else {
+          const imageAlign = section.content.imageAlignment || "left";
+          const textAlign = section.content.textAlignment || "left";
+          const imageSize = section.content.imageSize || 100;
+          
           bodyContent += `
-            <div class="article">
-              <h3>${section.content.title || ""}</h3>
-              ${section.content.image ? `<img src="${section.content.image}" alt="${section.content.imageAlt || 'Article image'}" style="width: 100%; height: auto; margin-bottom: 12px; border-radius: 4px;" />` : ""}
-              <p>${section.content.description || ""}</p>
-              ${section.content.link ? `<a href="${section.content.link}">${section.content.link}</a>` : ""}
-            </div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8;">
+              <tr>
+                <td style="padding: 24px;">
+                  <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #1e6ef5;">
+                    ${section.content.title || ""}
+                  </h3>
+                  
+                  ${section.content.image ? `
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">
+                      <tr>
+                        <td align="${imageAlign}">
+                          <img 
+                            src="${section.content.image}" 
+                            alt="${section.content.imageAlt || 'Article image'}" 
+                            width="${imageSize}%" 
+                            style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                          />
+                        </td>
+                      </tr>
+                    </table>
+                  ` : ""}
+                  
+                  <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 13px; color: #333333; text-align: ${textAlign};">
+                    ${section.content.description || ""}
+                  </p>
+                  
+                  ${section.content.link ? `
+                    <a href="${section.content.link}" style="color: #1e6ef5; text-decoration: none; font-size: 13px;">
+                      ${section.content.link}
+                    </a>
+                  ` : ""}
+                </td>
+              </tr>
+            </table>
+          `;
+        }
+        break;
+
+      case "comic":
+        if (section.content.image) {
+          bodyContent += `
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #f8f9fa;">
+              <tr>
+                <td style="padding: 32px; text-align: center;">
+                  <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 700; color: #1e6ef5;">Comic Section</h3>
+                  <img 
+                    src="${section.content.image}" 
+                    alt="${section.content.caption || 'Comic'}" 
+                    style="display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 4px;"
+                  />
+                  ${section.content.caption ? `
+                    <p style="margin: 12px 0 0 0; font-size: 13px; font-style: italic; color: #666666;">
+                      ${section.content.caption}
+                    </p>
+                  ` : ""}
+                </td>
+              </tr>
+            </table>
           `;
         }
         break;
 
       case "footer":
         const links = (section.content.links || [])
-          .map((link: string) => `<a href="#">${link}</a>`)
+          .map((link: string) => `<a href="#" style="color: #1e6ef5; text-decoration: none; margin: 0 12px; font-size: 14px;">${link}</a>`)
           .join("");
+        
         bodyContent += `
-          <div class="footer">
-            <div class="footer-links">${links}</div>
-            <p>${section.content.copyright || ""}</p>
-          </div>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f1f5f9;">
+            <tr>
+              <td style="padding: 32px; text-align: center;">
+                <div style="margin-bottom: 16px;">
+                  ${links}
+                </div>
+                <p style="margin: 0; font-size: 12px; color: #64748b;">
+                  ${section.content.copyright || ""}
+                </p>
+              </td>
+            </tr>
+          </table>
         `;
         break;
     }
@@ -153,17 +169,38 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
 
   return `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
   <title>Newsletter</title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
   <style>${styles}</style>
 </head>
-<body>
-  <div class="container">
-    ${bodyContent}
-  </div>
+<body style="margin: 0; padding: 0; background-color: #f5f5f5;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 0;">
+        <table role="presentation" width="700" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; max-width: 700px;">
+          <tr>
+            <td>
+              ${bodyContent}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `.trim();

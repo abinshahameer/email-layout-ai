@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus, FileText, Image, Table, List, Trash2 } from "lucide-react";
+import { Plus, FileText, Image, Trash2, Smile } from "lucide-react";
 import { NewsletterSection } from "../NewsletterEditor";
 
 interface EditorSidebarProps {
@@ -13,9 +13,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection }: Edito
   const sectionIcons = {
     header: FileText,
     article: FileText,
-    "integration-list": List,
-    table: Table,
-    image: Image,
+    comic: Smile,
     footer: FileText
   };
 
@@ -39,30 +37,10 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection }: Edito
             variant="outline"
             size="sm"
             className="w-full justify-start"
-            onClick={() => onAddSection("integration-list")}
+            onClick={() => onAddSection("comic")}
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add List
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full justify-start"
-            onClick={() => onAddSection("table")}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Table
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full justify-start"
-            onClick={() => onAddSection("image")}
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Image
+            Add Comic
           </Button>
         </div>
       </div>
@@ -83,9 +61,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection }: Edito
                   <span className="text-sm text-sidebar-foreground">
                     {section.type === "header" && "Header"}
                     {section.type === "article" && `Article ${index}`}
-                    {section.type === "integration-list" && `List ${index}`}
-                    {section.type === "table" && `Table ${index}`}
-                    {section.type === "image" && `Image ${index}`}
+                    {section.type === "comic" && "Comic"}
                     {section.type === "footer" && "Footer"}
                   </span>
                 </div>

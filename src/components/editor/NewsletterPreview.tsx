@@ -3,6 +3,7 @@ import { NewsletterSection } from "../NewsletterEditor";
 import { HeaderSection } from "./sections/HeaderSection";
 import { ArticleSection } from "./sections/ArticleSection";
 import { FooterSection } from "./sections/FooterSection";
+import { ComicSection } from "./sections/ComicSection";
 import { cn } from "@/lib/utils";
 
 interface NewsletterPreviewProps {
@@ -31,6 +32,14 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
             case "article":
               return (
                 <ArticleSection
+                  key={section.id}
+                  content={section.content}
+                  onUpdate={(content) => onUpdateSection(section.id, content)}
+                />
+              );
+            case "comic":
+              return (
+                <ComicSection
                   key={section.id}
                   content={section.content}
                   onUpdate={(content) => onUpdateSection(section.id, content)}

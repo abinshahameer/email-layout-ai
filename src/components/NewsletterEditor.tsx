@@ -11,8 +11,9 @@ import { useToast } from "@/hooks/use-toast";
 
 export interface NewsletterSection {
   id: string;
-  type: "header" | "article" | "integration-list" | "table" | "image" | "footer";
+  type: "header" | "article" | "comic" | "footer";
   content: any;
+  layout?: "single" | "double"; // For article layout
 }
 
 const NewsletterEditor = () => {
