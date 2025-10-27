@@ -4,6 +4,7 @@ import { HeaderSection } from "./sections/HeaderSection";
 import { ArticleSection } from "./sections/ArticleSection";
 import { FooterSection } from "./sections/FooterSection";
 import { ComicSection } from "./sections/ComicSection";
+import { PuzzleSection } from "./sections/PuzzleSection";
 import { cn } from "@/lib/utils";
 
 interface NewsletterPreviewProps {
@@ -19,7 +20,7 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
       previewMode === "desktop" ? "max-w-3xl" : "max-w-md"
     )}>
       <div className="newsletter-container">
-        {sections.map((section) => {
+        {sections.map((section, index) => {
           switch (section.type) {
             case "header":
               return (
@@ -40,6 +41,14 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
             case "comic":
               return (
                 <ComicSection
+                  key={section.id}
+                  content={section.content}
+                  onUpdate={(content) => onUpdateSection(section.id, content)}
+                />
+              );
+            case "puzzle":
+              return (
+                <PuzzleSection
                   key={section.id}
                   content={section.content}
                   onUpdate={(content) => onUpdateSection(section.id, content)}

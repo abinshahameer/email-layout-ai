@@ -77,8 +77,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
             </table>
           `;
         } else {
-          const imageAlign = section.content.imageAlignment || "left";
-          const textAlign = section.content.textAlignment || "left";
+          const imagePosition = section.content.imagePosition || "top";
           const imageSize = section.content.imageSize || 100;
           
           bodyContent += `
@@ -89,10 +88,10 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
                     ${section.content.title || ""}
                   </h3>
                   
-                  ${section.content.image ? `
+                  ${section.content.image && imagePosition === "top" ? `
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">
                       <tr>
-                        <td align="${imageAlign}">
+                        <td>
                           <img 
                             src="${section.content.image}" 
                             alt="${section.content.imageAlt || 'Article image'}" 
@@ -104,14 +103,48 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
                     </table>
                   ` : ""}
                   
-                  <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 13px; color: #333333; text-align: ${textAlign};">
-                    ${section.content.description || ""}
-                  </p>
+                  ${section.content.image && (imagePosition === "left" || imagePosition === "right") ? `
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        ${imagePosition === "left" ? `
+                          <td width="${imageSize}%" style="padding-right: 16px; vertical-align: top;">
+                            <img 
+                              src="${section.content.image}" 
+                              alt="${section.content.imageAlt || 'Article image'}" 
+                              width="100%" 
+                              style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                            />
+                          </td>
+                        ` : ""}
+                        <td style="vertical-align: top;">
+                          <p style="margin: 0; line-height: 1.6; font-size: 13px; color: #333333;">
+                            ${section.content.description || ""}
+                          </p>
+                        </td>
+                        ${imagePosition === "right" ? `
+                          <td width="${imageSize}%" style="padding-left: 16px; vertical-align: top;">
+                            <img 
+                              src="${section.content.image}" 
+                              alt="${section.content.imageAlt || 'Article image'}" 
+                              width="100%" 
+                              style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                            />
+                          </td>
+                        ` : ""}
+                      </tr>
+                    </table>
+                  ` : `
+                    <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 13px; color: #333333;">
+                      ${section.content.description || ""}
+                    </p>
+                  `}
                   
                   ${section.content.link ? `
-                    <a href="${section.content.link}" style="color: #1e6ef5; text-decoration: none; font-size: 13px;">
-                      ${section.content.link}
-                    </a>
+                    <p style="margin: 12px 0 0 0;">
+                      <a href="${section.content.link}" style="color: #1e6ef5; text-decoration: none; font-size: 13px;">
+                        ${section.content.link}
+                      </a>
+                    </p>
                   ` : ""}
                 </td>
               </tr>
@@ -142,6 +175,51 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
             </table>
           `;
         }
+        break;
+
+      case "puzzle":
+        bodyContent += `
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #fefce8;">
+            <tr>
+              <td style="padding: 24px;">
+                <h3 style="margin: 0 0 16px 0; font-size: 20px; font-weight: 700; color: #1e6ef5;">
+                  ${section.content.title || "Puzzle"}
+                </h3>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td width="50%" style="padding-right: 12px; vertical-align: top;">
+                      ${section.content.puzzleImage ? `
+                        <img 
+                          src="${section.content.puzzleImage}" 
+                          alt="Puzzle" 
+                          width="100%" 
+                          style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                        />
+                      ` : ""}
+                    </td>
+                    <td width="50%" style="padding-left: 12px; vertical-align: top;">
+                      <p style="margin: 0 0 16px 0; font-size: 13px; color: #333333; line-height: 1.6;">
+                        ${section.content.instructions || ""}
+                      </p>
+                      ${section.content.qrCode ? `
+                        <div style="border-top: 1px solid #e8e8e8; padding-top: 16px;">
+                          <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #666666;">Scan to Solve</p>
+                          <img 
+                            src="${section.content.qrCode}" 
+                            alt="QR Code" 
+                            width="128" 
+                            height="128" 
+                            style="display: block; border-radius: 4px;"
+                          />
+                        </div>
+                      ` : ""}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        `;
         break;
 
       case "footer":

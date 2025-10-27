@@ -11,9 +11,9 @@ import { useToast } from "@/hooks/use-toast";
 
 export interface NewsletterSection {
   id: string;
-  type: "header" | "article" | "comic" | "footer";
+  type: "header" | "article" | "comic" | "footer" | "puzzle";
   content: any;
-  layout?: "single" | "double"; // For article layout
+  rowLayout?: "full" | "half"; // full = 1 article per row, half = 2 articles per row
 }
 
 const NewsletterEditor = () => {

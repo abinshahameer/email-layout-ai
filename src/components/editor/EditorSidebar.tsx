@@ -14,6 +14,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection }: Edito
     header: FileText,
     article: FileText,
     comic: Smile,
+    puzzle: Image,
     footer: FileText
   };
 
@@ -42,6 +43,16 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection }: Edito
             <Plus className="w-4 h-4 mr-2" />
             Add Comic
           </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full justify-start"
+            onClick={() => onAddSection("puzzle")}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Puzzle
+          </Button>
         </div>
       </div>
 
@@ -62,6 +73,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection }: Edito
                     {section.type === "header" && "Header"}
                     {section.type === "article" && `Article ${index}`}
                     {section.type === "comic" && "Comic"}
+                    {section.type === "puzzle" && "Puzzle"}
                     {section.type === "footer" && "Footer"}
                   </span>
                 </div>

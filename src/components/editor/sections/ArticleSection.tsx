@@ -16,8 +16,7 @@ interface ArticleSectionProps {
     image?: string;
     imageAlt?: string;
     imageSize?: number;
-    imageAlignment?: "left" | "center" | "right";
-    textAlignment?: "left" | "center" | "right";
+    imagePosition?: "top" | "left" | "right";
     isHero?: boolean;
   };
   onUpdate: (content: any) => void;
@@ -87,6 +86,8 @@ export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
     );
   }
 
+  const imagePosition = content.imagePosition || "top";
+
   return (
     <div className="p-6 border-b border-[hsl(var(--newsletter-section-border))]">
       {isEditing === "title" ? (
@@ -109,23 +110,20 @@ export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
 
       {content.image && (
         <div className="mb-4 space-y-3 p-3 border rounded-md bg-muted/30">
-          <div className={`relative group flex justify-${content.imageAlignment || "left"}`}>
-            <img
-              src={content.image}
-              alt={content.imageAlt || "Article image"}
-              style={{ width: `${content.imageSize || 100}%`, maxWidth: "100%" }}
-              className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
-            />
-            <Button
-              variant="destructive"
-              size="sm"
-              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => onUpdate({ ...content, image: undefined, imageAlt: undefined, imageSize: undefined, imageAlignment: undefined })}
-            >
-              <X className="w-4 h-4" />
-            </Button>
+          <div className="space-y-2">
+            <label className="text-xs font-medium">Image Position</label>
+            <Select value={imagePosition} onValueChange={(value: "top" | "left" | "right") => onUpdate({ ...content, imagePosition: value })}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="top">Above Text</SelectItem>
+                <SelectItem value="left">Left of Text</SelectItem>
+                <SelectItem value="right">Right of Text</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
+
           <div className="space-y-2">
             <label className="text-xs font-medium">Image Width: {content.imageSize || 100}%</label>
             <Slider
@@ -138,31 +136,21 @@ export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-medium">Image Alignment</label>
-            <div className="flex gap-2">
-              <Button
-                variant={content.imageAlignment === "left" ? "default" : "outline"}
-                size="sm"
-                onClick={() => onUpdate({ ...content, imageAlignment: "left" })}
-              >
-                <AlignLeft className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={content.imageAlignment === "center" ? "default" : "outline"}
-                size="sm"
-                onClick={() => onUpdate({ ...content, imageAlignment: "center" })}
-              >
-                <AlignCenter className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={content.imageAlignment === "right" ? "default" : "outline"}
-                size="sm"
-                onClick={() => onUpdate({ ...content, imageAlignment: "right" })}
-              >
-                <AlignRight className="w-4 h-4" />
-              </Button>
-            </div>
+          <div className="relative group">
+            <img
+              src={content.image}
+              alt={content.imageAlt || "Article image"}
+              style={{ width: `${content.imageSize || 100}%`, maxWidth: "100%" }}
+              className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+            />
+            <Button
+              variant="destructive"
+              size="sm"
+              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={() => onUpdate({ ...content, image: undefined, imageAlt: undefined, imageSize: undefined, imagePosition: undefined })}
+            >
+              <X className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       )}
@@ -223,52 +211,45 @@ export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
         </div>
       )}
 
-      <div className="space-y-2 mb-3">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-medium">Text Alignment</label>
-          <div className="flex gap-1">
-            <Button
-              variant={content.textAlignment === "left" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => onUpdate({ ...content, textAlignment: "left" })}
-            >
-              <AlignLeft className="w-3 h-3" />
-            </Button>
-            <Button
-              variant={content.textAlignment === "center" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => onUpdate({ ...content, textAlignment: "center" })}
-            >
-              <AlignCenter className="w-3 h-3" />
-            </Button>
-            <Button
-              variant={content.textAlignment === "right" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => onUpdate({ ...content, textAlignment: "right" })}
-            >
-              <AlignRight className="w-3 h-3" />
-            </Button>
+      <div className={imagePosition === "left" || imagePosition === "right" ? "flex gap-4 items-start" : ""}>
+        {content.image && imagePosition === "left" && (
+          <div style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
+            <img
+              src={content.image}
+              alt={content.imageAlt || "Article image"}
+              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+            />
           </div>
+        )}
+
+        <div className="flex-1 space-y-2 mb-3">
+          {isEditing === "description" ? (
+            <Textarea
+              value={content.description || ""}
+              onChange={(e) => onUpdate({ ...content, description: e.target.value })}
+              onBlur={() => setIsEditing(null)}
+              className="min-h-32 text-sm text-foreground/80 leading-relaxed"
+              placeholder="Article content..."
+              autoFocus
+            />
+          ) : (
+            <p
+              className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+              onClick={() => setIsEditing("description")}
+            >
+              {content.description || "Click to add content..."}
+            </p>
+          )}
         </div>
-        
-        {isEditing === "description" ? (
-          <Textarea
-            value={content.description || ""}
-            onChange={(e) => onUpdate({ ...content, description: e.target.value })}
-            onBlur={() => setIsEditing(null)}
-            className="min-h-32 text-sm text-foreground/80 leading-relaxed"
-            style={{ textAlign: content.textAlignment || "left" }}
-            placeholder="Article content..."
-            autoFocus
-          />
-        ) : (
-          <p
-            className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
-            style={{ textAlign: content.textAlignment || "left" }}
-            onClick={() => setIsEditing("description")}
-          >
-            {content.description || "Click to add content..."}
-          </p>
+
+        {content.image && imagePosition === "right" && (
+          <div style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
+            <img
+              src={content.image}
+              alt={content.imageAlt || "Article image"}
+              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+            />
+          </div>
         )}
       </div>
 
