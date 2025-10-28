@@ -156,7 +156,7 @@ const renderSection = (section: NewsletterSection): string => {
       const puzzleType = section.content.puzzleType || "image";
       const puzzleImageSize = section.content.puzzleImageSize || 100;
       return `
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #f4f1d9;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #E1EFFA;">
           <tr>
             <td style="padding: 24px;">
               <h3 style="margin: 0 0 16px 0; font-size: 20px; font-weight: 700; color: #1e6ef5;">
