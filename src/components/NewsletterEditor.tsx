@@ -11,9 +11,9 @@ import { useToast } from "@/hooks/use-toast";
 
 export interface NewsletterSection {
   id: string;
-  type: "header" | "article" | "comic" | "footer" | "puzzle";
+  type: "header" | "article" | "comic" | "footer" | "puzzle" | "extended-reading";
   content: any;
-  rowLayout?: "full" | "half"; // full = 1 article per row, half = 2 articles per row
+  rowLayout?: "full" | "half"; // full = 1 item per row, half = 2 items per row
 }
 
 const NewsletterEditor = () => {
@@ -170,6 +170,9 @@ const NewsletterEditor = () => {
         sections={sections}
         onAddSection={addSection}
         onDeleteSection={deleteSection}
+        onUpdateSection={(id, updates) => {
+          setSections(sections.map(s => s.id === id ? { ...s, ...updates } : s));
+        }}
       />
       
       <main className="flex-1 flex flex-col overflow-hidden">

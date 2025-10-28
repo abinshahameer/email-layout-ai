@@ -4,21 +4,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, X, Upload, Link as LinkIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 interface PuzzleSectionProps {
   content: {
     title?: string;
     puzzleImage?: string;
+    puzzleImageSize?: number;
     instructions?: string;
-    qrCode?: string;
+    answerImage?: string;
+    answerText?: string;
   };
   onUpdate: (content: any) => void;
+  isHalfWidth?: boolean;
 }
 
-export const PuzzleSection = ({ content, onUpdate }: PuzzleSectionProps) => {
+export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
-  const handleImageUpload = (field: "puzzleImage" | "qrCode") => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (field: "puzzleImage" | "answerImage") => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -31,7 +35,7 @@ export const PuzzleSection = ({ content, onUpdate }: PuzzleSectionProps) => {
   };
 
   return (
-    <div className="p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-[hsl(var(--newsletter-puzzle-bg))]">
+    <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-[hsl(var(--newsletter-puzzle-bg))]", isHalfWidth && "bg-[hsl(var(--newsletter-puzzle-bg-alt))]")}>
       {isEditing === "title" ? (
         <Input
           value={content.title || ""}
@@ -53,20 +57,34 @@ export const PuzzleSection = ({ content, onUpdate }: PuzzleSectionProps) => {
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
           {content.puzzleImage ? (
-            <div className="relative group">
-              <img
-                src={content.puzzleImage}
-                alt="Puzzle"
-                className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
-              />
-              <Button
-                variant="destructive"
-                size="sm"
-                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => onUpdate({ ...content, puzzleImage: undefined })}
-              >
-                <X className="w-4 h-4" />
-              </Button>
+            <div className="space-y-3">
+              <div className="relative group">
+                <img
+                  src={content.puzzleImage}
+                  alt="Puzzle"
+                  style={{ width: `${content.puzzleImageSize || 100}%` }}
+                  className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+                />
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => onUpdate({ ...content, puzzleImage: undefined })}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-muted-foreground">Image Size: {content.puzzleImageSize || 100}%</label>
+                <input
+                  type="range"
+                  min="20"
+                  max="100"
+                  value={content.puzzleImageSize || 100}
+                  onChange={(e) => onUpdate({ ...content, puzzleImageSize: Number(e.target.value) })}
+                  className="w-full"
+                />
+              </div>
             </div>
           ) : (
             <>
@@ -146,38 +164,57 @@ export const PuzzleSection = ({ content, onUpdate }: PuzzleSectionProps) => {
           )}
 
           <div className="border-t pt-4">
-            <h4 className="text-sm font-semibold mb-2">Scan to Solve</h4>
-            {content.qrCode ? (
-              <div className="relative group inline-block">
-                <img
-                  src={content.qrCode}
-                  alt="QR Code"
-                  className="w-32 h-32 rounded border border-[hsl(var(--newsletter-section-border))]"
-                />
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => onUpdate({ ...content, qrCode: undefined })}
-                >
-                  <X className="w-3 h-3" />
-                </Button>
+            <h4 className="text-sm font-semibold mb-2">Last Week's Answer</h4>
+            
+            {content.answerImage || content.answerText ? (
+              <div className="space-y-2">
+                {content.answerImage && (
+                  <div className="relative group inline-block">
+                    <img
+                      src={content.answerImage}
+                      alt="Answer"
+                      className="max-w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+                    />
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={() => onUpdate({ ...content, answerImage: undefined })}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+                {content.answerText && (
+                  <div className="relative group p-3 bg-muted/30 rounded border">
+                    <p className="text-sm">{content.answerText}</p>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={() => onUpdate({ ...content, answerText: undefined })}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
               </div>
             ) : (
               <>
-                {isEditing !== "qrCode" ? (
+                {isEditing !== "answer" ? (
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setIsEditing("qrCode")}
+                    onClick={() => setIsEditing("answer")}
                   >
                     <ImagePlus className="w-4 h-4 mr-2" />
-                    Add QR Code
+                    Add Answer
                   </Button>
                 ) : (
                   <div className="space-y-3 p-3 border rounded-md bg-muted/30">
-                    <Tabs defaultValue="url">
-                      <TabsList className="grid w-full grid-cols-2">
+                    <Tabs defaultValue="text">
+                      <TabsList className="grid w-full grid-cols-3">
+                        <TabsTrigger value="text">Text</TabsTrigger>
                         <TabsTrigger value="url">
                           <LinkIcon className="w-4 h-4 mr-2" />
                           URL
@@ -187,23 +224,35 @@ export const PuzzleSection = ({ content, onUpdate }: PuzzleSectionProps) => {
                           Upload
                         </TabsTrigger>
                       </TabsList>
-                      <TabsContent value="url" className="space-y-2">
-                        <Input
-                          placeholder="QR Code URL (https://...)"
+                      <TabsContent value="text" className="space-y-2">
+                        <Textarea
+                          placeholder="Type the answer..."
                           onChange={(e) => {
                             if (e.target.value) {
-                              onUpdate({ ...content, qrCode: e.target.value });
+                              onUpdate({ ...content, answerText: e.target.value });
                               setIsEditing(null);
                             }
                           }}
                           autoFocus
+                          rows={3}
+                        />
+                      </TabsContent>
+                      <TabsContent value="url" className="space-y-2">
+                        <Input
+                          placeholder="Image URL (https://...)"
+                          onChange={(e) => {
+                            if (e.target.value) {
+                              onUpdate({ ...content, answerImage: e.target.value });
+                              setIsEditing(null);
+                            }
+                          }}
                         />
                       </TabsContent>
                       <TabsContent value="upload" className="space-y-2">
                         <Input
                           type="file"
                           accept="image/*"
-                          onChange={handleImageUpload("qrCode")}
+                          onChange={handleImageUpload("answerImage")}
                         />
                         <p className="text-xs text-muted-foreground">Image will be embedded as Base64</p>
                       </TabsContent>

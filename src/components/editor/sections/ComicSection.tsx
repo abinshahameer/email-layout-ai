@@ -3,16 +3,19 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Upload, X, Link as LinkIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 interface ComicSectionProps {
   content: {
     image?: string;
     caption?: string;
+    imageSize?: number;
   };
   onUpdate: (content: any) => void;
+  isHalfWidth?: boolean;
 }
 
-export const ComicSection = ({ content, onUpdate }: ComicSectionProps) => {
+export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +31,7 @@ export const ComicSection = ({ content, onUpdate }: ComicSectionProps) => {
   };
 
   return (
-    <div className="p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20">
+    <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20", isHalfWidth && "bg-muted/30")}>
       <h3 className="text-lg font-bold text-primary mb-4">Comic Section</h3>
 
       {content.image ? (
@@ -37,7 +40,8 @@ export const ComicSection = ({ content, onUpdate }: ComicSectionProps) => {
             <img
               src={content.image}
               alt={content.caption || "Comic"}
-              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+              style={{ width: `${content.imageSize || 100}%` }}
+              className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
             />
             <Button
               variant="destructive"
@@ -47,6 +51,18 @@ export const ComicSection = ({ content, onUpdate }: ComicSectionProps) => {
             >
               <X className="w-4 h-4" />
             </Button>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-muted-foreground">Image Size: {content.imageSize || 100}%</label>
+            <input
+              type="range"
+              min="20"
+              max="100"
+              value={content.imageSize || 100}
+              onChange={(e) => onUpdate({ ...content, imageSize: Number(e.target.value) })}
+              className="w-full"
+            />
           </div>
 
           {isEditing === "caption" ? (

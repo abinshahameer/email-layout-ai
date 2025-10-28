@@ -6,6 +6,7 @@ import { ImagePlus, X, Upload, Link as LinkIcon, AlignLeft, AlignCenter, AlignRi
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface ArticleSectionProps {
   content: {
@@ -20,9 +21,10 @@ interface ArticleSectionProps {
     isHero?: boolean;
   };
   onUpdate: (content: any) => void;
+  isHalfWidth?: boolean;
 }
 
-export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
+export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +93,7 @@ export const ArticleSection = ({ content, onUpdate }: ArticleSectionProps) => {
   const imagePosition = content.imagePosition || "top";
 
   return (
-    <div className="p-6 border-b border-[hsl(var(--newsletter-section-border))]">
+    <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))]", isHalfWidth && "bg-muted/10")}>
       {isEditing === "title" ? (
         <Input
           value={content.title || ""}
