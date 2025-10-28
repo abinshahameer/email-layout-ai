@@ -8,7 +8,7 @@ export default defineConfig(({ }) => ({
     port: 8080,
   },
   plugins: [react()].filter(Boolean),
-  base: '/email-layout-ai/',
+  // base: '/email-layout-ai/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
