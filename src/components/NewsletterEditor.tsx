@@ -73,7 +73,7 @@ const NewsletterEditor = () => {
       id: "footer",
       type: "footer",
       content: {
-        links: ["Unsubscribe", "View in Browser", "Privacy Policy"],
+        links: ["Subscribe", "View in Browser", "Privacy Policy"],
         copyright: "© 2025 Rapid Innovation Labs. All rights reserved."
       }
     }
