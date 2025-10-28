@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils";
 interface PuzzleSectionProps {
   content: {
     title?: string;
+    puzzleType?: "image" | "text";
     puzzleImage?: string;
     puzzleImageSize?: number;
+    puzzleText?: string;
     instructions?: string;
     answerImage?: string;
     answerText?: string;
@@ -21,6 +23,7 @@ interface PuzzleSectionProps {
 
 export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const puzzleType = content.puzzleType || "image";
 
   const handleImageUpload = (field: "puzzleImage" | "answerImage") => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -36,27 +39,37 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
 
   return (
     <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-[hsl(var(--newsletter-puzzle-bg))]", isHalfWidth && "bg-[hsl(var(--newsletter-puzzle-bg-alt))]")}>
-      {isEditing === "title" ? (
-        <Input
-          value={content.title || ""}
-          onChange={(e) => onUpdate({ ...content, title: e.target.value })}
-          onBlur={() => setIsEditing(null)}
-          className="mb-4 text-xl font-bold text-primary"
-          placeholder="Puzzle title..."
-          autoFocus
-        />
-      ) : (
-        <h3
-          className="text-xl font-bold text-primary mb-4 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
-          onClick={() => setIsEditing("title")}
-        >
-          {content.title || "Click to add puzzle title..."}
-        </h3>
-      )}
+      <div className="mb-4 space-y-3">
+        {isEditing === "title" ? (
+          <Input
+            value={content.title || ""}
+            onChange={(e) => onUpdate({ ...content, title: e.target.value })}
+            onBlur={() => setIsEditing(null)}
+            className="text-xl font-bold text-primary"
+            placeholder="Puzzle title..."
+            autoFocus
+          />
+        ) : (
+          <h3
+            className="text-xl font-bold text-primary cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+            onClick={() => setIsEditing("title")}
+          >
+            {content.title || "Click to add puzzle title..."}
+          </h3>
+        )}
+
+        <Tabs value={puzzleType} onValueChange={(value: "image" | "text") => onUpdate({ ...content, puzzleType: value })}>
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="image">Image-Based Puzzle</TabsTrigger>
+            <TabsTrigger value="text">Text-Based Puzzle</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-4">
-          {content.puzzleImage ? (
+          {puzzleType === "image" ? (
+            content.puzzleImage ? (
             <div className="space-y-3">
               <div className="relative group">
                 <img
@@ -141,26 +154,49 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                 </div>
               )}
             </>
+          )
+          ) : (
+            isEditing === "puzzleText" ? (
+              <Textarea
+                value={content.puzzleText || ""}
+                onChange={(e) => onUpdate({ ...content, puzzleText: e.target.value })}
+                onBlur={() => setIsEditing(null)}
+                className="min-h-32"
+                placeholder="Enter your text-based puzzle here..."
+                autoFocus
+              />
+            ) : (
+              <div
+                className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 border border-dashed border-[hsl(var(--newsletter-section-border))]"
+                onClick={() => setIsEditing("puzzleText")}
+              >
+                {content.puzzleText || "Click to add text-based puzzle..."}
+              </div>
+            )
           )}
         </div>
 
         <div className="space-y-4">
-          {isEditing === "instructions" ? (
-            <Textarea
-              value={content.instructions || ""}
-              onChange={(e) => onUpdate({ ...content, instructions: e.target.value })}
-              onBlur={() => setIsEditing(null)}
-              className="min-h-32 text-sm"
-              placeholder="Puzzle instructions..."
-              autoFocus
-            />
-          ) : (
-            <div
-              className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32"
-              onClick={() => setIsEditing("instructions")}
-            >
-              {content.instructions || "Click to add instructions..."}
-            </div>
+          {puzzleType === "image" && (
+            <>
+              {isEditing === "instructions" ? (
+                <Textarea
+                  value={content.instructions || ""}
+                  onChange={(e) => onUpdate({ ...content, instructions: e.target.value })}
+                  onBlur={() => setIsEditing(null)}
+                  className="min-h-32 text-sm"
+                  placeholder="Puzzle instructions..."
+                  autoFocus
+                />
+              ) : (
+                <div
+                  className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32"
+                  onClick={() => setIsEditing("instructions")}
+                >
+                  {content.instructions || "Click to add instructions..."}
+                </div>
+              )}
+            </>
           )}
 
           <div className="border-t pt-4">

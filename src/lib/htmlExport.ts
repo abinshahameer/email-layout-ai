@@ -153,6 +153,7 @@ const renderSection = (section: NewsletterSection): string => {
       return "";
 
     case "puzzle":
+      const puzzleType = section.content.puzzleType || "image";
       const puzzleImageSize = section.content.puzzleImageSize || 100;
       return `
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #f4f1d9;">
@@ -164,7 +165,7 @@ const renderSection = (section: NewsletterSection): string => {
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td width="50%" style="padding-right: 12px; vertical-align: top;">
-                    ${section.content.puzzleImage ? `
+                    ${puzzleType === "image" && section.content.puzzleImage ? `
                       <img 
                         src="${section.content.puzzleImage}" 
                         alt="Puzzle" 
@@ -172,11 +173,18 @@ const renderSection = (section: NewsletterSection): string => {
                         style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
                       />
                     ` : ""}
+                    ${puzzleType === "text" && section.content.puzzleText ? `
+                      <p style="margin: 0; font-size: 13px; color: #333333; line-height: 1.6; white-space: pre-wrap;">
+                        ${section.content.puzzleText}
+                      </p>
+                    ` : ""}
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
-                    <p style="margin: 0 0 16px 0; font-size: 13px; color: #333333; line-height: 1.6;">
-                      ${section.content.instructions || ""}
-                    </p>
+                    ${puzzleType === "image" && section.content.instructions ? `
+                      <p style="margin: 0 0 16px 0; font-size: 13px; color: #333333; line-height: 1.6;">
+                        ${section.content.instructions}
+                      </p>
+                    ` : ""}
                     ${section.content.answerImage || section.content.answerText ? `
                       <div style="border-top: 1px solid #d4c899; padding-top: 16px;">
                         <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #666666;">Last Week's Answer</p>
