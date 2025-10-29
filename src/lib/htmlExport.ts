@@ -174,9 +174,7 @@ const renderSection = (section: NewsletterSection): string => {
                       />
                     ` : ""}
                     ${puzzleType === "text" && section.content.puzzleText ? `
-                      <p style="margin: 0; font-size: 13px; color: #333333; line-height: 1.6; white-space: pre-wrap;">
-                        ${section.content.puzzleText}
-                      </p>
+                      <p style="margin: 0; font-size: 13px; color: #333333; line-height: 1.6; white-space: pre-wrap;">${section.content.puzzleText}</p>
                     ` : ""}
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
@@ -241,7 +239,7 @@ const renderSection = (section: NewsletterSection): string => {
 
     case "footer":
       const footerLinks = (section.content.links || [])
-        .map((link: string) => `<a href="#" style="color: #1e6ef5; text-decoration: none; margin: 0 12px; font-size: 14px;">${link}</a>`)
+        .map((link: string,index: any) => `<a href=${section.content.url[index]} style="color: #1e6ef5; text-decoration: none; margin: 0 12px; font-size: 14px;">${link}</a>`)
         .join("");
       
       return `

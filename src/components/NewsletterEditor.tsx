@@ -74,6 +74,7 @@ const NewsletterEditor = () => {
       type: "footer",
       content: {
         links: ["Subscribe", "View in Browser", "Privacy Policy"],
+        url:["https://forms.office.com/r/8exqUT0nmD","#","#"],
         copyright: "© 2025 Rapid Innovation Labs. All rights reserved."
       }
     }

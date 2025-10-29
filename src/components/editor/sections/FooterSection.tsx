@@ -4,6 +4,7 @@ import { useState } from "react";
 interface FooterSectionProps {
   content: {
     links?: string[];
+    url?:string[];
     copyright?: string;
   };
   onUpdate: (content: any) => void;
@@ -18,7 +19,7 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
         {(content.links || []).map((link, index) => (
           <a
             key={index}
-            href="#"
+            href={content?.url[index]}
             className="text-primary hover:underline"
           >
             {link}
