@@ -239,7 +239,7 @@ const renderSection = (section: NewsletterSection): string => {
 
     case "footer":
       const footerLinks = (section.content.links || [])
-        .map((link: string,index: any) => `<a href=${section.content.url[index]} style="color: #1e6ef5; text-decoration: none; margin: 0 12px; font-size: 14px;">${link}</a>`)
+        .map((link: string,index: any) => `<a href=${section.content.url[index]} target="_blank" rel="noopener noreferrer" style="color: #1e6ef5 !important; text-decoration: none; margin: 0 12px; font-size: 14px; cursor: pointer;">${link}</a>`)
         .join("");
       
       return `

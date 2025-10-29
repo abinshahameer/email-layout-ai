@@ -21,6 +21,9 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
             key={index}
             href={content?.url[index]}
             className="text-primary hover:underline"
+            target="_blank" 
+            rel="noopener noreferrer"
+
           >
             {link}
           </a>
