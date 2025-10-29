@@ -85,7 +85,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection, onUpdat
                     <Icon className="w-4 h-4 text-sidebar-foreground" />
                     <span className="text-sm text-sidebar-foreground">
                       {section.type === "header" && "Header"}
-                      {section.type === "article" && (section.content.isHero ? "Hero" : `Article ${index}`)}
+                      {section.type === "article" && (section.content.isHero ? "Hero" : `Article ${sections.slice(0, index + 1).filter(s => s.type === 'article' && !s.content.isHero).length}`)}
                       {section.type === "comic" && "Comic"}
                       {section.type === "puzzle" && "Puzzle"}
                       {section.type === "extended-reading" && "Extended Reading"}
