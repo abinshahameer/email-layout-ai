@@ -98,10 +98,11 @@ const NewsletterEditor = () => {
   };
 
   const deleteSection = (id: string) => {
-    if (id === "header" || id === "footer") {
+    const sectionToDelete = sections.find(s => s.id === id);
+    if (id === "header" || id === "footer" || sectionToDelete?.content?.isHero) {
       toast({
         title: "Cannot delete",
-        description: "Header and footer sections are required.",
+        description: "Header, footer, and hero sections are required.",
         variant: "destructive"
       });
       return;

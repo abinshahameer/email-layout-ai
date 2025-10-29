@@ -263,9 +263,16 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                       <TabsContent value="text" className="space-y-2">
                         <Textarea
                           placeholder="Type the answer..."
-                          onChange={(e) => {
+                          defaultValue={content.answerText || ""}
+                          onBlur={(e) => {
                             if (e.target.value) {
                               onUpdate({ ...content, answerText: e.target.value });
+                              setIsEditing(null);
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              onUpdate({ ...content, answerText: e.currentTarget.value });
                               setIsEditing(null);
                             }
                           }}
