@@ -73,7 +73,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection, onUpdat
         <div className="p-4 space-y-2">
           {sections.map((section, index) => {
             const Icon = sectionIcons[section.type];
-            const isRequired = section.id === "header" || section.id === "footer";
+            const isRequired = section.id === "header" || section.id === "footer" || section.content.isHero;
             
             return (
               <div
@@ -85,7 +85,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection, onUpdat
                     <Icon className="w-4 h-4 text-sidebar-foreground" />
                     <span className="text-sm text-sidebar-foreground">
                       {section.type === "header" && "Header"}
-                      {section.type === "article" && `Article ${index}`}
+                      {section.type === "article" && (section.content.isHero ? "Hero" : `Article ${index}`)}
                       {section.type === "comic" && "Comic"}
                       {section.type === "puzzle" && "Puzzle"}
                       {section.type === "extended-reading" && "Extended Reading"}
@@ -104,7 +104,7 @@ export const EditorSidebar = ({ sections, onAddSection, onDeleteSection, onUpdat
                   )}
                 </div>
 
-                {(section.type === "article" || section.type === "comic" || section.type === "puzzle") && (
+                {((section.type === "article" && !section.content.isHero) || section.type === "comic" || section.type === "puzzle") && (
                   <Select
                     value={section.rowLayout || "full"}
                     onValueChange={(value: "full" | "half") => 
