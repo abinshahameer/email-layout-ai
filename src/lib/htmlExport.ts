@@ -41,7 +41,7 @@ const renderSection = (section: NewsletterSection): string => {
                     </td>
                     ${section.content.quote ? `
                       <td style="max-width: 250px; font-size: 13px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top;">
-                        " ${section.content.quote} "
+                        "${section.content.quote}"
                       </td>
                     ` : ""}
                   </tr>
