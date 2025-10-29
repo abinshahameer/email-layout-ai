@@ -36,7 +36,7 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
 
       {content.image ? (
         <div className="space-y-3">
-          <div className="relative group">
+          <div className="relative group flex justify-center ">
             <img
               src={content.image}
               alt={content.caption || "Comic"}

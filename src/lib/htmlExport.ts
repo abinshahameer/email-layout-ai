@@ -65,7 +65,7 @@ const renderSection = (section: NewsletterSection): string => {
                 ${section.content.image && imagePosition === "top" ? `
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">
                     <tr>
-                      <td>
+                      <td align="center">
                         <img 
                           src="${section.content.image}" 
                           alt="${section.content.imageAlt || 'Article image'}" 

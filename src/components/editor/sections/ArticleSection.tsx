@@ -140,7 +140,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
             />
           </div>
 
-          <div className="relative group">
+          <div className="relative group flex justify-center">
             <img
               src={content.image}
               alt={content.imageAlt || "Article image"}
