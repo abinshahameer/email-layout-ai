@@ -176,7 +176,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
               />
             ) : (
               <div
-                className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 border border-dashed border-[hsl(var(--newsletter-section-border))]"
+                className="text-base whitespace-pre-wrap text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 border border-dashed border-[hsl(var(--newsletter-section-border))]"
                 onClick={() => setIsEditing("puzzleText")}
               >
                 {content.puzzleText || "Click to add text-based puzzle..."}

@@ -175,7 +175,7 @@ const renderSection = (section: NewsletterSection): string => {
                       />
                     ` : ""}
                     ${puzzleType === "text" && section.content.puzzleText ? `
-                      <p style="margin: 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;">${section.content.puzzleText}</p>
+                      <pre style="margin: 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;">${section.content.puzzleText}</pre>
                     ` : ""}
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
