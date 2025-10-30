@@ -62,7 +62,7 @@ export function ImageCropper({ image, onCrop, onClose }: ImageCropperProps) {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="" style={{width:"400px"}}>
         <DialogHeader>
           <DialogTitle>Crop Image</DialogTitle>
         </DialogHeader>
