@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail } from "lucide-react";
 
 interface HeaderSectionProps {
   content: {
@@ -77,15 +77,15 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
             </span>
           )}
 
-          <div className="flex items-center gap-2">
-            <a
-              href="https://forms.office.com/r/8exqUT0nmD"
-              target="_blank"
-              className="text-accent font-bold hover:underline"
-            >
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-full bg-primary text-white border-primary hover:bg-white hover:text-primary"
+          >
+            <a href="https://forms.office.com/r/8exqUT0nmD" target="_blank">
               Subscribe
             </a>
-          </div>
+          </Button>
         </div>
     </div>
   );

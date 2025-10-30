@@ -19,7 +19,7 @@ const renderSection = (section: NewsletterSection): string => {
                   <td style="font-size: 16px; text-align: right;">
                     <span style="margin-right: 24px;">${section.content.episode || ""}</span>
                     <span style="margin-right: 24px;">${section.content.lab || ""}</span>
-                    <a href="https://forms.office.com/r/8exqUT0nmD" target="_blank" style="color: #2a7ff5; text-decoration: none; font-weight: bold;">Subscribe</a>
+                    <a href="https://forms.office.com/r/8exqUT0nmD" target="_blank" style="background-color: #0566e9; color: #ffffff; text-decoration: none; padding: 8px 12px; border-radius: 9999px; border: 1px solid #0566e9;">Subscribe</a>
                   </td>
                 </tr>
               </table>
