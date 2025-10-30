@@ -24,7 +24,6 @@ const NewsletterEditor = () => {
       type: "header",
       content: {
         logo: "TCS",
-        date: "Oct 23th 2025",
         episode: "Episode 02",
         lab: "Rapid Innovation Labs"
       }
@@ -35,7 +34,8 @@ const NewsletterEditor = () => {
       content: {
         title: "RAPID CIRCUIT",
         isHero: true,
-        quote: "Backup is not a feature; its a foundation."
+        quote: "Backup is not a feature; its a foundation.",
+        date: "Oct 23th 2025"
       },
       rowLayout: "full"
     },

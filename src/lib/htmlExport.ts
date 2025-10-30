@@ -17,9 +17,9 @@ const renderSection = (section: NewsletterSection): string => {
                     />
                   </td>
                   <td style="font-size: 16px; text-align: right;">
-                    <span style="margin-right: 24px;">${section.content.date || ""}</span>
                     <span style="margin-right: 24px;">${section.content.episode || ""}</span>
-                    <span>${section.content.lab || ""}</span>
+                    <span style="margin-right: 24px;">${section.content.lab || ""}</span>
+                    <a href="https://forms.office.com/r/8exqUT0nmD" target="_blank" style="color: #2a7ff5; text-decoration: none; font-weight: bold;">Subscribe</a>
                   </td>
                 </tr>
               </table>
@@ -38,6 +38,7 @@ const renderSection = (section: NewsletterSection): string => {
                   <tr>
                     <td style="font-size: 48px; font-weight: 900; letter-spacing: 2px; color: #ffffff;">
                       ${section.content.title || ""}
+                      <p style="font-size: 16px; font-weight: 400; letter-spacing: normal; margin-top: 16px;margin-left:2px; margin">${section.content.date || ""}</p>
                     </td>
                     ${section.content.quote ? `
                       <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top;">

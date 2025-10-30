@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Mail } from "lucide-react";
 
 interface HeaderSectionProps {
   content: {
@@ -42,57 +43,50 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
       </div>
 
       <div className="flex items-center gap-6 text-base">
-        {isEditing === "date" ? (
-          <Input
-            value={content.date}
-            onChange={(e) => onUpdate({ ...content, date: e.target.value })}
-            onBlur={() => setIsEditing(null)}
-            className="w-32 bg-white/10 border-white/20 text-white"
-            autoFocus
-          />
-        ) : (
-          <span
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={() => setIsEditing("date")}
-          >
-            {content.date}
-          </span>
-        )}
+          {isEditing === "episode" ? (
+            <Input
+              value={content.episode}
+              onChange={(e) => onUpdate({ ...content, episode: e.target.value })}
+              onBlur={() => setIsEditing(null)}
+              className="w-32 bg-white/10 border-white/20 text-white"
+              autoFocus
+            />
+          ) : (
+            <span
+              className="cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => setIsEditing("episode")}
+            >
+              {content.episode}
+            </span>
+          )}
 
-        {isEditing === "episode" ? (
-          <Input
-            value={content.episode}
-            onChange={(e) => onUpdate({ ...content, episode: e.target.value })}
-            onBlur={() => setIsEditing(null)}
-            className="w-32 bg-white/10 border-white/20 text-white"
-            autoFocus
-          />
-        ) : (
-          <span
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={() => setIsEditing("episode")}
-          >
-            {content.episode}
-          </span>
-        )}
+          {isEditing === "lab" ? (
+            <Input
+              value={content.lab}
+              onChange={(e) => onUpdate({ ...content, lab: e.target.value })}
+              onBlur={() => setIsEditing(null)}
+              className="w-48 bg-white/10 border-white/20 text-white"
+              autoFocus
+            />
+          ) : (
+            <span
+              className="cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => setIsEditing("lab")}
+            >
+              {content.lab}
+            </span>
+          )}
 
-        {isEditing === "lab" ? (
-          <Input
-            value={content.lab}
-            onChange={(e) => onUpdate({ ...content, lab: e.target.value })}
-            onBlur={() => setIsEditing(null)}
-            className="w-48 bg-white/10 border-white/20 text-white"
-            autoFocus
-          />
-        ) : (
-          <span
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={() => setIsEditing("lab")}
-          >
-            {content.lab}
-          </span>
-        )}
-      </div>
+          <div className="flex items-center gap-2">
+            <a
+              href="https://forms.office.com/r/8exqUT0nmD"
+              target="_blank"
+              className="text-accent font-bold hover:underline"
+            >
+              Subscribe
+            </a>
+          </div>
+        </div>
     </div>
   );
 };

@@ -20,6 +20,7 @@ interface ArticleSectionProps {
     imageSize?: number;
     imagePosition?: "top" | "left" | "right";
     isHero?: boolean;
+    date?: string;
   };
   onUpdate: (content: any) => void;
   isHalfWidth?: boolean;
@@ -69,6 +70,23 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
               >
                 {content.title || "NEWSLETTER TITLE"}
               </h1>
+            )}
+            {isEditing === "date" ? (
+              <Input
+                value={content.date || ""}
+                onChange={(e) => onUpdate({ ...content, date: e.target.value })}
+                onBlur={() => setIsEditing(null)}
+                className="text-base bg-white/10 border-white/20 text-white mt-4"
+                placeholder="Date..."
+                autoFocus
+              />
+            ) : (
+              <p
+                className="text-base cursor-pointer hover:opacity-90 transition-opacity mt-4 ml-1"
+                onClick={() => setIsEditing("date")}
+              >
+                {content.date || "October 23, 2025"}
+              </p>
             )}
           </div>
 
