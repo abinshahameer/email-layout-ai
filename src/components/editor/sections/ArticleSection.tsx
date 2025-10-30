@@ -6,6 +6,7 @@ import { ImagePlus, X, Upload, Link as LinkIcon, AlignLeft, AlignCenter, AlignRi
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ImageCropper } from "../ImageCropper";
 import { cn } from "@/lib/utils";
 
 interface ArticleSectionProps {
@@ -26,17 +27,23 @@ interface ArticleSectionProps {
 
 export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [croppingImage, setCroppingImage] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        onUpdate({ ...content, image: reader.result as string });
+        setCroppingImage(reader.result as string);
         setIsEditing(null);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleCrop = (croppedImage: string) => {
+    onUpdate({ ...content, image: croppedImage });
+    setCroppingImage(null);
   };
 
   if (content.isHero) {
@@ -277,6 +284,14 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
         >
           {content.link || "Click to add link..."}
         </a>
+      )}
+
+      {croppingImage && (
+        <ImageCropper
+          image={croppingImage}
+          onCrop={handleCrop}
+          onClose={() => setCroppingImage(null)}
+        />
       )}
     </div>
   );

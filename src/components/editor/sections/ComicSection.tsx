@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Upload, X, Link as LinkIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ImageCropper } from "../ImageCropper";
 import { cn } from "@/lib/utils";
 
 interface ComicSectionProps {
@@ -17,17 +18,23 @@ interface ComicSectionProps {
 
 export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [croppingImage, setCroppingImage] = useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        onUpdate({ ...content, image: reader.result as string });
+        setCroppingImage(reader.result as string);
         setIsEditing(null);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleCrop = (croppedImage: string) => {
+    onUpdate({ ...content, image: croppedImage });
+    setCroppingImage(null);
   };
 
   return (
@@ -137,6 +144,14 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
             </Button>
           )}
         </div>
+      )}
+
+      {croppingImage && (
+        <ImageCropper
+          image={croppingImage}
+          onCrop={handleCrop}
+          onClose={() => setCroppingImage(null)}
+        />
       )}
     </div>
   );

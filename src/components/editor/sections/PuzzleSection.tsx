@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, X, Upload, Link as LinkIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ImageCropper } from "../ImageCropper";
 import { cn } from "@/lib/utils";
 
 interface PuzzleSectionProps {
@@ -23,6 +24,7 @@ interface PuzzleSectionProps {
 
 export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
+  const [croppingImage, setCroppingImage] = useState<{field: "puzzleImage" | "answerImage", src: string} | null>(null);
   const puzzleType = content.puzzleType || "image";
 
   const handleImageUpload = (field: "puzzleImage" | "answerImage") => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,10 +32,17 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        onUpdate({ ...content, [field]: reader.result as string });
+        setCroppingImage({ field, src: reader.result as string });
         setIsEditing(null);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCrop = (croppedImage: string) => {
+    if (croppingImage) {
+      onUpdate({ ...content, [croppingImage.field]: croppedImage });
+      setCroppingImage(null);
     }
   };
 
@@ -314,6 +323,14 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
           </div>
         </div>
       </div>
+
+      {croppingImage && (
+        <ImageCropper
+          image={croppingImage.src}
+          onCrop={handleCrop}
+          onClose={() => setCroppingImage(null)}
+        />
+      )}
     </div>
   );
 };
