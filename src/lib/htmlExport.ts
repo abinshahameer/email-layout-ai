@@ -33,7 +33,7 @@ const renderSection = (section: NewsletterSection): string => {
         return `
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background: #1e6ef5; background: linear-gradient(to right, #1e6ef5, #1557b0);">
             <tr>
-              <td style="padding: 48px; position: relative; color: #ffffff;">
+              <td style="padding: 35px; position: relative; color: #ffffff;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
                     <td style="font-size: 48px; font-weight: 900; letter-spacing: 2px; color: #ffffff;">
