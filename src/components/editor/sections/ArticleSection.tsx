@@ -91,7 +91,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
           </div>
 
           {content.quote && (
-            <div className="ml-8 max-w-xs">
+            <div className="ml-8 max-w-xs mt-1">
               {isEditing === "quote" ? (
                 <Textarea
                   value={content.quote}

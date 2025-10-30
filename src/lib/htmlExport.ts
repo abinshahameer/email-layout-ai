@@ -41,7 +41,7 @@ const renderSection = (section: NewsletterSection): string => {
                       <p style="font-size: 16px; font-weight: 400; letter-spacing: normal; margin-top: 16px;margin-left:2px; margin">${section.content.date || ""}</p>
                     </td>
                     ${section.content.quote ? `
-                      <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top;">
+                      <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top; margin-top:2px">
                         "${section.content.quote}"
                       </td>
                     ` : ""}
