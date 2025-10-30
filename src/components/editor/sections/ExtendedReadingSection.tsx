@@ -30,7 +30,7 @@ export const ExtendedReadingSection = ({ content, onUpdate }: ExtendedReadingSec
 
   return (
     <div className="p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-accent/5">
-      <h3 className="text-lg font-bold text-primary mb-4">Extended Reading</h3>
+      <h3 className="text-[22px] font-bold text-primary mb-4">Extended Reading</h3>
 
       {links.length > 0 && (
         <div className="space-y-2 mb-4">
@@ -42,8 +42,8 @@ export const ExtendedReadingSection = ({ content, onUpdate }: ExtendedReadingSec
               <div className="flex items-center gap-2 flex-1 min-w-0">
                 <ExternalLink className="w-4 h-4 text-primary flex-shrink-0" />
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-sm truncate">{link.title}</p>
-                  <p className="text-xs text-muted-foreground truncate">{link.url}</p>
+                  <p className="font-medium text-base truncate">{link.title}</p>
+                  <p className="text-sm text-muted-foreground truncate">{link.url}</p>
                 </div>
               </div>
               <Button

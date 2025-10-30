@@ -15,7 +15,7 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
 
   return (
     <div className="bg-muted p-8 text-center">
-      <div className="flex justify-center gap-6 mb-4 text-sm">
+      <div className="flex justify-center gap-6 mb-4 text-base">
         {(content.links || []).map((link, index) => (
           <a
             key={index}
@@ -35,12 +35,12 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
           value={content.copyright || ""}
           onChange={(e) => onUpdate({ ...content, copyright: e.target.value })}
           onBlur={() => setIsEditing(null)}
-          className="max-w-md mx-auto text-sm text-center"
+          className="max-w-md mx-auto text-base text-center"
           autoFocus
         />
       ) : (
         <p
-          className="text-sm text-muted-foreground cursor-pointer hover:bg-background/50 rounded px-2 py-1 inline-block transition-colors"
+          className="text-base text-muted-foreground cursor-pointer hover:bg-background/50 rounded px-2 py-1 inline-block transition-colors"
           onClick={() => setIsEditing("copyright")}
         >
           {content.copyright || "Click to add copyright..."}

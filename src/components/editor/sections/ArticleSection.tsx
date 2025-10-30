@@ -72,12 +72,12 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
                   value={content.quote}
                   onChange={(e) => onUpdate({ ...content, quote: e.target.value })}
                   onBlur={() => setIsEditing(null)}
-                  className="text-sm italic bg-white/10 border-white/20 text-white"
+                  className="text-base italic bg-white/10 border-white/20 text-white"
                   autoFocus
                 />
               ) : (
                 <p
-                  className="text-sm italic cursor-pointer hover:opacity-90 transition-opacity"
+                  className="text-base italic cursor-pointer hover:opacity-90 transition-opacity"
                   onClick={() => setIsEditing("quote")}
                 >
                   " {content.quote} "
@@ -99,13 +99,13 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
           value={content.title || ""}
           onChange={(e) => onUpdate({ ...content, title: e.target.value })}
           onBlur={() => setIsEditing(null)}
-          className="mb-3 text-lg font-bold text-primary"
+          className="mb-3 text-xl font-bold text-primary"
           placeholder="Article title..."
           autoFocus
         />
       ) : (
         <h3
-          className="text-lg font-bold text-primary mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+          className="text-xl font-bold text-primary mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
           onClick={() => setIsEditing("title")}
         >
           {content.title || "Click to add title..."}
@@ -232,13 +232,13 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
               value={content.description || ""}
               onChange={(e) => onUpdate({ ...content, description: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="min-h-32 text-sm text-foreground/80 leading-relaxed"
+              className="min-h-32 text-base text-foreground/80 leading-relaxed"
               placeholder="Article content..."
               autoFocus
             />
           ) : (
             <p
-              className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+              className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
               onClick={() => setIsEditing("description")}
             >
               {content.description || "Click to add content..."}
@@ -262,14 +262,14 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
           value={content.link || ""}
           onChange={(e) => onUpdate({ ...content, link: e.target.value })}
           onBlur={() => setIsEditing(null)}
-          className="text-sm"
+          className="text-base"
           placeholder="https://..."
           autoFocus
         />
       ) : (
         <a
           href={content.link || "#"}
-          className="text-sm text-[hsl(var(--newsletter-link))] hover:underline cursor-pointer"
+          className="text-base text-[hsl(var(--newsletter-link))] hover:underline cursor-pointer"
           onClick={(e) => {
             e.preventDefault();
             setIsEditing("link");

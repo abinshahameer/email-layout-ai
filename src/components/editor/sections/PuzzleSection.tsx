@@ -45,13 +45,13 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
             value={content.title || ""}
             onChange={(e) => onUpdate({ ...content, title: e.target.value })}
             onBlur={() => setIsEditing(null)}
-            className="text-xl font-bold text-primary"
+            className="text-2xl font-bold text-primary"
             placeholder="Puzzle title..."
             autoFocus
           />
         ) : (
           <h3
-            className="text-xl font-bold text-primary cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+            className="text-2xl font-bold text-primary cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
             onClick={() => setIsEditing("title")}
           >
             {content.title || "Click to add puzzle title..."}
@@ -167,7 +167,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
               />
             ) : (
               <div
-                className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 border border-dashed border-[hsl(var(--newsletter-section-border))]"
+                className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 border border-dashed border-[hsl(var(--newsletter-section-border))]"
                 onClick={() => setIsEditing("puzzleText")}
               >
                 {content.puzzleText || "Click to add text-based puzzle..."}
@@ -184,13 +184,13 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                   value={content.instructions || ""}
                   onChange={(e) => onUpdate({ ...content, instructions: e.target.value })}
                   onBlur={() => setIsEditing(null)}
-                  className="min-h-32 text-sm"
+                  className="min-h-32 text-base"
                   placeholder="Puzzle instructions..."
                   autoFocus
                 />
               ) : (
                 <div
-                  className="text-sm text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32"
+                  className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32"
                   onClick={() => setIsEditing("instructions")}
                 >
                   {content.instructions || "Click to add instructions..."}
@@ -223,7 +223,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                 )}
                 {content.answerText && (
                   <div className="relative group p-3 bg-muted/30 rounded border">
-                    <p className="text-sm">{content.answerText}</p>
+                    <p className="text-base">{content.answerText}</p>
                     <Button
                       variant="destructive"
                       size="sm"

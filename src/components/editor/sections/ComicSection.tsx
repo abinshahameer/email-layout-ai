@@ -32,7 +32,7 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
 
   return (
     <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20", isHalfWidth && "bg-muted/30")}>
-      <h3 className="text-lg font-bold text-primary mb-4">Comic Section</h3>
+      <h3 class="text-xl font-bold text-primary mb-4">Comic Section</h3>
 
       {content.image ? (
         <div className="space-y-3">
@@ -75,7 +75,7 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
             />
           ) : (
             <p
-              className="text-sm text-center italic text-foreground/70 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 transition-colors"
+              className="text-base text-center italic text-foreground/70 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 transition-colors"
               onClick={() => setIsEditing("caption")}
             >
               {content.caption || "Click to add caption..."}

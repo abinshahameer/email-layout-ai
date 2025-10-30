@@ -22,12 +22,12 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
             value={content.logo}
             onChange={(e) => onUpdate({ ...content, logo: e.target.value })}
             onBlur={() => setIsEditing(null)}
-            className="w-32 text-sm font-semibold bg-white/10 border-white/20 text-white"
+            className="w-32 text-base font-semibold bg-white/10 border-white/20 text-white"
             autoFocus
           />
         ) : (
           <div
-            className="text-sm font-semibold cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-1"
+            className="text-base font-semibold cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-1"
             // onClick={() => setIsEditing("logo")}
           >
             <img
@@ -41,7 +41,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         )}
       </div>
 
-      <div className="flex items-center gap-6 text-sm">
+      <div className="flex items-center gap-6 text-base">
         {isEditing === "date" ? (
           <Input
             value={content.date}

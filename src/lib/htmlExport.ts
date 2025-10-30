@@ -16,7 +16,7 @@ const renderSection = (section: NewsletterSection): string => {
                       style="height: 25px; width: auto; display: block;"
                     />
                   </td>
-                  <td style="font-size: 14px; text-align: right;">
+                  <td style="font-size: 16px; text-align: right;">
                     <span style="margin-right: 24px;">${section.content.date || ""}</span>
                     <span style="margin-right: 24px;">${section.content.episode || ""}</span>
                     <span>${section.content.lab || ""}</span>
@@ -40,7 +40,7 @@ const renderSection = (section: NewsletterSection): string => {
                       ${section.content.title || ""}
                     </td>
                     ${section.content.quote ? `
-                      <td style="max-width: 250px; font-size: 13px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top;">
+                      <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top;">
                         "${section.content.quote}"
                       </td>
                     ` : ""}
@@ -58,7 +58,7 @@ const renderSection = (section: NewsletterSection): string => {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8;">
             <tr>
               <td style="padding: 24px;">
-                <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: #1e6ef5;">
+                <h3 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 700; color: #1e6ef5;">
                   ${section.content.title || ""}
                 </h3>
                 
@@ -91,7 +91,7 @@ const renderSection = (section: NewsletterSection): string => {
                         </td>
                       ` : ""}
                       <td style="vertical-align: top;">
-                        <p style="margin: 0; line-height: 1.6; font-size: 13px; color: #333333;">
+                        <p style="margin: 0; line-height: 1.6; font-size: 16px; color: #333333;">
                           ${section.content.description || ""}
                         </p>
                       </td>
@@ -108,14 +108,14 @@ const renderSection = (section: NewsletterSection): string => {
                     </tr>
                   </table>
                 ` : `
-                  <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 13px; color: #333333;">
+                  <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 16px; color: #333333;">
                     ${section.content.description || ""}
                   </p>
                 `}
                 
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
-                    <a href="${section.content.link}" style="color: #1e6ef5; text-decoration: none; font-size: 13px;">
+                    <a href="${section.content.link}" style="color: #1e6ef5; text-decoration: none; font-size: 16px;">
                       ${section.content.link}
                     </a>
                   </p>
@@ -141,7 +141,7 @@ const renderSection = (section: NewsletterSection): string => {
                   style="display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 4px;"
                 />
                 ${section.content.caption ? `
-                  <p style="margin: 12px 0 0 0; font-size: 13px; font-style: italic; color: #666666;">
+                  <p style="margin: 12px 0 0 0; font-size: 16px; font-style: italic; color: #666666;">
                     ${section.content.caption}
                   </p>
                 ` : ""}
@@ -159,7 +159,7 @@ const renderSection = (section: NewsletterSection): string => {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #E1EFFA;">
           <tr>
             <td style="padding: 24px;">
-              <h3 style="margin: 0 0 16px 0; font-size: 20px; font-weight: 700; color: #1e6ef5;">
+              <h3 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1e6ef5;">
                 ${section.content.title || "Puzzle"}
               </h3>
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -174,12 +174,12 @@ const renderSection = (section: NewsletterSection): string => {
                       />
                     ` : ""}
                     ${puzzleType === "text" && section.content.puzzleText ? `
-                      <p style="margin: 0; font-size: 13px; color: #333333; line-height: 1.6; white-space: pre-wrap;">${section.content.puzzleText}</p>
+                      <p style="margin: 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;">${section.content.puzzleText}</p>
                     ` : ""}
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
                     ${puzzleType === "image" && section.content.instructions ? `
-                      <p style="margin: 0 0 16px 0; font-size: 13px; color: #333333; line-height: 1.6;">
+                      <p style="margin: 0 0 16px 0; font-size: 16px; color: #333333; line-height: 1.6;">
                         ${section.content.instructions}
                       </p>
                     ` : ""}
@@ -194,7 +194,7 @@ const renderSection = (section: NewsletterSection): string => {
                           />
                         ` : ""}
                         ${section.content.answerText ? `
-                          <p style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 13px; color: #333333;">
+                          <p style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;">
                             ${section.content.answerText}
                           </p>
                         ` : ""}
@@ -213,7 +213,7 @@ const renderSection = (section: NewsletterSection): string => {
         .map((link: { title: string; url: string }) => `
           <tr>
             <td style="padding: 8px 0;">
-              <a href="${link.url}" style="color: #1e6ef5; text-decoration: none; font-size: 14px; display: flex; align-items: center;">
+              <a href="${link.url}" style="color: #1e6ef5; text-decoration: none; font-size: 16px; display: flex; align-items: center;">
                 <span style="margin-right: 8px;">→</span> ${link.title}
               </a>
             </td>
@@ -226,7 +226,7 @@ const renderSection = (section: NewsletterSection): string => {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #fafafa;">
             <tr>
               <td style="padding: 24px;">
-                <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #1e6ef5;">Extended Reading</h3>
+                <h3 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 700; color: #1e6ef5;">Extended Reading</h3>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   ${links}
                 </table>
@@ -239,7 +239,7 @@ const renderSection = (section: NewsletterSection): string => {
 
     case "footer":
       const footerLinks = (section.content.links || [])
-        .map((link: string,index: any) => `<a href=${section.content.url[index]} target="_blank" rel="noopener noreferrer" style="color: #1e6ef5 !important; text-decoration: none; margin: 0 12px; font-size: 14px; cursor: pointer;">${link}</a>`)
+        .map((link: string,index: any) => `<a href=${section.content.url[index]} target="_blank" rel="noopener noreferrer" style="color: #1e6ef5 !important; text-decoration: none; margin: 0 12px; font-size: 16px; cursor: pointer;">${link}</a>`)
         .join("");
       
       return `
@@ -249,7 +249,7 @@ const renderSection = (section: NewsletterSection): string => {
               <div style="margin-bottom: 16px;">
                 ${footerLinks}
               </div>
-              <p style="margin: 0; font-size: 12px; color: #64748b;">
+              <p style="margin: 0; font-size: 14px; color: #64748b;">
                 ${section.content.copyright || ""}
               </p>
             </td>
