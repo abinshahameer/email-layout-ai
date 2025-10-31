@@ -41,7 +41,7 @@ const renderSection = (section: NewsletterSection): string => {
                       <p style="font-size: 16px; font-weight: 400; letter-spacing: normal; margin-top: 16px;margin-left:2px; margin">${section.content.date || ""}</p>
                     </td>
                     ${section.content.quote ? `
-                      <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top; padding-top:8px">
+                      <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top; padding-top:10px">
                         "${section.content.quote}"
                       </td>
                     ` : ""}
@@ -195,9 +195,9 @@ const renderSection = (section: NewsletterSection): string => {
                           />
                         ` : ""}
                         ${section.content.answerText ? `
-                          <p style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;">
+                          <pre style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;white-space: pre-wrap;">
                             ${section.content.answerText}
-                          </p>
+                          </pre>
                         ` : ""}
                       </div>
                     ` : ""}

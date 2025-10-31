@@ -232,7 +232,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                 )}
                 {content.answerText && (
                   <div className="relative group p-3 bg-muted/30 rounded border">
-                    <p className="text-base">{content.answerText}</p>
+                    <p className="text-base whitespace-pre-wrap">{content.answerText}</p>
                     <Button
                       variant="destructive"
                       size="sm"
