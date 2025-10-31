@@ -21,6 +21,18 @@ export function ImageCropper({ image, onCrop, onClose }: ImageCropperProps) {
   const [crop, setCrop] = React.useState<Crop>();
   const imageRef = React.useRef<HTMLImageElement>(null);
 
+  // 🧩 Automatically set crop to full image once the image loads
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { width, height } = e.currentTarget;
+    setCrop({
+      unit: "px",
+      x: 0,
+      y: 0,
+      width,
+      height,
+    });
+  };
+
   const getCroppedImg = () => {
     const image = imageRef.current;
     if (!image || !crop || !crop.width || !crop.height) {
@@ -62,18 +74,22 @@ export function ImageCropper({ image, onCrop, onClose }: ImageCropperProps) {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Crop Image</DialogTitle>
         </DialogHeader>
+
         <div className="flex justify-center">
-          <ReactCrop
-            crop={crop}
-            onChange={(c) => setCrop(c)}
-          >
-            <img ref={imageRef} src={image} alt="Crop preview" />
+          <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
+            <img
+              ref={imageRef}
+              src={image}
+              alt="Crop preview"
+              onLoad={handleImageLoad} // ✅ Ensures full crop selection
+            />
           </ReactCrop>
         </div>
+
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel
