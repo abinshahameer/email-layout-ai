@@ -171,7 +171,7 @@ const renderSection = (section: NewsletterSection): string => {
                         src="${section.content.puzzleImage}" 
                         alt="Puzzle" 
                         width="${puzzleImageSize}%" 
-                        style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                        style="display: block;margin: 0 auto; max-width: 100%; height: auto; border-radius: 4px;"
                       />
                     ` : ""}
                     ${puzzleType === "text" && section.content.puzzleText ? `

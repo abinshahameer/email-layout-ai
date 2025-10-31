@@ -85,7 +85,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                   src={content.puzzleImage}
                   alt="Puzzle"
                   style={{ width: `${content.puzzleImageSize || 100}%` }}
-                  className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+                  className="h-auto rounded border border-[hsl(var(--newsletter-section-border))] mx-auto"
                 />
                 <Button
                   variant="destructive"
