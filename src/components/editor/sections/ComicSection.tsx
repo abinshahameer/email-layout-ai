@@ -39,7 +39,7 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
 
   return (
     <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20", isHalfWidth && "bg-muted/30")}>
-      <h3 class="text-xl font-bold text-primary mb-4">Comic Section</h3>
+      <h3 className="text-xl font-bold text-primary mb-4">Comic Section</h3>
 
       {content.image ? (
         <div className="space-y-3">
@@ -93,6 +93,9 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
         <div>
           {isEditing === "image" ? (
             <div className="space-y-3 p-3 border rounded-md bg-background">
+              <p className="text-xs text-muted-foreground">
+                Need a comic? Try the <a href="https://huggingface.co/spaces/jbilcke-hf/ai-comic-factory" target="_blank" rel="noopener noreferrer" className="underline">Comic Generation Tool</a> to generate one.
+              </p>
               <Tabs defaultValue="url">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="url">
