@@ -199,7 +199,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                 />
               ) : (
                 <div
-                  className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32"
+                  className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 whitespace-pre-wrap"
                   onClick={() => setIsEditing("instructions")}
                 >
                   {content.instructions || "Click to add instructions..."}

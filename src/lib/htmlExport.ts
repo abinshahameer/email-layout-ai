@@ -180,9 +180,9 @@ const renderSection = (section: NewsletterSection): string => {
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
                     ${puzzleType === "image" && section.content.instructions ? `
-                      <p style="margin: 0 0 16px 0; font-size: 16px; color: #333333; line-height: 1.6;">
+                      <pre style="margin: 0 0 16px 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;">
                         ${section.content.instructions}
-                      </p>
+                      </pre>
                     ` : ""}
                     ${section.content.answerImage || section.content.answerText ? `
                       <div style="border-top: 1px solid #d4c899; padding-top: 16px;">
