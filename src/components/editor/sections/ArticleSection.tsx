@@ -240,13 +240,13 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
         </div>
       )}
 
-      <div className={imagePosition === "left" || imagePosition === "right" ? "flex gap-4 items-start" : ""}>
+      <div className={imagePosition === "left" || imagePosition === "right" ? "flex gap-4 items-center" : ""}>
         {content.image && imagePosition === "left" && (
           <div style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
             <img
               src={content.image}
               alt={content.imageAlt || "Article image"}
-              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))] self-center"
             />
           </div>
         )}
