@@ -15,6 +15,7 @@ interface ArticleSectionProps {
     description?: string;
     quote?: string;
     link?: string;
+    linkText?: string; // 👈 NEW
     image?: string;
     imageAlt?: string;
     imageSize?: number;
@@ -25,6 +26,7 @@ interface ArticleSectionProps {
   onUpdate: (content: any) => void;
   isHalfWidth?: boolean;
 }
+
 
 export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
@@ -282,27 +284,56 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
         )}
       </div>
 
-      {isEditing === "link" ? (
-        <Input
-          value={content.link || ""}
-          onChange={(e) => onUpdate({ ...content, link: e.target.value })}
-          onBlur={() => setIsEditing(null)}
-          className="text-base"
-          placeholder="https://..."
-          autoFocus
-        />
-      ) : (
-        <a
-          href={content.link || "#"}
-          className="text-base text-[hsl(var(--newsletter-link))] hover:underline cursor-pointer"
-          onClick={(e) => {
-            e.preventDefault();
-            setIsEditing("link");
-          }}
-        >
-          {content.link || "Click to add link..."}
-        </a>
-      )}
+{/* Link text input / display */}
+{isEditing === "link" ? (
+  <div className="space-y-2">
+    <Input
+      value={content.link || ""}
+      onChange={(e) => onUpdate({ ...content, link: e.target.value })}
+      onBlur={() => setIsEditing(null)}
+      className="text-base"
+      placeholder="https://..."
+      autoFocus
+    />
+    <Input
+      value={content.linkText || ""}
+      onChange={(e) => onUpdate({ ...content, linkText: e.target.value })}
+      className="text-base"
+      placeholder="Link text (e.g., Read more)"
+    />
+  </div>
+) : (
+  <div className="mt-2">
+    <a
+      href={content.link || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-base text-[hsl(var(--newsletter-link))] hover:underline cursor-pointer"
+      onClick={(e) => {
+        e.preventDefault();
+        setIsEditing("link");
+      }}
+    >
+      {content.linkText || content.link || "Click to add link..."}
+    </a>
+  </div>
+)}
+
+{/* Read more button */}
+{content.link && (
+  <div className="mt-3">
+    <Button
+      variant="link"
+      asChild
+      className="text-[hsl(var(--newsletter-link))] p-0 hover:underline"
+    >
+      <a href={content.link} target="_blank" rel="noopener noreferrer">
+        {content.linkText || "Read more →"}
+      </a>
+    </Button>
+  </div>
+)}
+
 
       {croppingImage && (
         <ImageCropper
