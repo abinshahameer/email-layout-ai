@@ -43,9 +43,9 @@ const NewsletterEditor = () => {
       id: "article-1",
       type: "article",
       content: {
-        title: "PookieAI",
-        description: "PookieAI is an intelligent automation platform designed to integrate with over 30 top integrations on Zapier. PookieAI offers real-time data sync, bi-directional sync across generative AI agents, intelligent workflow automation, support for existing tools for no-disruption onboarding, engagement analytics tools, and everyday email/calendar management. With this breadth, PookieAI is a one-to elevate your workflow and enhance intelligent task execution.",
-        link: "https://pookieai.about"
+        title: "Claude Code for Web",
+        description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
+        link: "https://www.anthropic.com/news/claude-code-on-the-web"
       },
       rowLayout: "full"
     },
