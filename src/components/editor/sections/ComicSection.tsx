@@ -94,7 +94,7 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
           {isEditing === "image" ? (
             <div className="space-y-3 p-3 border rounded-md bg-background">
               <p className="text-xs text-muted-foreground">
-                Need a comic? Try the <a href="https://huggingface.co/spaces/jbilcke-hf/ai-comic-factory" target="_blank" rel="noopener noreferrer" className="underline">Comic Generation Tool</a> to generate one.
+                Need a comic? Try the <a href="http://172.210.248.28:3053/" target="_blank" rel="noopener noreferrer" className="underline">Comic Generation Tool</a> to generate one.
               </p>
               <Tabs defaultValue="url">
                 <TabsList className="grid w-full grid-cols-2">
