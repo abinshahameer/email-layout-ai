@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Sidebar } from "@/components/ui/sidebar";
-import { Download, Sparkles, Eye,Copy } from "lucide-react";
+import { Download, Sparkles, Eye, Copy } from "lucide-react";
 import { EditorSidebar } from "./editor/EditorSidebar";
 import { NewsletterPreview } from "./editor/NewsletterPreview";
 import { AIAssistant } from "./editor/AIAssistant";
 import { exportToHTML } from "@/lib/htmlExport";
 import { useToast } from "@/hooks/use-toast";
+import { getSections, saveSections } from "@/lib/db";
+import { useDebounce } from "@/hooks/use-debounce";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export interface NewsletterSection {
   id: string;
@@ -16,74 +28,108 @@ export interface NewsletterSection {
   rowLayout?: "full" | "half"; // full = 1 item per row, half = 2 items per row
 }
 
+const initialSections: NewsletterSection[] = [
+  {
+    id: "header",
+    type: "header",
+    content: {
+      logo: "TCS",
+      episode: "Episode 02",
+      lab: "Rapid Innovation Labs"
+    }
+  },
+  {
+    id: "hero",
+    type: "article",
+    content: {
+      title: "RAPID CIRCUIT",
+      isHero: true,
+      quote: "Backup is not a feature; its a foundation.",
+      date: "Oct 23th 2025"
+    },
+    rowLayout: "full"
+  },
+  {
+    id: "article-1",
+    type: "article",
+    content: {
+      title: "Claude Code for Web",
+      description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
+      link: "https://www.anthropic.com/news/claude-code-on-the-web"
+    },
+    rowLayout: "full"
+  },
+  {
+    id: "article-2",
+    type: "article",
+    content: {
+      title: "DeepSemantic",
+      description: "Google Research, in collaboration with the University of California, Berkeley, recently introduced DeepSomatic v1.8—an upgrade that enhances somatic variant detection using deep learning. The model leverages convolutional neural networks to detect mutations. Compatible with Illumina, Pacific Biosciences (PacBio), and Oxford Nanopore Technologies (ONT) sequencing data, DeepSomatic provides highly accurate variant calls, seamlessly integrating with existing tools validated on real clinical samples.",
+      link: "https://research.google/blog/deepsomatic-accurate-somatic"
+    },
+    rowLayout: "full"
+  },
+  {
+    id: "article-3",
+    type: "article",
+    content: {
+      title: "Claude Code for Web",
+      description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
+      link: "https://www.anthropic.com/news/claude-code-on-the-web"
+    },
+    rowLayout: "full"
+  },
+  {
+    id: "footer",
+    type: "footer",
+    content: {
+      links: ["Subscribe", "View in Browser", "Privacy Policy"],
+      url:["https://forms.office.com/r/8exqUT0nmD","https://www.tcs.com/who-we-are/newsroom/tcs-in-the-news/tcs-rapid-labs","https://www.tcs.com/who-we-are/newsroom/tcs-in-the-news/tcs-rapid-labs"],
+      copyright: "© 2025 Rapid Innovation Labs. All rights reserved."
+    }
+  }
+];
+
 const NewsletterEditor = () => {
   const { toast } = useToast();
-  const [sections, setSections] = useState<NewsletterSection[]>([
-    {
-      id: "header",
-      type: "header",
-      content: {
-        logo: "TCS",
-        episode: "Episode 02",
-        lab: "Rapid Innovation Labs"
-      }
-    },
-    {
-      id: "hero",
-      type: "article",
-      content: {
-        title: "RAPID CIRCUIT",
-        isHero: true,
-        quote: "Backup is not a feature; its a foundation.",
-        date: "Oct 23th 2025"
-      },
-      rowLayout: "full"
-    },
-    {
-      id: "article-1",
-      type: "article",
-      content: {
-        title: "Claude Code for Web",
-        description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
-        link: "https://www.anthropic.com/news/claude-code-on-the-web"
-      },
-      rowLayout: "full"
-    },
-    {
-      id: "article-2",
-      type: "article",
-      content: {
-        title: "DeepSemantic",
-        description: "Google Research, in collaboration with the University of California, Berkeley, recently introduced DeepSomatic v1.8—an upgrade that enhances somatic variant detection using deep learning. The model leverages convolutional neural networks to detect mutations. Compatible with Illumina, Pacific Biosciences (PacBio), and Oxford Nanopore Technologies (ONT) sequencing data, DeepSomatic provides highly accurate variant calls, seamlessly integrating with existing tools validated on real clinical samples.",
-        link: "https://research.google/blog/deepsomatic-accurate-somatic"
-      },
-      rowLayout: "full"
-    },
-    {
-      id: "article-3",
-      type: "article",
-      content: {
-        title: "Claude Code for Web",
-        description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
-        link: "https://www.anthropic.com/news/claude-code-on-the-web"
-      },
-      rowLayout: "full"
-    },
-    {
-      id: "footer",
-      type: "footer",
-      content: {
-        links: ["Subscribe", "View in Browser", "Privacy Policy"],
-        url:["https://forms.office.com/r/8exqUT0nmD","#","#"],
-        copyright: "© 2025 Rapid Innovation Labs. All rights reserved."
-      }
-    }
-  ]);
-
+  const [sections, setSections] = useState<NewsletterSection[]>(initialSections);
   const [showAI, setShowAI] = useState(false);
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
+  const [showLoadPrompt, setShowLoadPrompt] = useState(false);
+  const [savedSections, setSavedSections] = useState<NewsletterSection[] | null>(null);
 
-  const updateSection = (id: string, content: any) => {
+  const debouncedSections = useDebounce(sections, 500);
+
+  useEffect(() => {
+    // Don't save the initial default state until it's modified
+    if (JSON.stringify(debouncedSections) !== JSON.stringify(initialSections)) {
+        saveSections(debouncedSections);
+    }
+  }, [debouncedSections]);
+
+  useEffect(() => {
+    const checkForSavedData = async () => {
+      const loadedSections = await getSections();
+      if (loadedSections && loadedSections.length > 0) {
+        setSavedSections(loadedSections);
+        setShowLoadPrompt(true);
+      }
+    };
+    checkForSavedData();
+  }, []);
+
+  const handleLoadSaved = () => {
+      if (savedSections) {
+          setSections(savedSections);
+      }
+      setShowLoadPrompt(false);
+  };
+
+  const handleDeclineLoad = () => {
+      setShowLoadPrompt(false);
+  };
+
+  const updateSection = (id: string, content: NewsletterSection['content']) => {
     setSections(sections.map(s => s.id === id ? { ...s, content } : s));
   };
 
@@ -177,7 +223,7 @@ const NewsletterEditor = () => {
         sections={sections}
         onAddSection={addSection}
         onDeleteSection={deleteSection}
-        onUpdateSection={(id, updates) => {
+        onUpdateSection={(id: string, updates: Partial<NewsletterSection>) => {
           setSections(sections.map(s => s.id === id ? { ...s, ...updates } : s));
         }}
       />
@@ -208,7 +254,7 @@ const NewsletterEditor = () => {
               AI Assistant
             </Button> */}
 
-<Button onClick={handleCopyHtml}>
+            <Button onClick={handleCopyHtml}>
               <Copy className="w-4 h-4 mr-2" />
               Copy HTML
             </Button>
@@ -238,6 +284,20 @@ const NewsletterEditor = () => {
           )}
         </div>
       </main>
+      <AlertDialog open={showLoadPrompt} onOpenChange={setShowLoadPrompt}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Load Saved Newsletter?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    You have a previously saved newsletter. Would you like to load it?
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={handleDeclineLoad}>No, start fresh</AlertDialogCancel>
+                <AlertDialogAction onClick={handleLoadSaved}>Yes, load saved</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
