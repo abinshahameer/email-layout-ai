@@ -194,11 +194,7 @@ const renderSection = (section: NewsletterSection): string => {
                             style="display: block; max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px;"
                           />
                         ` : ""}
-                        ${section.content.answerText ? `
-                          <pre style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;white-space: pre-wrap;">
-                            ${section.content.answerText}
-                          </pre>
-                        ` : ""}
+                        ${section.content.answerText ? `<pre style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;white-space: pre-wrap;">${section.content.answerText}</pre>`: ""}
                       </div>
                     ` : ""}
                   </td>
