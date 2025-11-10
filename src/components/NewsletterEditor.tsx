@@ -55,7 +55,8 @@ const initialSections: NewsletterSection[] = [
     content: {
       title: "Claude Code for Web",
       description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
-      link: "https://www.anthropic.com/news/claude-code-on-the-web"
+      link: "https://www.anthropic.com/news/claude-code-on-the-web",
+      linkText: "Anthropic News"
     },
     rowLayout: "full"
   },
@@ -65,7 +66,8 @@ const initialSections: NewsletterSection[] = [
     content: {
       title: "DeepSemantic",
       description: "Google Research, in collaboration with the University of California, Berkeley, recently introduced DeepSomatic v1.8—an upgrade that enhances somatic variant detection using deep learning. The model leverages convolutional neural networks to detect mutations. Compatible with Illumina, Pacific Biosciences (PacBio), and Oxford Nanopore Technologies (ONT) sequencing data, DeepSomatic provides highly accurate variant calls, seamlessly integrating with existing tools validated on real clinical samples.",
-      link: "https://research.google/blog/deepsomatic-accurate-somatic"
+      link: "https://research.google/blog/deepsomatic-accurate-somatic",
+      linkText: "Google Research Blog"
     },
     rowLayout: "full"
   },
@@ -75,7 +77,8 @@ const initialSections: NewsletterSection[] = [
     content: {
       title: "Claude Code for Web",
       description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
-      link: "https://www.anthropic.com/news/claude-code-on-the-web"
+      link: "https://www.anthropic.com/news/claude-code-on-the-web",
+      linkText: "Anthropic News"
     },
     rowLayout: "full"
   },

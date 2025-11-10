@@ -116,8 +116,8 @@ const renderSection = (section: NewsletterSection): string => {
                 
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
-                    <a href="${section.content.link}" style="color: #1e6ef5; text-decoration: none; font-size: 16px;">
-                      ${section.content.link}
+                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="color: #1e6ef5; text-decoration: none; font-size: 16px;">
+                      ${section.content.linkText ? `Read more: ${section.content.linkText}` : section.content.link}
                     </a>
                   </p>
                 ` : ""}

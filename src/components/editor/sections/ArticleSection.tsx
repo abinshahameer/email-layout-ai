@@ -15,6 +15,7 @@ interface ArticleSectionProps {
     description?: string;
     quote?: string;
     link?: string;
+    linkText?: string;
     image?: string;
     imageAlt?: string;
     imageSize?: number;
@@ -283,24 +284,36 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
       </div>
 
       {isEditing === "link" ? (
-        <Input
-          value={content.link || ""}
-          onChange={(e) => onUpdate({ ...content, link: e.target.value })}
-          onBlur={() => setIsEditing(null)}
-          className="text-base"
-          placeholder="https://..."
-          autoFocus
-        />
+        <div className="space-y-2 p-3 border rounded-md bg-muted/30">
+          <Input
+            value={content.link || ""}
+            onChange={(e) => onUpdate({ ...content, link: e.target.value })}
+            className="text-sm"
+            placeholder="https://..."
+            autoFocus
+          />
+          <Input
+            value={content.linkText || ""}
+            onChange={(e) => onUpdate({ ...content, linkText: e.target.value })}
+            className="text-sm"
+            placeholder={`Link text (e.g., ${content.title})`}
+          />
+          <Button variant="ghost" size="sm" onClick={() => setIsEditing(null)}>Done</Button>
+        </div>
       ) : (
         <a
           href={content.link || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-base text-[hsl(var(--newsletter-link))] hover:underline cursor-pointer"
           onClick={(e) => {
             e.preventDefault();
             setIsEditing("link");
           }}
         >
-          {content.link || "Click to add link..."}
+          {content.link 
+            ? (content.linkText ? `Read more: ${content.linkText}` : content.link) 
+            : "Click to add link..."}
         </a>
       )}
 
