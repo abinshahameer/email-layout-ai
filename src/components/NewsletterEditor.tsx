@@ -132,6 +132,10 @@ const NewsletterEditor = () => {
       setShowLoadPrompt(false);
   };
 
+  const reorderSections = (reorderedSections: NewsletterSection[]) => {
+    setSections(reorderedSections);
+  };
+
   const updateSection = (id: string, content: NewsletterSection['content']) => {
     setSections(sections.map(s => s.id === id ? { ...s, content } : s));
   };
@@ -226,6 +230,7 @@ const NewsletterEditor = () => {
         sections={sections}
         onAddSection={addSection}
         onDeleteSection={deleteSection}
+        onReorderSections={reorderSections}
         onUpdateSection={(id: string, updates: Partial<NewsletterSection>) => {
           setSections(sections.map(s => s.id === id ? { ...s, ...updates } : s));
         }}
