@@ -91,26 +91,25 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
             )}
           </div>
 
-          {content.quote && (
-            <div className="ml-8 max-w-xs mt-1">
-              {isEditing === "quote" ? (
-                <Textarea
-                  value={content.quote}
-                  onChange={(e) => onUpdate({ ...content, quote: e.target.value })}
-                  onBlur={() => setIsEditing(null)}
-                  className="text-base italic bg-white/10 border-white/20 text-white"
-                  autoFocus
-                />
-              ) : (
-                <p
-                  className="text-base italic cursor-pointer hover:opacity-90 transition-opacity"
-                  onClick={() => setIsEditing("quote")}
-                >
-                  " {content.quote} "
-                </p>
-              )}
-            </div>
-          )}
+          <div className="ml-8 max-w-xs mt-1">
+            {isEditing === "quote" ? (
+              <Textarea
+                value={content.quote || ""}
+                onChange={(e) => onUpdate({ ...content, quote: e.target.value })}
+                onBlur={() => setIsEditing(null)}
+                className="text-base italic bg-white/10 border-white/20 text-white"
+                placeholder="Quote..."
+                autoFocus
+              />
+            ) : (
+              <p
+                className="text-base italic cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => setIsEditing("quote")}
+              >
+                {content.quote ? `"${content.quote}"` : <span className="opacity-70">Click to add quote...</span>}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
