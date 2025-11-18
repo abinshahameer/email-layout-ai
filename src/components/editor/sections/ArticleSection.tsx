@@ -103,7 +103,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
               />
             ) : (
               <p
-                className="text-base italic cursor-pointer hover:opacity-90 transition-opacity"
+                className="text-base italic cursor-pointer hover:opacity-90 transition-opacity whitespace-pre-wrap"
                 onClick={() => setIsEditing("quote")}
               >
                 {content.quote ? `"${content.quote}"` : <span className="opacity-70">Click to add quote...</span>}
