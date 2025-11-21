@@ -4,7 +4,7 @@ const renderSection = (section: NewsletterSection): string => {
   switch (section.type) {
     case "header":
       return `
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #323741; color: #ffffff;">
+        <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #323741; color: #ffffff;">
           <tr>
             <td style="padding: 16px 32px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -14,11 +14,12 @@ const renderSection = (section: NewsletterSection): string => {
                       src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
                       alt="TCS Logo"
                       style="height: 25px; width: auto; display: block;"
+                      data-property="logo"
                     />
                   </td>
                   <td style="font-size: 16px; text-align: right;">
-                    <span style="margin-right: 24px;">${section.content.episode || ""}</span>
-                    <span style="margin-right: 24px;">${section.content.lab || ""}</span>
+                    <span style="margin-right: 24px;" data-property="episode">${section.content.episode || ""}</span>
+                    <span style="margin-right: 24px;" data-property="lab">${section.content.lab || ""}</span>
                     <a href="https://forms.office.com/r/8exqUT0nmD" target="_blank" style="background-color: #0566e9; color: #ffffff; text-decoration: none; padding: 8px 12px; border-radius: 9999px; border: 1px solid #0566e9;">Subscribe</a>
                   </td>
                 </tr>
@@ -31,18 +32,18 @@ const renderSection = (section: NewsletterSection): string => {
     case "article":
       if (section.content.isHero) {
         return `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background: #1e6ef5; background: linear-gradient(to right, #1e6ef5, #1557b0);">
+          <table data-section-type="article" data-section-id="${section.id}" data-is-hero="true" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background: #1e6ef5; background: linear-gradient(to right, #1e6ef5, #1557b0);">
             <tr>
               <td style="padding: 45px; position: relative; color: #ffffff;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
                     <td style="font-size: 48px; font-weight: 900; letter-spacing: 2px; color: #ffffff;">
-                      ${section.content.title || ""}
-                      <p style="font-size: 16px; font-weight: 400; letter-spacing: normal; margin-top: 16px;margin-left:2px; margin">${section.content.date || ""}</p>
+                      <span data-property="title">${section.content.title || ""}</span>
+                      <p style="font-size: 16px; font-weight: 400; letter-spacing: normal; margin-top: 16px;margin-left:2px; margin" data-property="date">${section.content.date || ""}</p>
                     </td>
                     ${section.content.quote ? `
-                      <td style="max-width: 250px; font-size: 16px; font-style: italic; color: #ffffff; text-align: right; vertical-align: top; padding-top:10px">
-                        <pre>"${section.content.quote}"</pre>
+                      <td style="max-width: 350px; font-size: 16px; font-style: italic; color: #ffffff; vertical-align: top; padding-top:10px">
+                        <pre style="margin: 0; font-style: italic; font-family: 'Segoe UI', Arial, sans-serif; white-space: pre-wrap;" data-property="quote">"${section.content.quote}"</pre>
                       </td>
                     ` : ""}
                   </tr>
@@ -56,10 +57,10 @@ const renderSection = (section: NewsletterSection): string => {
         const imageSize = section.content.imageSize || 100;
         
         return `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8;">
+          <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8;">
             <tr>
               <td style="padding: 24px;">
-                <h3 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 700; color: #1e6ef5;">
+                <h3 style="margin: 0 0 12px 0; font-size: 20px; font-weight: 700; color: #1e6ef5;" data-property="title">
                   ${section.content.title || ""}
                 </h3>
                 
@@ -72,6 +73,9 @@ const renderSection = (section: NewsletterSection): string => {
                           alt="${section.content.imageAlt || 'Article image'}" 
                           width="${imageSize}%" 
                           style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                          data-property="image"
+                          data-image-size="${imageSize}"
+                          data-image-position="${imagePosition}"
                         />
                       </td>
                     </tr>
@@ -88,11 +92,14 @@ const renderSection = (section: NewsletterSection): string => {
                             alt="${section.content.imageAlt || 'Article image'}" 
                             width="100%" 
                             style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                            data-property="image"
+                            data-image-size="${imageSize}"
+                            data-image-position="${imagePosition}"
                           />
                         </td>
                       ` : ""}
                       <td style="vertical-align: top;">
-                        <p style="margin: 0; line-height: 1.6; font-size: 16px; color: #333333;">
+                        <p style="margin: 0; line-height: 1.6; font-size: 16px; color: #333333;" data-property="description">
                           ${section.content.description || ""}
                         </p>
                       </td>
@@ -103,20 +110,23 @@ const renderSection = (section: NewsletterSection): string => {
                             alt="${section.content.imageAlt || 'Article image'}" 
                             width="100%" 
                             style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                            data-property="image"
+                            data-image-size="${imageSize}"
+                            data-image-position="${imagePosition}"
                           />
                         </td>
                       ` : ""}
                     </tr>
                   </table>
                 ` : `
-                  <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 16px; color: #333333;">
+                  <p style="margin: 0 0 12px 0; line-height: 1.6; font-size: 16px; color: #333333;" data-property="description">
                     ${section.content.description || ""}
                   </p>
                 `}
                 
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
-                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="color: #1e6ef5; text-decoration: none; font-size: 16px;">
+                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="color: #1e6ef5; text-decoration: none; font-size: 16px;" data-property="link" data-link-text="${section.content.linkText || ''}">
                       ${section.content.linkText ? `Read more: ${section.content.linkText}` : section.content.link}
                     </a>
                   </p>
@@ -131,7 +141,7 @@ const renderSection = (section: NewsletterSection): string => {
       if (section.content.image) {
         const imageSize = section.content.imageSize || 100;
         return `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #f8f9fa;">
+          <table data-section-type="comic" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #f8f9fa;">
             <tr>
               <td style="padding: 32px; text-align: center;">
                 <h3 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 700; color: #1e6ef5;">Comic Section</h3>
@@ -140,9 +150,11 @@ const renderSection = (section: NewsletterSection): string => {
                   alt="${section.content.caption || 'Comic'}" 
                   width="${imageSize}%"
                   style="display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 4px;"
+                  data-property="image"
+                  data-image-size="${imageSize}"
                 />
                 ${section.content.caption ? `
-                  <p style="margin: 12px 0 0 0; font-size: 16px; font-style: italic; color: #666666;">
+                  <p style="margin: 12px 0 0 0; font-size: 16px; font-style: italic; color: #666666;" data-property="caption">
                     ${section.content.caption}
                   </p>
                 ` : ""}
@@ -157,44 +169,47 @@ const renderSection = (section: NewsletterSection): string => {
       const puzzleType = section.content.puzzleType || "image";
       const puzzleImageSize = section.content.puzzleImageSize || 100;
       return `
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #E1EFFA;">
+        <table data-section-type="puzzle" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #E1EFFA;">
           <tr>
             <td style="padding: 24px;">
-              <h3 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1e6ef5;">
+              <h3 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #1e6ef5;" data-property="title">
                 ${section.content.title || "Puzzle"}
               </h3>
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td width="50%" style="padding-right: 12px; vertical-align: top;">
+                  <td width="50%" style="padding-right: 12px; vertical-align: top;" data-property="puzzle" data-puzzle-type="${puzzleType}">
                     ${puzzleType === "image" && section.content.puzzleImage ? `
                       <img 
                         src="${section.content.puzzleImage}" 
                         alt="Puzzle" 
                         width="${puzzleImageSize}%" 
                         style="display: block;margin: 0 auto; max-width: 100%; height: auto; border-radius: 4px;"
+                        data-property="puzzleImage"
+                        data-image-size="${puzzleImageSize}"
                       />
                     ` : ""}
                     ${puzzleType === "text" && section.content.puzzleText ? `
-                      <pre style="margin: 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;">${section.content.puzzleText}</pre>
+                      <pre style="margin: 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;" data-property="puzzleText">${section.content.puzzleText}</pre>
                     ` : ""}
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
                     ${puzzleType === "image" && section.content.instructions ? `
-                      <pre style="margin: 0 0 16px 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;">
+                      <pre style="margin: 0 0 16px 0; font-size: 16px; color: #333333; line-height: 1.6; white-space: pre-wrap;" data-property="instructions">
                         ${section.content.instructions}
                       </pre>
                     ` : ""}
                     ${section.content.answerImage || section.content.answerText ? `
-                      <div style="border-top: 1px solid #d4c899; padding-top: 16px;">
+                      <div style="border-top: 1px solid #d4c899; padding-top: 16px;" data-property="answer">
                         <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: #666666;">Last Week's Answer</p>
                         ${section.content.answerImage ? `
                           <img 
                             src="${section.content.answerImage}" 
                             alt="Answer" 
                             style="display: block; max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px;"
+                            data-property="answerImage"
                           />
                         ` : ""}
-                        ${section.content.answerText ? `<pre style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;white-space: pre-wrap;">${section.content.answerText}</pre>`: ""}
+                        ${section.content.answerText ? `<pre style="margin: 8px 0 0 0; padding: 12px; background-color: #fefce8; border-radius: 4px; font-size: 16px; color: #333333;white-space: pre-wrap;" data-property="answerText">${section.content.answerText}</pre>`: ""}
                       </div>
                     ` : ""}
                   </td>
@@ -208,10 +223,10 @@ const renderSection = (section: NewsletterSection): string => {
     case "extended-reading":
       const links = (section.content.links || [])
         .map((link: { title: string; url: string }) => `
-          <tr>
+          <tr data-property="link-item">
             <td style="padding: 8px 0;">
-              <a href="${link.url}" style="color: #1e6ef5; text-decoration: none; font-size: 16px; display: flex; align-items: center;">
-                <span style="margin-right: 8px;">→</span> ${link.title}
+              <a href="${link.url}" style="color: #1e6ef5; text-decoration: none; font-size: 16px; display: flex; align-items: center;" data-property="url">
+                <span style="margin-right: 8px;">→</span> <span data-property="title">${link.title}</span>
               </a>
             </td>
           </tr>
@@ -220,7 +235,7 @@ const renderSection = (section: NewsletterSection): string => {
       
       if (links) {
         return `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #fafafa;">
+          <table data-section-type="extended-reading" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 1px solid #e8e8e8; background-color: #fafafa;">
             <tr>
               <td style="padding: 24px;">
                 <h3 style="margin: 0 0 12px 0; font-size: 22px; font-weight: 700; color: #1e6ef5;">Extended Reading</h3>
@@ -236,17 +251,17 @@ const renderSection = (section: NewsletterSection): string => {
 
     case "footer":
       const footerLinks = (section.content.links || [])
-        .map((link: string,index: any) => `<a href=${section.content.url[index]} target="_blank" rel="noopener noreferrer" style="color: #1e6ef5 !important; text-decoration: none; margin: 0 12px; font-size: 16px; cursor: pointer;">${link}</a>`)
+        .map((link: string,index: any) => `<a href=${section.content.url[index]} target="_blank" rel="noopener noreferrer" style="color: #1e6ef5 !important; text-decoration: none; margin: 0 12px; font-size: 16px; cursor: pointer;" data-property="link">${link}</a>`)
         .join("");
       
       return `
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f1f5f9;">
+        <table data-section-type="footer" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f1f5f9;">
           <tr>
             <td style="padding: 32px; text-align: center;">
-              <div style="margin-bottom: 16px;">
+              <div style="margin-bottom: 16px;" data-property="links">
                 ${footerLinks}
               </div>
-              <p style="margin: 0; font-size: 14px; color: #64748b;">
+              <p style="margin: 0; font-size: 14px; color: #64748b;" data-property="copyright">
                 ${section.content.copyright || ""}
               </p>
             </td>
@@ -350,7 +365,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f5f5f5;">
     <tr>
       <td align="center" style="padding: 0;">
-        <table role="presentation" width="700" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; max-width: 700px;">
+        <table role="presentation" width="700" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; max-width: 700px;" id="newsletter-container">
           <tr>
             <td>
               ${bodyContent}

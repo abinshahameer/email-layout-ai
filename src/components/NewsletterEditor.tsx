@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Sidebar } from "@/components/ui/sidebar";
-import { Download, Sparkles, Eye, Copy } from "lucide-react";
+import { Download, Sparkles, Eye, Copy, Upload } from "lucide-react";
 import { EditorSidebar } from "./editor/EditorSidebar";
 import { NewsletterPreview } from "./editor/NewsletterPreview";
 import { AIAssistant } from "./editor/AIAssistant";
 import { exportToHTML } from "@/lib/htmlExport";
+import { parseImportedHTML } from "@/lib/htmlImport";
 import { useToast } from "@/hooks/use-toast";
 import { getSections, saveSections } from "@/lib/db";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -100,6 +101,7 @@ const NewsletterEditor = () => {
   const [previewMode, setPreviewMode] = useState<"desktop" | "mobile">("desktop");
   const [showLoadPrompt, setShowLoadPrompt] = useState(false);
   const [savedSections, setSavedSections] = useState<NewsletterSection[] | null>(null);
+  const importInputRef = useRef<HTMLInputElement>(null);
 
   const debouncedSections = useDebounce(sections, 500);
 
@@ -222,6 +224,44 @@ const NewsletterEditor = () => {
       document.body.removeChild(textArea);
     }
   };
+
+  const handleImport = () => {
+    importInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const html = e.target?.result as string;
+        try {
+          const importedSections = parseImportedHTML(html);
+          if (importedSections.length > 0) {
+            setSections(importedSections);
+            toast({
+              title: "Import successful",
+              description: "The newsletter has been loaded into the editor.",
+            });
+          } else {
+            throw new Error("No sections found in the imported file.");
+          }
+        } catch (error) {
+          console.error("Import failed:", error);
+          toast({
+            title: "Import failed",
+            description: "The selected file could not be parsed. Please make sure it's a valid newsletter HTML file.",
+            variant: "destructive",
+          });
+        }
+      };
+      reader.readAsText(file);
+    }
+    // Reset file input
+    if (importInputRef.current) {
+      importInputRef.current.value = "";
+    }
+  };
   
 
   return (
@@ -261,6 +301,18 @@ const NewsletterEditor = () => {
               <Sparkles className="w-4 h-4 mr-2" />
               AI Assistant
             </Button> */}
+
+            <input
+              type="file"
+              ref={importInputRef}
+              className="hidden"
+              accept=".html"
+              onChange={handleFileChange}
+            />
+            <Button onClick={handleImport} variant="outline">
+              <Upload className="w-4 h-4 mr-2" />
+              Import HTML
+            </Button>
 
             <Button onClick={handleCopyHtml}>
               <Copy className="w-4 h-4 mr-2" />
