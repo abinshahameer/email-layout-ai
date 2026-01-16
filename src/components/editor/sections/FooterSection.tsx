@@ -13,14 +13,17 @@ interface FooterSectionProps {
 export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
+  const defaultLinks = ["Subscribe", "View in browser", "Privacy policy"];
+  const links = content.links?.length ? content.links : defaultLinks;
+
   return (
-    <div 
-      className="text-center"
-      style={{ backgroundColor: 'hsl(213 100% 30%)' }}
-    >
+    <div>
       {/* Footer links */}
-      <div className="py-4 px-8 flex justify-center items-center gap-8 text-sm text-white">
-        {(content.links || ["Subscribe", "View in browser", "Privacy policy"]).map((link, index) => (
+      <div 
+        className="py-4 px-8 flex justify-center items-center gap-8 text-sm text-white"
+        style={{ backgroundColor: '#0052a3' }}
+      >
+        {links.map((link, index) => (
           <a
             key={index}
             href={content?.url?.[index] || "#"}
@@ -35,9 +38,9 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
 
       {/* Copyright */}
       <div 
-        className="py-3 px-8 text-xs"
+        className="py-3 px-8 text-center text-xs"
         style={{ 
-          backgroundColor: 'hsl(213 100% 25%)',
+          backgroundColor: '#003d7a',
           color: 'rgba(255, 255, 255, 0.8)'
         }}
       >

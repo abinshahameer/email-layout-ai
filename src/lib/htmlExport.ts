@@ -3,11 +3,16 @@ import { NewsletterSection } from "@/components/NewsletterEditor";
 const renderSection = (section: NewsletterSection): string => {
   switch (section.type) {
     case "header":
+      const bgImage = section.content.backgroundImage || '';
+      const heroStyle = bgImage 
+        ? `background-image: url('${bgImage}'); background-size: cover; background-position: center;`
+        : `background: linear-gradient(180deg, #0052a3 0%, #0a1628 100%);`;
+      
       return `
         <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <!-- Top bar -->
           <tr>
-            <td style="background-color: #0a1628; padding: 12px 24px;">
+            <td style="background-color: rgba(10, 22, 40, 0.95); padding: 12px 24px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="text-align: left;">
@@ -26,44 +31,46 @@ const renderSection = (section: NewsletterSection): string => {
               </table>
             </td>
           </tr>
-          <!-- Hero section with gradient -->
+          <!-- Hero section with background image -->
           <tr>
-            <td style="background: linear-gradient(180deg, #0052a3 0%, #0a1628 100%); text-align: center; padding: 48px 24px; position: relative;">
+            <td style="${heroStyle} position: relative;">
               <!--[if mso]>
-              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:700px;height:200px;">
-              <v:fill type="gradient" color="#0052a3" color2="#0a1628" angle="180" />
+              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:250px;">
+              <v:fill type="tile" src="${bgImage || ''}" color="#0052a3" />
               <v:textbox inset="0,0,0,0">
               <![endif]-->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td style="text-align: center; padding-bottom: 16px;">
-                    <!-- Large background text -->
-                    <div style="font-size: 48px; font-weight: 900; letter-spacing: 0.1em; color: rgba(255,255,255,0.15); line-height: 1; margin-bottom: 24px;">
-                      TCS Pace Port
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="text-align: center;">
-                    <!-- Date badge -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
-                      <tr>
-                        <td style="background-color: #f5c518; padding: 8px 32px; font-size: 16px; font-weight: 600; color: #0a1628;" data-property="date">
-                          ${section.content.date || "January 2026"}
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="text-align: center; padding-top: 24px;">
-                    <!-- Newsletter title -->
-                    <h1 style="margin: 0; font-size: 36px; font-weight: 900; letter-spacing: 0.3em; color: #ffffff; text-transform: uppercase;">
-                      NEWSLETTER
-                    </h1>
-                  </td>
-                </tr>
-              </table>
+              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 60px 24px; text-align: center;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="text-align: center; padding-bottom: 16px;">
+                      <!-- Large background text -->
+                      <div style="font-size: 48px; font-weight: 900; letter-spacing: 0.05em; color: rgba(255,255,255,0.12); line-height: 1; margin-bottom: 20px;">
+                        TCS Pace Port
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">
+                      <!-- Date badge -->
+                      <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                        <tr>
+                          <td style="background-color: #f5c518; padding: 10px 40px; font-size: 18px; font-weight: 600; color: #0a1628;" data-property="date">
+                            ${section.content.date || "January 2026"}
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center; padding-top: 24px;">
+                      <!-- Newsletter title -->
+                      <h1 style="margin: 0; font-size: 36px; font-weight: 900; letter-spacing: 0.35em; color: #ffffff; text-transform: uppercase;">
+                        NEWSLETTER
+                      </h1>
+                    </td>
+                  </tr>
+                </table>
+              </div>
               <!--[if mso]>
               </v:textbox>
               </v:rect>

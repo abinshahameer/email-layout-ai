@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Upload, Link as LinkIcon } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import heroBackground from "@/assets/hero-background.jpg";
 
 interface HeaderSectionProps {
   content: {
@@ -7,6 +11,7 @@ interface HeaderSectionProps {
     date: string;
     episode: string;
     lab: string;
+    backgroundImage?: string;
   };
   onUpdate: (content: any) => void;
 }
@@ -14,10 +19,27 @@ interface HeaderSectionProps {
 export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        onUpdate({ ...content, backgroundImage: reader.result as string });
+        setIsEditing(null);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const backgroundImg = content.backgroundImage || heroBackground;
+
   return (
-    <div className="bg-[hsl(var(--newsletter-header-bg))]">
+    <div className="relative">
       {/* Top bar with logo and location */}
-      <div className="bg-[hsl(var(--newsletter-header-top-bg))] text-white px-6 py-3 flex items-center justify-between">
+      <div 
+        className="relative text-white px-6 py-3 flex items-center justify-between z-10"
+        style={{ backgroundColor: 'rgba(10, 22, 40, 0.95)' }}
+      >
         <div className="flex items-center gap-3">
           <img
             src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
@@ -63,57 +85,133 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         </div>
       </div>
 
-      {/* Hero section with gradient background */}
+      {/* Hero section with background image */}
       <div 
-        className="relative py-16 px-8 text-center"
+        className="relative py-20 px-8 text-center"
         style={{
-          background: 'linear-gradient(180deg, hsl(213 100% 30%) 0%, hsl(220 60% 12%) 100%)'
+          backgroundImage: `url(${backgroundImg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
         }}
       >
+        {/* Dark overlay */}
+        <div 
+          className="absolute inset-0"
+          style={{ 
+            background: 'linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%)'
+          }}
+        />
+
         {/* Large background text */}
         <div 
-          className="absolute inset-0 flex items-center justify-center overflow-hidden opacity-20 pointer-events-none"
-          style={{ fontSize: '6rem', fontWeight: 900, letterSpacing: '0.1em', color: 'white' }}
+          className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
+          style={{ 
+            fontSize: 'clamp(3rem, 10vw, 7rem)', 
+            fontWeight: 900, 
+            letterSpacing: '0.05em', 
+            color: 'rgba(255,255,255,0.12)',
+            lineHeight: 1.1,
+            whiteSpace: 'nowrap'
+          }}
         >
-          TCS Pace Port
+          <span>TCS Pace Port</span>
         </div>
 
-        {/* Date badge */}
-        <div className="relative z-10 mb-6">
-          <div 
-            className="inline-block px-8 py-2 rounded-sm font-semibold text-lg"
-            style={{ 
-              backgroundColor: 'hsl(46 100% 50%)',
-              color: 'hsl(220 60% 10%)'
-            }}
+        {/* Content */}
+        <div className="relative z-10">
+          {/* Date badge */}
+          <div className="mb-6">
+            <div 
+              className="inline-block px-10 py-2.5 font-semibold text-lg"
+              style={{ 
+                backgroundColor: '#f5c518',
+                color: '#0a1628'
+              }}
+            >
+              {isEditing === "date" ? (
+                <Input
+                  value={content.date}
+                  onChange={(e) => onUpdate({ ...content, date: e.target.value })}
+                  onBlur={() => setIsEditing(null)}
+                  className="w-40 h-8 bg-transparent border-none text-center font-semibold"
+                  style={{ color: '#0a1628' }}
+                  autoFocus
+                />
+              ) : (
+                <span 
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => setIsEditing("date")}
+                >
+                  {content.date || "January 2026"}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Newsletter title */}
+          <h1 
+            className="text-white font-black tracking-[0.35em] uppercase mb-8"
+            style={{ fontSize: 'clamp(1.5rem, 5vw, 2.75rem)' }}
           >
-            {isEditing === "date" ? (
+            NEWSLETTER
+          </h1>
+        </div>
+      </div>
+
+      {/* Background image edit button */}
+      {isEditing === "backgroundImage" ? (
+        <div className="absolute bottom-4 right-4 z-20 bg-white p-4 rounded-lg shadow-lg">
+          <Tabs defaultValue="url" className="w-64">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="url">
+                <LinkIcon className="w-4 h-4 mr-2" />
+                URL
+              </TabsTrigger>
+              <TabsTrigger value="upload">
+                <Upload className="w-4 h-4 mr-2" />
+                Upload
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="url" className="space-y-2">
               <Input
-                value={content.date}
-                onChange={(e) => onUpdate({ ...content, date: e.target.value })}
-                onBlur={() => setIsEditing(null)}
-                className="w-40 h-8 bg-transparent border-none text-center font-semibold"
+                placeholder="Image URL (https://...)"
+                onChange={(e) => {
+                  if (e.target.value) {
+                    onUpdate({ ...content, backgroundImage: e.target.value });
+                    setIsEditing(null);
+                  }
+                }}
                 autoFocus
               />
-            ) : (
-              <span 
-                className="cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={() => setIsEditing("date")}
-              >
-                {content.date || "January 2026"}
-              </span>
-            )}
-          </div>
+            </TabsContent>
+            <TabsContent value="upload" className="space-y-2">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+            </TabsContent>
+          </Tabs>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2"
+            onClick={() => setIsEditing(null)}
+          >
+            Cancel
+          </Button>
         </div>
-
-        {/* Newsletter title */}
-        <h1 
-          className="relative z-10 text-white font-black tracking-[0.3em] uppercase"
-          style={{ fontSize: '2.5rem' }}
+      ) : (
+        <Button
+          variant="secondary"
+          size="sm"
+          className="absolute bottom-4 right-4 z-20 opacity-70 hover:opacity-100"
+          onClick={() => setIsEditing("backgroundImage")}
         >
-          NEWSLETTER
-        </h1>
-      </div>
+          <Upload className="w-4 h-4 mr-2" />
+          Change Background
+        </Button>
+      )}
     </div>
   );
 };
