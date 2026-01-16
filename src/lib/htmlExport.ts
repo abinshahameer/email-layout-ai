@@ -96,6 +96,11 @@ const renderSection = (section: NewsletterSection): string => {
               <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #0a1628;" data-property="title">
                 ${section.content.title || ""}
               </h3>
+              ${section.content.date ? `
+                <p style="margin: 0 0 12px 0; font-size: 14px; color: #666666;" data-property="date">
+                  ${section.content.date}
+                </p>
+              ` : ""}
               
               ${section.content.image && imagePosition === "top" ? `
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">

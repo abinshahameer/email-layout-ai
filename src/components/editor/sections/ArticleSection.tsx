@@ -77,6 +77,24 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
         </h3>
       )}
 
+      {isEditing === "date" ? (
+        <Input
+          value={content.date || ""}
+          onChange={(e) => onUpdate({ ...content, date: e.target.value })}
+          onBlur={() => setIsEditing(null)}
+          className="mb-3 text-sm font-medium"
+          placeholder="Article date..."
+          autoFocus
+        />
+      ) : (
+        <p
+          className="text-sm font-medium text-muted-foreground mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+          onClick={() => setIsEditing("date")}
+        >
+          {content.date || "Click to add date..."}
+        </p>
+      )}
+
       {content.image && (
         <div className="mb-4 space-y-3 p-3 border rounded-md bg-muted/30">
           <div className="space-y-2">
