@@ -40,8 +40,12 @@ const renderSection = (section: NewsletterSection): string => {
               <v:fill type="tile" src="${bgImage || ''}" color="#0052a3" />
               <v:textbox inset="0,0,0,0">
               <![endif]-->
-              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 64px 24px; text-align: center;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 64px 24px; text-align: center; position: relative;">
+                <!-- Large background text -->
+                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; pointer-events: none; font-size: 70px; font-weight: 900; letter-spacing: 0.05em; color: rgba(255,255,255,0.4); line-height: 1.1; white-space: nowrap;">
+                  <span>TCS Pace Port</span>
+                </div>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="position: relative; z-index: 1;">
                   <tr>
                     <td style="text-align: center; padding-bottom: 24px;">
                       <!-- Date badge -->

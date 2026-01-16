@@ -106,15 +106,14 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         {/* Large background text */}
         <div
           className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
-          style={{
-            fontSize: 'clamp(3rem, 10vw, 7rem)',
-            fontWeight: 900,
-            letterSpacing: '0.05em',
-            color: 'rgba(255,255,255,0.12)',
-            lineHeight: 1.1,
-            whiteSpace: 'nowrap'
-          }}
-        >
+                    style={{ 
+                      fontSize: 'clamp(3rem, 10vw, 7rem)', 
+                      fontWeight: 900, 
+                      letterSpacing: '0.05em', 
+                      color: 'rgba(255,255,255,0.4)',
+                      lineHeight: 1.1,
+                      whiteSpace: 'nowrap'
+                    }}        >
           <span>TCS Pace Port</span>
         </div>
 
