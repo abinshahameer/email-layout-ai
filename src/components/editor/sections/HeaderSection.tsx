@@ -87,7 +87,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
 
       {/* Hero section with background image */}
       <div 
-        className="relative py-20 px-8 text-center"
+        className="relative py-10 px-8 text-center"
         style={{
           backgroundImage: `url(${backgroundImg})`,
           backgroundSize: 'cover',
