@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Upload, Link as LinkIcon } from "lucide-react";
+import { Upload, Link as LinkIcon, Edit } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import heroBackground from "@/assets/hero-background.jpg";
 
@@ -13,6 +13,9 @@ interface HeaderSectionProps {
     lab: string;
     backgroundImage?: string;
     subtitle?: string;
+    title?: string;
+    ctaText?: string;
+    ctaLink?: string;
   };
   onUpdate: (content: any) => void;
 }
@@ -35,60 +38,10 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
   const backgroundImg = content.backgroundImage || heroBackground;
 
   return (
-    <div className="relative">
-      {/* Top bar with logo and location */}
-      <div
-        className="relative text-white px-6 py-3 flex items-center justify-between z-10"
-        style={{ backgroundColor: 'rgba(10, 22, 40, 0.95)' }}
-      >
-        <div className="flex items-center gap-3">
-          <img
-            src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
-            alt="TCS Logo"
-            className="h-6 object-contain"
-          />
-        </div>
-
-        <div className="flex items-center gap-6 text-sm">
-          {isEditing === "lab" ? (
-            <Input
-              value={content.lab}
-              onChange={(e) => onUpdate({ ...content, lab: e.target.value })}
-              onBlur={() => setIsEditing(null)}
-              className="w-48 h-7 bg-white/10 border-white/20 text-white text-sm"
-              autoFocus
-            />
-          ) : (
-            <span
-              className="cursor-pointer hover:opacity-80 transition-opacity font-medium"
-              onClick={() => setIsEditing("lab")}
-            >
-              {content.lab || "Pace Port, São Paulo"}
-            </span>
-          )}
-
-          {isEditing === "episode" ? (
-            <Input
-              value={content.episode}
-              onChange={(e) => onUpdate({ ...content, episode: e.target.value })}
-              onBlur={() => setIsEditing(null)}
-              className="w-24 h-7 bg-white/10 border-white/20 text-white text-sm"
-              autoFocus
-            />
-          ) : (
-            <span
-              className="cursor-pointer hover:opacity-80 transition-opacity"
-              onClick={() => setIsEditing("episode")}
-            >
-              {content.episode || "Episode 01"}
-            </span>
-          )}
-        </div>
-      </div>
-
+    <div className="relative font-sans">
       {/* Hero section with background image */}
       <div
-        className="relative py-16 px-8 text-center"
+        className="relative py-20 px-8 text-center"
         style={{
           backgroundImage: `url(${backgroundImg})`,
           backgroundSize: 'cover',
@@ -99,138 +52,149 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%)'
+            background: 'linear-gradient(180deg, rgba(0, 20, 40, 0.8) 0%, rgba(0, 40, 80, 0.9) 100%)'
           }}
         />
 
-        {/* Large background text */}
-        <div
-          className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
-                    style={{ 
-                      fontSize: 'clamp(3rem, 10vw, 7rem)', 
-                      fontWeight: 900, 
-                      letterSpacing: '0.05em', 
-                      color: 'rgba(255,255,255,0.4)',
-                      lineHeight: 1.1,
-                      whiteSpace: 'nowrap'
-                    }}        >
-          <span>TCS Pace Port</span>
-        </div>
-
         {/* Content */}
         <div className="relative z-10">
-          {/* Date badge */}
-          <div className="mb-6">
-            <div
-              className="inline-block px-10 py-2.5 font-semibold text-lg"
-              style={{
-                backgroundColor: '#f5c518',
-                color: '#0a1628'
-              }}
-            >
-              {isEditing === "date" ? (
-                <Input
-                  value={content.date}
-                  onChange={(e) => onUpdate({ ...content, date: e.target.value })}
-                  onBlur={() => setIsEditing(null)}
-                  className="w-40 h-8 bg-transparent border-none text-center font-semibold"
-                  style={{ color: '#0a1628' }}
-                  autoFocus
-                />
-              ) : (
-                <span
-                  className="cursor-pointer hover:opacity-80 transition-opacity"
-                  onClick={() => setIsEditing("date")}
-                >
-                  {content.date || "January 2026"}
-                </span>
-              )}
-            </div>
+          {/* Logo and Date */}
+          <div className="flex items-center justify-between mb-12">
+            <img
+              src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
+              alt="TCS Logo"
+              className="h-7"
+            />
+            {isEditing === "date" ? (
+              <Input
+                value={content.date}
+                onChange={(e) => onUpdate({ ...content, date: e.target.value })}
+                onBlur={() => setIsEditing(null)}
+                className="w-40 h-8 bg-transparent border-white/20 text-white text-right font-mono"
+                autoFocus
+              />
+            ) : (
+              <span
+                className="text-white/80 font-mono text-sm cursor-pointer hover:text-white"
+                onClick={() => setIsEditing("date")}
+              >
+                {content.date || "JAN 2026"}
+              </span>
+            )}
           </div>
 
-          {/* Newsletter title */}
-          <h1
-            className="text-white font-black tracking-[0.35em] uppercase mb-4"
-            style={{ fontSize: 'clamp(1.5rem, 5vw, 2.75rem)' }}
-          >
-            NEWSLETTER
-          </h1>
-
+          {/* Main Title */}
+          {isEditing === "title" ? (
+             <Input
+              value={content.title}
+              onChange={(e) => onUpdate({ ...content, title: e.target.value })}
+              onBlur={() => setIsEditing(null)}
+              className="w-full bg-transparent border-y-2 border-x-0 border-white/20 text-white text-center font-black tracking-[0.2em] uppercase py-4 text-4xl"
+              placeholder="YOUR TITLE"
+              autoFocus
+            />
+          ) : (
+            <h1
+              className="text-white font-black tracking-[0.2em] uppercase border-y-2 border-white/20 py-4 text-4xl cursor-pointer hover:bg-white/5"
+              onClick={() => setIsEditing("title")}
+              style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)' }}
+            >
+              {content.title || "Pace Port Insights"}
+            </h1>
+          )}
+          
           {/* Subtitle */}
           {isEditing === "subtitle" ? (
-            <Input
+            <Textarea
               value={content.subtitle}
               onChange={(e) => onUpdate({ ...content, subtitle: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="w-full max-w-md mx-auto bg-white/10 border-white/20 text-white text-center text-base"
-              placeholder="Your subtitle here..."
+              className="w-full max-w-2xl mx-auto bg-transparent border-none text-white text-center text-lg mt-6"
+              placeholder="Your engaging subtitle here..."
               autoFocus
             />
           ) : (
             <p
-              className="text-white/80 text-base max-w-md mx-auto cursor-pointer hover:bg-white/10 rounded py-1"
+              className="text-white/80 text-lg max-w-2xl mx-auto mt-6 cursor-pointer hover:bg-white/5 rounded py-2"
               onClick={() => setIsEditing("subtitle")}
             >
-              {content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem."}
+              {content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem, designed to inspire and inform."}
             </p>
           )}
+
+          {/* CTA Button */}
+          <div className="mt-10">
+            {isEditing === "cta" ? (
+              <div className="space-y-2 max-w-sm mx-auto">
+                <Input
+                  value={content.ctaText}
+                  onChange={(e) => onUpdate({ ...content, ctaText: e.target.value })}
+                  className="w-full bg-white/90 border-transparent text-gray-800 text-center"
+                  placeholder="Button Text"
+                />
+                <Input
+                  value={content.ctaLink}
+                  onChange={(e) => onUpdate({ ...content, ctaLink: e.target.value })}
+                  className="w-full bg-white/90 border-transparent text-gray-800 text-center"
+                  placeholder="https://example.com"
+                />
+                 <Button size="sm" variant="secondary" onClick={() => setIsEditing(null)}>Done</Button>
+              </div>
+            ) : (
+              <a href={content.ctaLink || "#"} target="_blank" rel="noopener noreferrer">
+                <Button
+                  size="lg"
+                  className="bg-[#f5c518] text-[#0a1628] font-bold hover:bg-[#f5c518]/90 relative group"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsEditing("cta");
+                  }}
+                >
+                  {content.ctaText || "Explore More"}
+                  <Edit className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Button>
+              </a>
+            )}
+          </div>
         </div>
       </div>
-
+      
       {/* Background image edit button */}
-      {isEditing === "backgroundImage" ? (
-        <div className="absolute bottom-4 right-4 z-20 bg-white p-4 rounded-lg shadow-lg">
-          <Tabs defaultValue="url" className="w-64">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="url">
-                <LinkIcon className="w-4 h-4 mr-2" />
-                URL
-              </TabsTrigger>
-              <TabsTrigger value="upload">
-                <Upload className="w-4 h-4 mr-2" />
-                Upload
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="url" className="space-y-2">
-              <Input
-                placeholder="Image URL (https://...)"
-                onChange={(e) => {
-                  if (e.target.value) {
-                    onUpdate({ ...content, backgroundImage: e.target.value });
-                    setIsEditing(null);
-                  }
-                }}
-                autoFocus
-              />
-            </TabsContent>
-            <TabsContent value="upload" className="space-y-2">
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
-            </TabsContent>
-          </Tabs>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="mt-2"
-            onClick={() => setIsEditing(null)}
-          >
-            Cancel
-          </Button>
-        </div>
-      ) : (
-        <Button
+      {isEditing !== "backgroundImage" && (
+         <Button
           variant="secondary"
           size="sm"
-          className="absolute bottom-4 right-4 z-20 opacity-70 hover:opacity-100"
+          className="absolute top-4 right-4 z-20 opacity-50 hover:opacity-100"
           onClick={() => setIsEditing("backgroundImage")}
         >
           <Upload className="w-4 h-4 mr-2" />
           Change Background
         </Button>
       )}
+
+      {isEditing === "backgroundImage" && (
+        <div className="absolute top-4 right-4 z-20 bg-white p-4 rounded-lg shadow-lg">
+          <Tabs defaultValue="url" className="w-64">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="url">URL</TabsTrigger>
+              <TabsTrigger value="upload">Upload</TabsTrigger>
+            </TabsList>
+            <TabsContent value="url">
+              <Input
+                placeholder="Image URL"
+                onChange={(e) => onUpdate({ ...content, backgroundImage: e.target.value })}
+              />
+            </TabsContent>
+            <TabsContent value="upload">
+              <Input type="file" accept="image/*" onChange={handleImageUpload} />
+            </TabsContent>
+          </Tabs>
+          <Button variant="ghost" size="sm" className="mt-2" onClick={() => setIsEditing(null)}>
+            Cancel
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
+

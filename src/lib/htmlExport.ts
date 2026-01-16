@@ -9,69 +9,103 @@ const renderSection = (section: NewsletterSection): string => {
         ? `background-image: url('${bgImage}'); background-size: cover; background-position: center;`
         : `background: linear-gradient(180deg, #0052a3 0%, #0a1628 100%);`;
       
-      return `
-        <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <!-- Top bar -->
+      const ctaButton = section.content.ctaLink ? `
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-top: 40px;">
           <tr>
-            <td style="background-color: rgba(10, 22, 40, 0.95); padding: 12px 24px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td style="text-align: left;">
-                    <img
-                      src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
-                      alt="TCS Logo"
-                      style="height: 20px; width: auto; display: block;"
-                      data-property="logo"
-                    />
-                  </td>
-                  <td style="text-align: right; color: #ffffff; font-size: 13px;">
-                    <span style="margin-right: 20px; font-weight: 500;" data-property="lab">${section.content.lab || "Pace Port, São Paulo"}</span>
-                    <span data-property="episode">${section.content.episode || "Episode 01"}</span>
-                  </td>
-                </tr>
-              </table>
+            <td style="background-color: #f5c518; border-radius: 4px; text-align: center;">
+              <a href="${section.content.ctaLink}" target="_blank" style="font-size: 16px; font-weight: bold; color: #0a1628; text-decoration: none; padding: 12px 24px; display: inline-block; border-radius: 4px;">
+                ${section.content.ctaText || "Explore More"}
+              </a>
             </td>
           </tr>
+        </table>
+      ` : "";
+
+      return `
+        <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <!-- Hero section with background image -->
           <tr>
-            <td style="${heroStyle} position: relative;">
+            <td style="${heroStyle} position: relative; padding: 80px 24px; text-align: center;">
               <!--[if mso]>
-              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:250px;">
+              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:400px;">
               <v:fill type="tile" src="${bgImage || ''}" color="#0052a3" />
               <v:textbox inset="0,0,0,0">
               <![endif]-->
-              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 64px 24px; text-align: center; position: relative;">
-                <!-- Large background text -->
-                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; pointer-events: none; font-size: 70px; font-weight: 900; letter-spacing: 0.05em; color: rgba(255,255,255,0.4); line-height: 1.1; white-space: nowrap;">
-                  <span>TCS Pace Port</span>
-                </div>
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="position: relative; z-index: 1;">
+              <div style="background: linear-gradient(180deg, rgba(0, 20, 40, 0.8) 0%, rgba(0, 40, 80, 0.9) 100%); position: relative; z-index: 1;">
+                <!-- Logo and Date -->
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 48px;">
                   <tr>
-                    <td style="text-align: center; padding-bottom: 24px;">
-                      <!-- Date badge -->
-                      <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
-                        <tr>
-                          <td style="background-color: #f5c518; padding: 10px 40px; font-size: 18px; font-weight: 600; color: #0a1628;" data-property="date">
-                            ${section.content.date ? format(new Date(section.content.date), "PPP") : "January 2026"}
-                          </td>
-                        </tr>
-                      </table>
+                    <td style="text-align: left;">
+                      <img
+                        src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
+                        alt="TCS Logo"
+                        style="height: 28px; width: auto; display: block;"
+                        data-property="logo"
+                      />
+                    </td>
+                    <td style="text-align: right; color: #ffffff; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; font-size: 12px;">
+                      ${section.content.date ? format(new Date(section.content.date), "MMM yyyy").toUpperCase() : "JAN 2026"}
                     </td>
                   </tr>
+                </table>
+
+                <!-- Main Title -->
+                <h1 style="margin: 0; font-size: 40px; font-weight: 900; letter-spacing: 0.2em; color: #ffffff; text-transform: uppercase; padding: 16px 0; border-top: 2px solid rgba(255,255,255,0.2); border-bottom: 2px solid rgba(255,255,255,0.2);" data-property="title">
+                  ${section.content.title || "Pace Port Insights"}
+                </h1>
+                
+                <!-- Subtitle -->
+                <p style="margin: 24px auto 0 auto; font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.8); max-width: 600px;" data-property="subtitle">
+                  ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem, designed to inspire and inform."}
+                </p>
+
+                <!-- CTA Button -->
+                ${ctaButton}
+              </div>
+              <!--[if mso]>
+              </v:textbox>
+              </v:rect>
+              <![endif]-->
+            </td>
+          </tr>
+        </table>
+      `;
+
+    case "article":
+      // Skip hero sections (now handled by header)
+      if (section.content.isHero) {
+        return "";
+      }
+      
+      const imagePosition = section.content.imagePosition || "top";
+      const imageSize = section.content.imageSize || 100;
+      
+      return `
+        <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff;">
+          <tr>
+            <td style="padding: 20px;">
+              <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #0a1628;" data-property="title">
+                ${section.content.title || ""}
+              </h3>
+              ${section.content.date ? `
+                <p style="margin: 0 0 12px 0; font-size: 14px; color: #666666;" data-property="date">
+                  ${format(new Date(section.content.date), "PPP")}
+                </p>
+              ` : ""}
+              
+              ${section.content.image && imagePosition === "top" ? `
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">
                   <tr>
-                    <td style="text-align: center; padding-bottom: 16px;">
-                      <!-- Newsletter title -->
-                      <h1 style="margin: 0; font-size: 36px; font-weight: 900; letter-spacing: 0.35em; color: #ffffff; text-transform: uppercase;">
-                        NEWSLETTER
-                      </h1>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="text-align: center;">
-                      <!-- Subtitle -->
-                      <p style="margin: 0; font-size: 16px; color: rgba(255,255,255,0.8); max-width: 400px; margin: 0 auto;" data-property="subtitle">
-                        ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem."}
-                      </p>
+                    <td align="center">
+                      <img 
+                        src="${section.content.image}" 
+                        alt="${section.content.imageAlt || 'Article image'}" 
+                        width="${imageSize}%" 
+                        style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
+                        data-property="image"
+                        data-image-size="${imageSize}"
+                        data-image-position="${imagePosition}"
+                      />
                     </td>
                   </tr>
                 </table>
