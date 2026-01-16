@@ -1,4 +1,5 @@
 import { NewsletterSection } from "@/components/NewsletterEditor";
+import { format } from "date-fns";
 
 const renderSection = (section: NewsletterSection): string => {
   switch (section.type) {
@@ -39,34 +40,34 @@ const renderSection = (section: NewsletterSection): string => {
               <v:fill type="tile" src="${bgImage || ''}" color="#0052a3" />
               <v:textbox inset="0,0,0,0">
               <![endif]-->
-              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 30px 24px; text-align: center;">
+              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 64px 24px; text-align: center;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
-                    <td style="text-align: center; padding-bottom: 16px;">
-                      <!-- Large background text -->
-                      <div style="font-size: 48px; font-weight: 900; letter-spacing: 0.05em; color: rgba(255,255,255,0.12); line-height: 1; margin-bottom: 20px;">
-                        TCS Pace Port
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="text-align: center;">
+                    <td style="text-align: center; padding-bottom: 24px;">
                       <!-- Date badge -->
                       <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
                         <tr>
                           <td style="background-color: #f5c518; padding: 10px 40px; font-size: 18px; font-weight: 600; color: #0a1628;" data-property="date">
-                            ${section.content.date || "January 2026"}
+                            ${section.content.date ? format(new Date(section.content.date), "PPP") : "January 2026"}
                           </td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                   <tr>
-                    <td style="text-align: center; padding-top: 24px;">
+                    <td style="text-align: center; padding-bottom: 16px;">
                       <!-- Newsletter title -->
                       <h1 style="margin: 0; font-size: 36px; font-weight: 900; letter-spacing: 0.35em; color: #ffffff; text-transform: uppercase;">
                         NEWSLETTER
                       </h1>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: center;">
+                      <!-- Subtitle -->
+                      <p style="margin: 0; font-size: 16px; color: rgba(255,255,255,0.8); max-width: 400px; margin: 0 auto;" data-property="subtitle">
+                        ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem."}
+                      </p>
                     </td>
                   </tr>
                 </table>
@@ -98,7 +99,7 @@ const renderSection = (section: NewsletterSection): string => {
               </h3>
               ${section.content.date ? `
                 <p style="margin: 0 0 12px 0; font-size: 14px; color: #666666;" data-property="date">
-                  ${section.content.date}
+                  ${format(new Date(section.content.date), "PPP")}
                 </p>
               ` : ""}
               

@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { ImagePlus, X, Upload, Link as LinkIcon, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import { CalendarIcon, ImagePlus, X, Upload, Link as LinkIcon, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -77,23 +80,30 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
         </h3>
       )}
 
-      {isEditing === "date" ? (
-        <Input
-          value={content.date || ""}
-          onChange={(e) => onUpdate({ ...content, date: e.target.value })}
-          onBlur={() => setIsEditing(null)}
-          className="mb-3 text-sm font-medium"
-          placeholder="Article date..."
-          autoFocus
-        />
-      ) : (
-        <p
-          className="text-sm font-medium text-muted-foreground mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
-          onClick={() => setIsEditing("date")}
-        >
-          {content.date || "Click to add date..."}
-        </p>
-      )}
+      <div className="mb-4">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full justify-start text-left font-normal",
+                !content.date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {content.date ? format(new Date(content.date), "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={content.date ? new Date(content.date) : undefined}
+              onSelect={(date) => onUpdate({ ...content, date: date?.toISOString() })}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
 
       {content.image && (
         <div className="mb-4 space-y-3 p-3 border rounded-md bg-muted/30">

@@ -12,6 +12,7 @@ interface HeaderSectionProps {
     episode: string;
     lab: string;
     backgroundImage?: string;
+    subtitle?: string;
   };
   onUpdate: (content: any) => void;
 }
@@ -36,7 +37,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
   return (
     <div className="relative">
       {/* Top bar with logo and location */}
-      <div 
+      <div
         className="relative text-white px-6 py-3 flex items-center justify-between z-10"
         style={{ backgroundColor: 'rgba(10, 22, 40, 0.95)' }}
       >
@@ -86,8 +87,8 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
       </div>
 
       {/* Hero section with background image */}
-      <div 
-        className="relative py-10 px-8 text-center"
+      <div
+        className="relative py-16 px-8 text-center"
         style={{
           backgroundImage: `url(${backgroundImg})`,
           backgroundSize: 'cover',
@@ -95,20 +96,20 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         }}
       >
         {/* Dark overlay */}
-        <div 
+        <div
           className="absolute inset-0"
-          style={{ 
+          style={{
             background: 'linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%)'
           }}
         />
 
         {/* Large background text */}
-        <div 
+        <div
           className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none"
-          style={{ 
-            fontSize: 'clamp(3rem, 10vw, 7rem)', 
-            fontWeight: 900, 
-            letterSpacing: '0.05em', 
+          style={{
+            fontSize: 'clamp(3rem, 10vw, 7rem)',
+            fontWeight: 900,
+            letterSpacing: '0.05em',
             color: 'rgba(255,255,255,0.12)',
             lineHeight: 1.1,
             whiteSpace: 'nowrap'
@@ -121,9 +122,9 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         <div className="relative z-10">
           {/* Date badge */}
           <div className="mb-6">
-            <div 
+            <div
               className="inline-block px-10 py-2.5 font-semibold text-lg"
-              style={{ 
+              style={{
                 backgroundColor: '#f5c518',
                 color: '#0a1628'
               }}
@@ -138,7 +139,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
                   autoFocus
                 />
               ) : (
-                <span 
+                <span
                   className="cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => setIsEditing("date")}
                 >
@@ -149,12 +150,31 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
           </div>
 
           {/* Newsletter title */}
-          <h1 
-            className="text-white font-black tracking-[0.35em] uppercase mb-8"
+          <h1
+            className="text-white font-black tracking-[0.35em] uppercase mb-4"
             style={{ fontSize: 'clamp(1.5rem, 5vw, 2.75rem)' }}
           >
             NEWSLETTER
           </h1>
+
+          {/* Subtitle */}
+          {isEditing === "subtitle" ? (
+            <Input
+              value={content.subtitle}
+              onChange={(e) => onUpdate({ ...content, subtitle: e.target.value })}
+              onBlur={() => setIsEditing(null)}
+              className="w-full max-w-md mx-auto bg-white/10 border-white/20 text-white text-center text-base"
+              placeholder="Your subtitle here..."
+              autoFocus
+            />
+          ) : (
+            <p
+              className="text-white/80 text-base max-w-md mx-auto cursor-pointer hover:bg-white/10 rounded py-1"
+              onClick={() => setIsEditing("subtitle")}
+            >
+              {content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem."}
+            </p>
+          )}
         </div>
       </div>
 
