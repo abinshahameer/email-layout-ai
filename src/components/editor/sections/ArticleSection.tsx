@@ -48,89 +48,29 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
     setCroppingImage(null);
   };
 
+  // Hero section is now part of HeaderSection, but keep for backward compatibility
   if (content.isHero) {
-    return (
-      <div className="relative text-white p-12"  style={{
-        background: "linear-gradient(to right, #0B63E5, #1242AC)"
-      }}>
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            {isEditing === "title" ? (
-              <Input
-                value={content.title || ""}
-                onChange={(e) => onUpdate({ ...content, title: e.target.value })}
-                onBlur={() => setIsEditing(null)}
-                className="text-5xl font-black bg-white/10 border-white/20 text-white tracking-wider"
-                placeholder="Newsletter title..."
-                autoFocus
-              />
-            ) : (
-              <h1
-                className="text-5xl font-black cursor-pointer hover:opacity-90 transition-opacity tracking-wider"
-                onClick={() => setIsEditing("title")}
-              >
-                {content.title || "NEWSLETTER TITLE"}
-              </h1>
-            )}
-            {isEditing === "date" ? (
-              <Input
-                value={content.date || ""}
-                onChange={(e) => onUpdate({ ...content, date: e.target.value })}
-                onBlur={() => setIsEditing(null)}
-                className="text-base bg-white/10 border-white/20 text-white mt-4"
-                placeholder="Date..."
-                autoFocus
-              />
-            ) : (
-              <p
-                className="text-base cursor-pointer hover:opacity-90 transition-opacity mt-4 ml-1"
-                onClick={() => setIsEditing("date")}
-              >
-                {content.date || "October 23, 2025"}
-              </p>
-            )}
-          </div>
-
-          <div className="ml-8 max-w-xs mt-1">
-            {isEditing === "quote" ? (
-              <Textarea
-                value={content.quote || ""}
-                onChange={(e) => onUpdate({ ...content, quote: e.target.value })}
-                onBlur={() => setIsEditing(null)}
-                className="text-base italic bg-white/10 border-white/20 text-white"
-                placeholder="Quote..."
-                autoFocus
-              />
-            ) : (
-              <p
-                className="text-base italic cursor-pointer hover:opacity-90 transition-opacity whitespace-pre-wrap"
-                onClick={() => setIsEditing("quote")}
-              >
-                {content.quote ? `"${content.quote}"` : <span className="opacity-70">Click to add quote...</span>}
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const imagePosition = content.imagePosition || "top";
 
   return (
-    <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))]", isHalfWidth && "bg-muted/10")}>
+    <div className={cn("p-6 bg-white", isHalfWidth && "")}>
       {isEditing === "title" ? (
         <Input
           value={content.title || ""}
           onChange={(e) => onUpdate({ ...content, title: e.target.value })}
           onBlur={() => setIsEditing(null)}
-          className="mb-3 text-xl font-bold text-primary"
+          className="mb-3 text-lg font-bold"
+          style={{ color: 'hsl(220 60% 10%)' }}
           placeholder="Article title..."
           autoFocus
         />
       ) : (
         <h3
-          className="text-xl font-bold text-primary mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+          className="text-lg font-bold mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+          style={{ color: 'hsl(220 60% 10%)' }}
           onClick={() => setIsEditing("title")}
         >
           {content.title || "Click to add title..."}

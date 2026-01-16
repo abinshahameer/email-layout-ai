@@ -4,7 +4,7 @@ import { useState } from "react";
 interface FooterSectionProps {
   content: {
     links?: string[];
-    url?:string[];
+    url?: string[];
     copyright?: string;
   };
   onUpdate: (content: any) => void;
@@ -14,38 +14,50 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
   return (
-    <div className="bg-muted p-8 text-center">
-      <div className="flex justify-center gap-6 mb-4 text-base">
-        {(content.links || []).map((link, index) => (
+    <div 
+      className="text-center"
+      style={{ backgroundColor: 'hsl(213 100% 30%)' }}
+    >
+      {/* Footer links */}
+      <div className="py-4 px-8 flex justify-center items-center gap-8 text-sm text-white">
+        {(content.links || ["Subscribe", "View in browser", "Privacy policy"]).map((link, index) => (
           <a
             key={index}
-            href={content?.url[index]}
-            className="text-primary hover:underline"
-            target="_blank" 
+            href={content?.url?.[index] || "#"}
+            className="hover:underline hover:opacity-80 transition-opacity"
+            target="_blank"
             rel="noopener noreferrer"
-
           >
             {link}
           </a>
         ))}
       </div>
 
-      {isEditing === "copyright" ? (
-        <Input
-          value={content.copyright || ""}
-          onChange={(e) => onUpdate({ ...content, copyright: e.target.value })}
-          onBlur={() => setIsEditing(null)}
-          className="max-w-md mx-auto text-base text-center"
-          autoFocus
-        />
-      ) : (
-        <p
-          className="text-base text-muted-foreground cursor-pointer hover:bg-background/50 rounded px-2 py-1 inline-block transition-colors"
-          onClick={() => setIsEditing("copyright")}
-        >
-          {content.copyright || "Click to add copyright..."}
-        </p>
-      )}
+      {/* Copyright */}
+      <div 
+        className="py-3 px-8 text-xs"
+        style={{ 
+          backgroundColor: 'hsl(213 100% 25%)',
+          color: 'rgba(255, 255, 255, 0.8)'
+        }}
+      >
+        {isEditing === "copyright" ? (
+          <Input
+            value={content.copyright || ""}
+            onChange={(e) => onUpdate({ ...content, copyright: e.target.value })}
+            onBlur={() => setIsEditing(null)}
+            className="max-w-md mx-auto text-xs text-center bg-transparent border-white/20 text-white"
+            autoFocus
+          />
+        ) : (
+          <p
+            className="cursor-pointer hover:opacity-80 transition-opacity inline-block"
+            onClick={() => setIsEditing("copyright")}
+          >
+            {content.copyright || "TCS Pace Port, São Paulo. All rights reserved"}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
