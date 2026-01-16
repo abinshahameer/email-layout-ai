@@ -39,7 +39,7 @@ const renderSection = (section: NewsletterSection): string => {
               <v:fill type="tile" src="${bgImage || ''}" color="#0052a3" />
               <v:textbox inset="0,0,0,0">
               <![endif]-->
-              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 60px 24px; text-align: center;">
+              <div style="background: linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(0,52,100,0.85) 100%); padding: 30px 24px; text-align: center;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
                     <td style="text-align: center; padding-bottom: 16px;">
