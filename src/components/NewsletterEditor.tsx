@@ -295,7 +295,7 @@ const NewsletterEditor = () => {
             
             {/* <Button
               variant="outline"
-              size="sm"
+              size="sm" Disabled
               onClick={() => setShowAI(!showAI)}
             >
               <Sparkles className="w-4 h-4 mr-2" />
