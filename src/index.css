@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 15%;
 
-    --primary: 213 94% 48%;
+    --primary: 213 100% 30%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 32% 91%;
@@ -26,7 +26,7 @@ All colors MUST be HSL.
     --muted: 210 40% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 217 91% 60%;
+    --accent: 213 100% 40%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -34,28 +34,33 @@ All colors MUST be HSL.
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 213 94% 48%;
+    --ring: 213 100% 30%;
 
     --radius: 0rem;
 
-    --sidebar-background: 220 13% 18%;
+    --sidebar-background: 220 60% 10%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 213 94% 48%;
+    --sidebar-primary: 213 100% 30%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 217 19% 27%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 19% 27%;
-    --sidebar-ring: 213 94% 48%;
+    --sidebar-ring: 213 100% 30%;
     
-    /* Newsletter specific tokens */
-    --newsletter-header-bg: 220 13% 23%;
-    --newsletter-hero-gradient-start: 213 94% 48%;
-    --newsletter-hero-gradient-end: 217 91% 35%;
+    /* Newsletter specific tokens - TCS Pace Port São Paulo theme */
+    --newsletter-header-bg: 220 60% 10%;
+    --newsletter-header-top-bg: 220 60% 8%;
+    --newsletter-hero-gradient-start: 213 100% 30%;
+    --newsletter-hero-gradient-end: 220 60% 12%;
+    --newsletter-hero-text: 0 0% 100%;
     --newsletter-section-border: 214 32% 88%;
     --newsletter-sidebar-bg: 215 16% 47%;
-    --newsletter-link: 213 94% 48%;
-    --newsletter-puzzle-bg: 210 80% 95%;
-    --newsletter-puzzle-bg-alt: 210 80% 95%;
+    --newsletter-link: 213 100% 30%;
+    --newsletter-puzzle-bg: 213 100% 95%;
+    --newsletter-puzzle-bg-alt: 213 100% 93%;
+    --newsletter-footer-bg: 213 100% 30%;
+    --newsletter-date-badge-bg: 46 100% 50%;
+    --newsletter-date-badge-text: 220 60% 10%;
   }
 
   .dark {
@@ -68,7 +73,7 @@ All colors MUST be HSL.
     --popover: 220 13% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 55%;
+    --primary: 213 100% 40%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 19% 20%;
@@ -77,7 +82,7 @@ All colors MUST be HSL.
     --muted: 217 19% 20%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 207 90% 54%;
+    --accent: 213 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 63% 31%;
@@ -85,20 +90,21 @@ All colors MUST be HSL.
 
     --border: 217 19% 27%;
     --input: 217 19% 27%;
-    --ring: 217 91% 55%;
+    --ring: 213 100% 40%;
     
     --sidebar-background: 220 13% 12%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 55%;
+    --sidebar-primary: 213 100% 40%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 217 19% 20%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 19% 20%;
-    --sidebar-ring: 217 91% 55%;
+    --sidebar-ring: 213 100% 40%;
     
-    --newsletter-header-bg: 220 13% 12%;
+    --newsletter-header-bg: 220 60% 8%;
+    --newsletter-header-top-bg: 220 60% 6%;
     --newsletter-section-border: 217 19% 27%;
-    --newsletter-highlight: 207 90% 54%;
+    --newsletter-highlight: 213 100% 50%;
   }
 }
 

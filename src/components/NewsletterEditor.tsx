@@ -35,61 +35,84 @@ const initialSections: NewsletterSection[] = [
     type: "header",
     content: {
       logo: "TCS",
-      episode: "Episode 02",
-      lab: "Rapid Innovation Labs"
+      episode: "Episode 01",
+      lab: "Pace Port, São Paulo",
+      date: "January 2026"
     }
-  },
-  {
-    id: "hero",
-    type: "article",
-    content: {
-      title: "RAPID CIRCUIT",
-      isHero: true,
-      quote: "Backup is not a feature; its a foundation.",
-      date: "Oct 23th 2025"
-    },
-    rowLayout: "full"
   },
   {
     id: "article-1",
     type: "article",
     content: {
-      title: "Claude Code for Web",
-      description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
-      link: "https://www.anthropic.com/news/claude-code-on-the-web",
-      linkText: "Anthropic News"
+      title: "Innovation Workshop",
+      description: "Join us for an exciting innovation workshop at Pace Port São Paulo. This event brings together industry leaders and creative minds to explore the latest trends in technology and business transformation. Learn from experts and network with peers.",
+      link: "#",
+      linkText: "Learn More"
     },
-    rowLayout: "full"
+    rowLayout: "half"
   },
   {
     id: "article-2",
     type: "article",
     content: {
-      title: "DeepSemantic",
-      description: "Google Research, in collaboration with the University of California, Berkeley, recently introduced DeepSomatic v1.8—an upgrade that enhances somatic variant detection using deep learning. The model leverages convolutional neural networks to detect mutations. Compatible with Illumina, Pacific Biosciences (PacBio), and Oxford Nanopore Technologies (ONT) sequencing data, DeepSomatic provides highly accurate variant calls, seamlessly integrating with existing tools validated on real clinical samples.",
-      link: "https://research.google/blog/deepsomatic-accurate-somatic",
-      linkText: "Google Research Blog"
+      title: "Tech Summit 2026",
+      description: "The annual Tech Summit returns to São Paulo with keynote speakers from around the world. Discover breakthrough technologies, AI innovations, and digital transformation strategies that are shaping the future of business.",
+      link: "#",
+      linkText: "Register Now"
     },
-    rowLayout: "full"
+    rowLayout: "half"
   },
   {
     id: "article-3",
     type: "article",
     content: {
-      title: "Claude Code for Web",
-      description: "Have you ever wanted to write code without setting up an environment or even typing a single line? Introducing Prompt for Anthropic Claude Code for Web. The simple, web interface device users want to develop programs in various languages without running any commands on their local system.",
-      link: "https://www.anthropic.com/news/claude-code-on-the-web",
-      linkText: "Anthropic News"
+      title: "Design Thinking Session",
+      description: "Experience our hands-on design thinking workshop. This interactive session helps teams develop creative problem-solving skills and innovative approaches to complex challenges. Perfect for product teams and innovators.",
+      link: "#",
+      linkText: "Book Your Spot"
     },
-    rowLayout: "full"
+    rowLayout: "half"
+  },
+  {
+    id: "article-4",
+    type: "article",
+    content: {
+      title: "Cloud Computing Masterclass",
+      description: "Deep dive into cloud architecture and best practices with our expert-led masterclass. Learn about scalable solutions, security frameworks, and cost optimization strategies for enterprise cloud deployments.",
+      link: "#",
+      linkText: "Enroll Today"
+    },
+    rowLayout: "half"
+  },
+  {
+    id: "article-5",
+    type: "article",
+    content: {
+      title: "Startup Pitch Day",
+      description: "Calling all entrepreneurs! Present your innovative ideas to a panel of investors and industry experts. This is your chance to get funding, mentorship, and valuable feedback for your startup.",
+      link: "#",
+      linkText: "Apply Now"
+    },
+    rowLayout: "half"
+  },
+  {
+    id: "article-6",
+    type: "article",
+    content: {
+      title: "AI & Machine Learning Forum",
+      description: "Explore the cutting edge of artificial intelligence and machine learning. Industry practitioners share real-world case studies and implementation strategies for AI-powered solutions.",
+      link: "#",
+      linkText: "Join Us"
+    },
+    rowLayout: "half"
   },
   {
     id: "footer",
     type: "footer",
     content: {
-      links: ["Subscribe", "View in Browser", "Privacy Policy"],
-      url:["https://forms.office.com/r/8exqUT0nmD","https://www.tcs.com/who-we-are/newsroom/tcs-in-the-news/tcs-rapid-labs","https://www.tcs.com/who-we-are/newsroom/tcs-in-the-news/tcs-rapid-labs"],
-      copyright: "© 2025 Rapid Innovation Labs. All rights reserved."
+      links: ["Subscribe", "View in browser", "Privacy policy"],
+      url: ["#", "#", "#"],
+      copyright: "TCS Pace Port, São Paulo. All rights reserved"
     }
   }
 ];
