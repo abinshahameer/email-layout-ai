@@ -105,7 +105,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
           
           {/* Subtitle */}
           {isEditing === "subtitle" ? (
-            <Textarea
+            <textarea
               value={content.subtitle}
               onChange={(e) => onUpdate({ ...content, subtitle: e.target.value })}
               onBlur={() => setIsEditing(null)}
