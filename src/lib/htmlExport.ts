@@ -3,7 +3,7 @@ import { format } from "date-fns";
 
 const renderSection = (section: NewsletterSection): string => {
   switch (section.type) {
-    case "header":
+    case "header": {
       const bgImage = section.content.backgroundImage || '';
       const heroStyle = bgImage 
         ? `background-image: url('${bgImage}'); background-size: cover; background-position: center;`
@@ -20,9 +20,21 @@ const renderSection = (section: NewsletterSection): string => {
           </tr>
         </table>
       ` : "";
-
       return `
         <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <!-- Main Header Section -->
+          <tr>
+            <td style="background-color: #ffffff; padding: 16px 24px; border-bottom: 1px solid #e5e7eb;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="text-align: left;">
+                    <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #0a1628;">Newsletter Builder</h1>
+                    <p style="margin: 0; font-size: 14px; color: #666666;">Email newsletter editor</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
           <!-- Hero section with background image -->
           <tr>
             <td style="${heroStyle} position: relative; padding: 80px 24px; text-align: center;">
@@ -70,56 +82,8 @@ const renderSection = (section: NewsletterSection): string => {
           </tr>
         </table>
       `;
-
-    case "article":
-      // Skip hero sections (now handled by header)
-      if (section.content.isHero) {
-        return "";
-      }
-      
-      const imagePosition = section.content.imagePosition || "top";
-      const imageSize = section.content.imageSize || 100;
-      
-      return `
-        <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff;">
-          <tr>
-            <td style="padding: 20px;">
-              <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #0a1628;" data-property="title">
-                ${section.content.title || ""}
-              </h3>
-              ${section.content.date ? `
-                <p style="margin: 0 0 12px 0; font-size: 14px; color: #666666;" data-property="date">
-                  ${format(new Date(section.content.date), "PPP")}
-                </p>
-              ` : ""}
-              
-              ${section.content.image && imagePosition === "top" ? `
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">
-                  <tr>
-                    <td align="center">
-                      <img 
-                        src="${section.content.image}" 
-                        alt="${section.content.imageAlt || 'Article image'}" 
-                        width="${imageSize}%" 
-                        style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
-                        data-property="image"
-                        data-image-size="${imageSize}"
-                        data-image-position="${imagePosition}"
-                      />
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <!--[if mso]>
-              </v:textbox>
-              </v:rect>
-              <![endif]-->
-            </td>
-          </tr>
-        </table>
-      `;
-
-    case "article":
+    }
+    case "article": {
       // Skip hero sections (now handled by header)
       if (section.content.isHero) {
         return "";
@@ -212,8 +176,8 @@ const renderSection = (section: NewsletterSection): string => {
           </tr>
         </table>
       `;
-
-    case "comic":
+    }
+        case "comic": {
       if (section.content.image) {
         const imageSize = section.content.imageSize || 100;
         return `
@@ -240,8 +204,11 @@ const renderSection = (section: NewsletterSection): string => {
         `;
       }
       return "";
+    }
 
-    case "puzzle":
+
+
+    case "puzzle": {
       const puzzleType = section.content.puzzleType || "image";
       const puzzleImageSize = section.content.puzzleImageSize || 100;
       return `
@@ -295,8 +262,8 @@ const renderSection = (section: NewsletterSection): string => {
           </tr>
         </table>
       `;
-
-    case "extended-reading":
+                    }
+    case "extended-reading": {
       const links = (section.content.links || [])
         .map((link: { title: string; url: string }) => `
           <tr data-property="link-item">
@@ -323,9 +290,9 @@ const renderSection = (section: NewsletterSection): string => {
           </table>
         `;
       }
-      return "";
+      return "";}
 
-    case "footer":
+    case "footer": {
       const footerLinks = (section.content.links || [])
         .map((link: string, index: any) => `<a href="${section.content.url?.[index] || '#'}" target="_blank" rel="noopener noreferrer" style="color: #ffffff !important; text-decoration: none; margin: 0 12px; font-size: 13px; cursor: pointer;" data-property="link">${link}</a>`)
         .join("");
@@ -347,7 +314,7 @@ const renderSection = (section: NewsletterSection): string => {
             </td>
           </tr>
         </table>
-      `;
+      `;}
 
     default:
       return "";

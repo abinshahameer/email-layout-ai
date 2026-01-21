@@ -316,14 +316,7 @@ const NewsletterEditor = () => {
               {previewMode === "desktop" ? "Desktop" : "Mobile"}
             </Button>
             
-            {/* <Button
-              variant="outline"
-              size="sm" Disabled
-              onClick={() => setShowAI(!showAI)}
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              AI Assistant
-            </Button> */}
+
 
             <input
               type="file"
