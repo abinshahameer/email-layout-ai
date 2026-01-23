@@ -30,7 +30,7 @@ const renderSection = (section: NewsletterSection): string => {
               <v:fill type="frame" src="${bgImage || ''}" color="#0052a3" />
               <v:textbox inset="0,0,0,0">
               <![endif]-->
-              <div style="background: linear-gradient(180deg, rgba(0, 20, 40, 0.8) 0%, rgba(0, 40, 80, 0.9) 100%); padding:20px 24px 50px 24px;">
+              <div style="background-color: rgba(0, 20, 40, 0.85); padding:20px 24px 50px 24px;">
                 <!-- Logo and Date -->
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 48px;">
                   <tr>
