@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Upload, Link as LinkIcon, Edit } from "lucide-react";
@@ -23,13 +23,52 @@ interface HeaderSectionProps {
 export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!content.backgroundImage) {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+          gradient.addColorStop(0, 'rgba(0, 20, 40, 0.8)');
+          gradient.addColorStop(1, 'rgba(0, 40, 80, 0.9)');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg');
+          onUpdate({ ...content, backgroundImage: dataUrl });
+        }
+      };
+      img.src = heroBackground;
+    }
+  }, []);
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        onUpdate({ ...content, backgroundImage: reader.result as string });
-        setIsEditing(null);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0);
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, 'rgba(0, 20, 40, 0.8)');
+            gradient.addColorStop(1, 'rgba(0, 40, 80, 0.9)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            onUpdate({ ...content, backgroundImage: dataUrl });
+          }
+        };
+        img.src = event.target?.result as string;
       };
       reader.readAsDataURL(file);
     }
@@ -48,13 +87,8 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
           backgroundPosition: 'center'
         }}
       >
-        {/* Dark overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(180deg, rgba(0, 20, 40, 0.8) 0%, rgba(0, 40, 80, 0.9) 100%)'
-          }}
-        />
+    {/* Dark overlay */}
+    
 
         {/* Content */}
         <div className="relative z-10">

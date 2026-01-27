@@ -22,15 +22,15 @@ const renderSection = (section: NewsletterSection): string => {
       ` : "";
       return `
         <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <!-- Hero section with background image -->
           <tr>
             <td style="${heroStyle} text-align: center; background-color: #0052a3;">
               <!--[if mso]>
-              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;height:550px;">
-              <v:fill type="frame" src="${bgImage || ''}" color="#0052a3" />
-              <v:textbox inset="0,0,0,0">
+              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;">
+                <v:fill type="frame" src="${bgImage}" color="#002850" />
+                <v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0">
+                  <div style="padding:20px 24px 50px 24px;">
               <![endif]-->
-              <div style="background-color: rgba(0, 20, 40, 0.85); padding:20px 24px 50px 24px;">
+              <div style="padding:20px 24px 50px 24px;">
                 <!-- Logo and Date -->
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 48px;">
                   <tr>
@@ -62,7 +62,8 @@ const renderSection = (section: NewsletterSection): string => {
                 ${ctaButton}
               </div>
               <!--[if mso]>
-              </v:textbox>
+                  </div>
+                </v:textbox>
               </v:rect>
               <![endif]-->
             </td>
