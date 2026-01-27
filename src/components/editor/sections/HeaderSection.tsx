@@ -152,7 +152,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
               className="text-white/80 text-lg max-w-2xl mx-auto mt-6 cursor-pointer hover:bg-white/5 rounded py-2"
               onClick={() => setIsEditing("subtitle")}
             >
-              {content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem, designed to inspire and inform."}
+              {content.subtitle || "A monthly digest of the latest news, events, and innovations from Pace Port São Paulo, designed to inspire and inform."}
             </p>
           )}
 
