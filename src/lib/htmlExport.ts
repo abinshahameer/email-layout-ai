@@ -55,7 +55,7 @@ const renderSection = (section: NewsletterSection): string => {
                 
                 <!-- Subtitle -->
                 <p style="margin: 24px auto 0 auto; font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.8); max-width: 600px;" data-property="subtitle">
-                  ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations from our ecosystem, designed to inspire and inform."}
+                  ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations from Pace Port São Paulo, designed to inspire and inform."}
                 </p>
 
                 <!-- CTA Button -->
