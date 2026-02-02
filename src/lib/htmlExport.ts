@@ -116,7 +116,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
                     ${imagePosition === "left" ? `
-                      <td width="${imageSize}%" style="padding-right: 20px; vertical-align: top;">
+                      <td width="${imageSize}%" style="padding-right: 20px; vertical-align: middle;">
                         <img 
                           src="${section.content.image}" 
                           alt="${section.content.imageAlt || 'Article image'}" 
@@ -141,7 +141,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                       ` : ""}
                     </td>
                     ${imagePosition === "right" ? `
-                      <td width="${imageSize}%" style="padding-left: 20px; vertical-align: top;">
+                      <td width="${imageSize}%" style="padding-left: 20px; vertical-align: middle;">
                         <img 
                           src="${section.content.image}" 
                           alt="${section.content.imageAlt || 'Article image'}" 
