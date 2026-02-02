@@ -28,9 +28,10 @@ interface ArticleSectionProps {
   };
   onUpdate: (content: any) => void;
   isHalfWidth?: boolean;
+  isAlternate?: boolean;
 }
 
-export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectionProps) => {
+export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: ArticleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [croppingImage, setCroppingImage] = useState<string | null>(null);
 
@@ -59,7 +60,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectio
   const imagePosition = content.imagePosition || "top";
 
   return (
-    <div className={cn("p-6 bg-white", isHalfWidth && "")}>
+    <div className={cn("p-6", isAlternate ? "bg-gray-50" : "bg-white", isHalfWidth && "")}>
       {isEditing === "title" ? (
         <Input
           value={content.title || ""}

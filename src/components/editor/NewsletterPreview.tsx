@@ -15,7 +15,7 @@ interface NewsletterPreviewProps {
 }
 
 export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: NewsletterPreviewProps) => {
-  const renderSection = (section: NewsletterSection, isHalfWidth: boolean = false) => {
+  const renderSection = (section: NewsletterSection, isHalfWidth: boolean = false, isAlternate: boolean = false) => {
     const commonProps = {
       key: section.id,
       content: section.content,
@@ -29,7 +29,7 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
       case "article":
         // Skip hero articles (now integrated into header)
         if (section.content.isHero) return null;
-        return <ArticleSection {...commonProps} />;
+        return <ArticleSection {...commonProps} isAlternate={isAlternate} />;
       case "comic":
         return <ComicSection {...commonProps} />;
       case "puzzle":
@@ -46,6 +46,7 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
   const renderSections = () => {
     const elements: JSX.Element[] = [];
     let i = 0;
+    let isAlternate = false; // Initialize alternation state
 
     while (i < sections.length) {
       const section = sections[i];
@@ -69,25 +70,31 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
         const nextSection = sections[i + 1];
         // Skip if next is header/footer/extended-reading or hero
         if (nextSection.type !== "header" && nextSection.type !== "footer" && nextSection.type !== "extended-reading" && !nextSection.content?.isHero) {
-          const firstRendered = renderSection(section, true);
-          const secondRendered = renderSection(nextSection, true);
+          // Pass isAlternate to first, !isAlternate to second
+          const firstRendered = renderSection(section, true, isAlternate);
+          const secondRendered = renderSection(nextSection, true, !isAlternate);
+          
           if (firstRendered && secondRendered) {
+            const leftBg = isAlternate ? "bg-gray-50" : "bg-white";
+            const rightBg = !isAlternate ? "bg-gray-50" : "bg-white";
             elements.push(
               <div key={`row-${section.id}-${nextSection.id}`} className="grid grid-cols-2">
-                <div className="border-r border-gray-200">{firstRendered}</div>
-                <div>{secondRendered}</div>
+                <div className={`border-r border-gray-200 ${leftBg}`}>{firstRendered}</div>
+                <div className={rightBg}>{secondRendered}</div>
               </div>
             );
           }
           i += 2;
+          isAlternate = !isAlternate; // Toggle for next row
           continue;
         }
       }
 
       // Render single section
-      const rendered = renderSection(section, section.rowLayout === "half");
+      const rendered = renderSection(section, section.rowLayout === "half", isAlternate);
       if (rendered) elements.push(rendered);
       i++;
+      isAlternate = !isAlternate; // Toggle for next row
     }
 
     return elements;

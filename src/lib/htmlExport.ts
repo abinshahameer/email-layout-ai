@@ -1,7 +1,7 @@
 import { NewsletterSection } from "@/components/NewsletterEditor";
 import { format } from "date-fns";
 
-const renderSection = (section: NewsletterSection): string => {
+const renderSection = (section: NewsletterSection, isAlternate: boolean = false): string => {
   switch (section.type) {
     case "header": {
       const bgImage = section.content.backgroundImage || '';
@@ -79,9 +79,10 @@ const renderSection = (section: NewsletterSection): string => {
       
       const imagePosition = section.content.imagePosition || "top";
       const imageSize = section.content.imageSize || 100;
+      const backgroundColor = isAlternate ? '#F9FAFB' : '#FFFFFF';
       
       return `
-        <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff;">
+        <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: ${backgroundColor};">
           <tr>
             <td style="padding: 24px;">
               <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #0a1628;" data-property="title">
@@ -358,6 +359,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
 
   let bodyContent = "";
   let i = 0;
+  let isAlternate = false;
 
   while (i < sections.length) {
     const section = sections[i];
@@ -368,7 +370,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
       continue;
     }
 
-    // Header, footer, and extended reading are always full width
+    // Header, footer, and extended reading are always full width and don't affect alternation
     if (section.type === "header" || section.type === "footer" || section.type === "extended-reading") {
       bodyContent += renderSection(section);
       i++;
@@ -379,28 +381,33 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     if (section.rowLayout === "half" && i + 1 < sections.length && sections[i + 1].rowLayout === "half") {
       const nextSection = sections[i + 1];
       // Skip if next is header/footer/extended-reading
-      if (nextSection.type !== "header" && nextSection.type !== "footer" && nextSection.type !== "extended-reading") {
+      if (nextSection.type !== "header" && nextSection.type !== "footer" && nextSection.type !== "extended-reading" && !nextSection.content?.isHero) {
+        const leftBgColor = isAlternate ? '#F9FAFB' : '#FFFFFF';
+        const rightBgColor = !isAlternate ? '#F9FAFB' : '#FFFFFF';
+        
         // Render two sections side by side
         bodyContent += `
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <td width="50%" style="vertical-align: top; border-right: 1px solid #e5e7eb;">
-                ${renderSection(section)}
+              <td width="50%" style="vertical-align: top; border-right: 1px solid #e5e7eb; background-color: ${leftBgColor};">
+                ${renderSection(section, isAlternate)}
               </td>
-              <td width="50%" style="vertical-align: top;">
-                ${renderSection(nextSection)}
+              <td width="50%" style="vertical-align: top; background-color: ${rightBgColor};">
+                ${renderSection(nextSection, !isAlternate)}
               </td>
             </tr>
           </table>
         `;
         i += 2;
+        isAlternate = !isAlternate; // Toggle for the next row
         continue;
       }
     }
 
     // Render single section
-    bodyContent += renderSection(section);
+    bodyContent += renderSection(section, isAlternate);
     i++;
+    isAlternate = !isAlternate; // Toggle for the next section
   }
 
   return `
@@ -429,7 +436,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
       <td align="center" style="padding: 0;">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; max-width: 600px;" id="newsletter-container">
           <tr>
-            <td>
+            <td style="font-size: 0;">
               ${bodyContent}
             </td>
           </tr>
