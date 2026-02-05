@@ -34,8 +34,8 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         if (ctx) {
           ctx.drawImage(img, 0, 0);
           const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-          gradient.addColorStop(0, 'rgba(0, 20, 40, 0.8)');
-          gradient.addColorStop(1, 'rgba(0, 40, 80, 0.9)');
+          gradient.addColorStop(0, 'rgba(0, 20, 40, 0.7)');
+          gradient.addColorStop(1, 'rgba(0, 40, 80, 0.8)');
           ctx.fillStyle = gradient;
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           const dataUrl = canvas.toDataURL('image/jpeg');
