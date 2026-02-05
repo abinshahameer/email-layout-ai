@@ -33,7 +33,7 @@ export const AIAssistant = ({ sections, onUpdateSections, onClose }: AIAssistant
   };
 
   return (
-    <Card className="w-96 m-4 flex flex-col shadow-xl">
+    <Card className="w-full sm:w-96 m-4 flex flex-col shadow-xl">
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />

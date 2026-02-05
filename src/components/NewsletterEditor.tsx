@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Sidebar } from "@/components/ui/sidebar";
-import { Download, Sparkles, Eye, Copy, Upload } from "lucide-react";
+import { Download, Sparkles, Eye, Copy, Upload, Menu } from "lucide-react";
 import { EditorSidebar } from "./editor/EditorSidebar";
 import { NewsletterPreview } from "./editor/NewsletterPreview";
 import { AIAssistant } from "./editor/AIAssistant";
@@ -11,6 +11,12 @@ import { parseImportedHTML } from "@/lib/htmlImport";
 import { useToast } from "@/hooks/use-toast";
 import { getSections, saveSections } from "@/lib/db";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -125,6 +131,8 @@ const NewsletterEditor = () => {
   const [showLoadPrompt, setShowLoadPrompt] = useState(false);
   const [savedSections, setSavedSections] = useState<NewsletterSection[] | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
+
+  const isMobile = useIsMobile();
 
   const debouncedSections = useDebounce(sections, 500);
 
@@ -286,27 +294,43 @@ const NewsletterEditor = () => {
     }
   };
   
+  const editorSidebar = (
+    <EditorSidebar
+      sections={sections}
+      onAddSection={addSection}
+      onDeleteSection={deleteSection}
+      onReorderSections={reorderSections}
+      onUpdateSection={(id: string, updates: Partial<NewsletterSection>) => {
+        setSections(sections.map(s => s.id === id ? { ...s, ...updates } : s));
+      }}
+    />
+  );
 
   return (
     <div className="flex h-screen w-full bg-background">
-      <EditorSidebar 
-        sections={sections}
-        onAddSection={addSection}
-        onDeleteSection={deleteSection}
-        onReorderSections={reorderSections}
-        onUpdateSection={(id: string, updates: Partial<NewsletterSection>) => {
-          setSections(sections.map(s => s.id === id ? { ...s, ...updates } : s));
-        }}
-      />
+      {isMobile ? (
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="absolute top-5 left-4 z-30">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-72">
+            {editorSidebar}
+          </SheetContent>
+        </Sheet>
+      ) : (
+        editorSidebar
+      )}
       
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="border-b bg-card px-6 py-4 flex items-center justify-between">
-          <div>
+        <header className="border-b bg-card px-6 py-4 flex items-center justify-between flex-wrap gap-4 md:justify-between justify-center">
+          <div className={isMobile ? "pl-12" : ""}>
             <h1 className="text-2xl font-bold text-foreground">Newsletter Builder</h1>
             <p className="text-sm text-muted-foreground">Email newsletter editor</p>
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap justify-center">
             <Button
               variant="outline"
               size="sm"
@@ -343,7 +367,7 @@ const NewsletterEditor = () => {
         </header>
 
         <div className="flex-1 flex overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-8">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-8">
             <NewsletterPreview
               sections={sections}
               onUpdateSection={updateSection}

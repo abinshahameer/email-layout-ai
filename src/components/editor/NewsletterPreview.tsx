@@ -78,8 +78,8 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
             const leftBg = isAlternate ? "bg-gray-50" : "bg-white";
             const rightBg = !isAlternate ? "bg-gray-50" : "bg-white";
             elements.push(
-              <div key={`row-${section.id}-${nextSection.id}`} className="grid grid-cols-2">
-                <div className={`border-r border-gray-200 ${leftBg}`}>{firstRendered}</div>
+              <div key={`row-${section.id}-${nextSection.id}`} className="grid grid-cols-1 sm:grid-cols-2">
+                <div className={`border-b sm:border-r border-gray-200 ${leftBg}`}>{firstRendered}</div>
                 <div className={rightBg}>{secondRendered}</div>
               </div>
             );
@@ -103,7 +103,7 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
   return (
     <Card className={cn(
       "mx-auto bg-white shadow-lg transition-all duration-300",
-      previewMode === "desktop" ? "max-w-3xl" : "max-w-md"
+      previewMode === "desktop" ? "sm:max-w-3xl" : "sm:max-w-md"
     )}>
       <div className="newsletter-container">
         {renderSections()}

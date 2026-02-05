@@ -60,20 +60,20 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
   const imagePosition = content.imagePosition || "top";
 
   return (
-    <div className={cn("p-6", isAlternate ? "bg-gray-50" : "bg-white", isHalfWidth && "")}>
+    <div className={cn("p-4 sm:p-6", isAlternate ? "bg-gray-50" : "bg-white", isHalfWidth && "")}>
       {isEditing === "title" ? (
         <Input
           value={content.title || ""}
           onChange={(e) => onUpdate({ ...content, title: e.target.value })}
           onBlur={() => setIsEditing(null)}
-          className="mb-3 text-lg font-bold"
+          className="mb-3 text-base sm:text-lg font-bold"
           style={{ color: 'hsl(220 60% 10%)' }}
           placeholder="Article title..."
           autoFocus
         />
       ) : (
         <h3
-          className="text-lg font-bold mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+          className="text-base sm:text-lg font-bold mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
           style={{ color: 'hsl(220 60% 10%)' }}
           onClick={() => setIsEditing("title")}
         >
@@ -209,7 +209,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
         </div>
       )}
 
-      <div className={imagePosition === "left" || imagePosition === "right" ? "flex gap-4 items-center" : ""}>
+      <div className={imagePosition === "left" || imagePosition === "right" ? "md:flex gap-4 md:items-center" : ""}>
         {content.image && imagePosition === "left" && (
           <div style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
             <img

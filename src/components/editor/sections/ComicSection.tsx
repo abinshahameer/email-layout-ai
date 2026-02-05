@@ -38,8 +38,8 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
   };
 
   return (
-    <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20", isHalfWidth && "bg-muted/30")}>
-      <h3 className="text-xl font-bold text-primary mb-4">Comic Section</h3>
+    <div className={cn("p-4 sm:p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20", isHalfWidth && "bg-muted/30")}>
+      <h3 className="text-lg sm:text-xl font-bold text-primary mb-4">Comic Section</h3>
 
       {content.image ? (
         <div className="space-y-3">

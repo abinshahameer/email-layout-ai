@@ -20,7 +20,7 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
     <div>
       {/* Footer links */}
       <div 
-        className="py-4 px-8 flex justify-center items-center gap-8 text-sm text-white"
+        className="py-3 sm:py-4 px-4 sm:px-8 flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-xs sm:text-sm text-white"
         style={{ backgroundColor: '#0052a3' }}
       >
         {links.map((link, index) => (
@@ -38,7 +38,7 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
 
       {/* Copyright */}
       <div 
-        className="py-3 px-8 text-center text-xs"
+        className="py-2 sm:py-3 px-4 sm:px-8 text-center text-[10px] sm:text-xs"
         style={{ 
           backgroundColor: '#003d7a',
           color: 'rgba(255, 255, 255, 0.8)'
@@ -49,7 +49,7 @@ export const FooterSection = ({ content, onUpdate }: FooterSectionProps) => {
             value={content.copyright || ""}
             onChange={(e) => onUpdate({ ...content, copyright: e.target.value })}
             onBlur={() => setIsEditing(null)}
-            className="max-w-md mx-auto text-xs text-center bg-transparent border-white/20 text-white"
+            className="max-w-md mx-auto text-[10px] sm:text-xs text-center bg-transparent border-white/20 text-white"
             autoFocus
           />
         ) : (

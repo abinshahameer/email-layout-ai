@@ -80,7 +80,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
     <div className="relative font-sans">
       {/* Hero section with background image */}
       <div
-        className="relative py-20 px-8 text-center"
+        className="relative py-12 sm:py-20 px-4 sm:px-8 text-center"
         style={{
           backgroundImage: `url(${backgroundImg})`,
           backgroundSize: 'cover',
@@ -93,11 +93,11 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
         {/* Content */}
         <div className="relative z-10">
           {/* Logo and Date */}
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center justify-between mb-8 sm:mb-12">
             <img
               src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
               alt="TCS Logo"
-              className="h-7"
+              className="h-6 sm:h-7"
             />
             {isEditing === "date" ? (
               <Input
@@ -123,13 +123,13 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
               value={content.title}
               onChange={(e) => onUpdate({ ...content, title: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="w-full bg-transparent border-y-2 border-x-0 border-white/20 text-white text-center font-black tracking-[0.2em] uppercase py-4 text-4xl"
+              className="w-full bg-transparent border-y-2 border-x-0 border-white/20 text-white text-center font-black tracking-[0.2em] uppercase py-2 sm:py-4 text-3xl sm:text-4xl"
               placeholder="YOUR TITLE"
               autoFocus
             />
           ) : (
             <h1
-              className="text-white font-black tracking-[0.2em] uppercase border-y-2 border-white/20 py-4 text-4xl cursor-pointer hover:bg-white/5"
+              className="text-white font-black tracking-[0.2em] uppercase border-y-2 border-white/20 py-2 sm:py-4 text-3xl sm:text-4xl cursor-pointer hover:bg-white/5"
               onClick={() => setIsEditing("title")}
               style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)' }}
             >
@@ -143,13 +143,13 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
               value={content.subtitle}
               onChange={(e) => onUpdate({ ...content, subtitle: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="w-full max-w-2xl mx-auto bg-transparent border-none text-white text-center text-lg mt-6"
+              className="w-full max-w-2xl mx-auto bg-transparent border-none text-white text-center text-base sm:text-lg mt-6"
               placeholder="Your engaging subtitle here..."
               autoFocus
             />
           ) : (
             <p
-              className="text-white/80 text-lg max-w-2xl mx-auto mt-6 cursor-pointer hover:bg-white/5 rounded py-2"
+              className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto mt-6 cursor-pointer hover:bg-white/5 rounded py-2"
               onClick={() => setIsEditing("subtitle")}
             >
               {content.subtitle || "A monthly digest of the latest news, events, and innovations from Pace Port São Paulo, designed to inspire and inform."}
@@ -157,7 +157,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
           )}
 
           {/* CTA Button */}
-          <div className="mt-10">
+          <div className="mt-6 sm:mt-10">
             {isEditing === "cta" ? (
               <div className="space-y-2 max-w-sm mx-auto">
                 <Input
@@ -198,7 +198,7 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
          <Button
           variant="secondary"
           size="sm"
-          className="absolute top-4 right-4 z-20 opacity-50 hover:opacity-100"
+          className="absolute top-4 right-4 z-20 opacity-50 hover:opacity-100 hidden sm:flex"
           onClick={() => setIsEditing("backgroundImage")}
         >
           <Upload className="w-4 h-4 mr-2" />
@@ -207,8 +207,8 @@ export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
       )}
 
       {isEditing === "backgroundImage" && (
-        <div className="absolute top-4 right-4 z-20 bg-white p-4 rounded-lg shadow-lg">
-          <Tabs defaultValue="url" className="w-64">
+        <div className="absolute top-4 right-4 z-20 bg-white p-4 rounded-lg shadow-lg w-full sm:w-64">
+          <Tabs defaultValue="url" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="url">URL</TabsTrigger>
               <TabsTrigger value="upload">Upload</TabsTrigger>

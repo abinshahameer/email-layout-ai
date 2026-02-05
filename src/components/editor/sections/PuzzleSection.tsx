@@ -47,20 +47,20 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
   };
 
   return (
-    <div className={cn("p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-[hsl(var(--newsletter-puzzle-bg))]", isHalfWidth && "bg-[hsl(var(--newsletter-puzzle-bg-alt))]")}>
+    <div className={cn("p-4 sm:p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-[hsl(var(--newsletter-puzzle-bg))]", isHalfWidth && "bg-[hsl(var(--newsletter-puzzle-bg-alt))]")}>
       <div className="mb-4 space-y-3">
         {isEditing === "title" ? (
           <Input
             value={content.title || ""}
             onChange={(e) => onUpdate({ ...content, title: e.target.value })}
             onBlur={() => setIsEditing(null)}
-            className="text-2xl font-bold text-primary"
+            className="text-xl sm:text-2xl font-bold text-primary"
             placeholder="Puzzle title..."
             autoFocus
           />
         ) : (
           <h3
-            className="text-2xl font-bold text-primary cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+            className="text-xl sm:text-2xl font-bold text-primary cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
             onClick={() => setIsEditing("title")}
           >
             {content.title || "Click to add puzzle title..."}
@@ -75,7 +75,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
         </Tabs>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="space-y-4">
           {puzzleType === "image" ? (
             content.puzzleImage ? (
