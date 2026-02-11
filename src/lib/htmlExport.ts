@@ -23,7 +23,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       return `
         <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td style="${heroStyle} text-align: center; background-color: #002850;">
+            <td style="${heroStyle} text-align: center; background-color: #002850;" data-property="backgroundImage" data-value="${bgImage}">
               <!--[if mso]>
               <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;">
                 <v:fill type="frame" src="${bgImage}" color="#002850" />

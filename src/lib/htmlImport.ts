@@ -57,7 +57,9 @@ export const parseImportedHTML = (html: string): NewsletterSection[] => {
       for (const propNode of propNodes) {
         const propName = getAttribute(propNode, 'data-property');
         if (propName) {
-          if (propName === 'image' || propName === 'puzzleImage' || propName === 'answerImage') {
+          if (propName === 'backgroundImage') {
+            content[propName] = getAttribute(propNode, 'data-value');
+          } else if (propName === 'image' || propName === 'puzzleImage' || propName === 'answerImage') {
             content[propName] = getAttribute(propNode, 'src');
             const imageSize = getAttribute(propNode, 'data-image-size');
             if (imageSize) {
