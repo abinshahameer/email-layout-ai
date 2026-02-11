@@ -42,8 +42,8 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                         data-property="logo"
                       />
                     </td>
-                    <td style="text-align: right; color: rgba(255, 255, 255, 0.8); font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; font-size: 14px;">
-                      ${section.content.date ? format(new Date(section.content.date), "MMM yyyy").toUpperCase() : "JAN 2026"}
+                    <td style="text-align: right; color: rgba(255, 255, 255, 0.8); font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; font-size: 14px;" data-property="date" data-date-value="${section.content.date || ''}">
+                      ${section.content.date ? (isNaN(new Date(section.content.date).getTime()) ? section.content.date : format(new Date(section.content.date), "MMM yyyy").toUpperCase()) : "JAN 2026"}
                     </td>
                   </tr>
                 </table>
@@ -89,8 +89,8 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 ${section.content.title || ""}
               </h3>
               ${section.content.date ? `
-                <p style="margin: 0 0 16px 0; font-size: 14px; color: #64748b;" data-property="date">
-                  ${format(new Date(section.content.date), "PPP")}
+                <p style="margin: 0 0 16px 0; font-size: 14px; color: #64748b;" data-property="date" data-date-value="${section.content.date}">
+                  ${isNaN(new Date(section.content.date).getTime()) ? section.content.date : format(new Date(section.content.date), "PPP")}
                 </p>
               ` : ""}
               

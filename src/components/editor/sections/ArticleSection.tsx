@@ -92,13 +92,19 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {content.date ? format(new Date(content.date), "PPP") : <span>Pick a date</span>}
+              {content.date ? (
+                isNaN(new Date(content.date).getTime()) 
+                  ? content.date 
+                  : format(new Date(content.date), "PPP")
+              ) : (
+                <span>Pick a date</span>
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
-              selected={content.date ? new Date(content.date) : undefined}
+              selected={content.date && !isNaN(new Date(content.date).getTime()) ? new Date(content.date) : undefined}
               onSelect={(date) => onUpdate({ ...content, date: date?.toISOString() })}
               initialFocus
             />

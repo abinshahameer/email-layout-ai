@@ -72,6 +72,9 @@ export const parseImportedHTML = (html: string): NewsletterSection[] => {
             content.linkText = getAttribute(propNode, 'data-link-text');
           } else if (propName === 'quote') {
             content[propName] = getText(propNode).replace(/"/g, '');
+          } else if (propName === 'date') {
+            const dateValue = getAttribute(propNode, 'data-date-value');
+            content[propName] = dateValue || getText(propNode);
           }
           else {
             content[propName] = getText(propNode);
