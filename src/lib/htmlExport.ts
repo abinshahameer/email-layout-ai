@@ -301,7 +301,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
 
     case "footer": {
       const footerLinks = (section.content.links || [])
-        .map((link: string, index: any) => `<a href="${section.content.url?.[index] || '#'}" target="_blank" rel="noopener noreferrer" style="color: #ffffff !important; text-decoration: none; margin: 0 12px; font-size: 13px; cursor: pointer;" data-property="link">${link}</a>`)
+        .map((link: string, index: any) => `<a href="${section.content.url?.[index] || 'https://www.tcs.com/'}" target="_blank" rel="noopener noreferrer" style="color: #ffffff !important; text-decoration: none; margin: 0 12px; font-size: 13px; cursor: pointer;" data-property="link">${link}</a>`)
         .join("");
       
       return `
