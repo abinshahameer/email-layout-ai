@@ -117,7 +117,7 @@ const initialSections: NewsletterSection[] = [
     type: "footer",
     content: {
       links: ["Subscribe", "View in browser", "Privacy policy"],
-      url: ["#", "#", "#"],
+      url: ["https://www.tcs.com/", "https://www.tcs.com/", "https://www.tcs.com/"],
       copyright: "TCS Pace Port, São Paulo. All rights reserved"
     }
   }
