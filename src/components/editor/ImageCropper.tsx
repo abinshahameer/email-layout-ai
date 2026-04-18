@@ -33,37 +33,39 @@ export function ImageCropper({ image, onCrop, onClose }: ImageCropperProps) {
     });
   };
 
-  const getCroppedImg = () => {
-    const image = imageRef.current;
-    if (!image || !crop || !crop.width || !crop.height) {
-      return;
-    }
+const getCroppedImg = () => {
+  const image = imageRef.current;
+  if (!image || !crop || !crop.width || !crop.height) return;
 
-    const canvas = document.createElement("canvas");
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-    canvas.width = crop.width;
-    canvas.height = crop.height;
-    const ctx = canvas.getContext("2d");
+  const canvas = document.createElement("canvas");
 
-    if (!ctx) {
-      return;
-    }
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
 
-    ctx.drawImage(
-      image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      crop.width,
-      crop.height
-    );
+  const maxWidth = 600; // 🔥 important for email
+  const scale = Math.min(1, maxWidth / crop.width);
 
-    return canvas.toDataURL("image/jpeg");
-  };
+  canvas.width = crop.width * scale;
+  canvas.height = crop.height * scale;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  // 🔥 quality compression
+  return canvas.toDataURL("image/jpeg", 0.6);
+};
 
   const handleCrop = () => {
     const croppedImage = getCroppedImg();
