@@ -23,56 +23,93 @@ interface HeaderSectionProps {
 export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!content.backgroundImage) {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(img, 0, 0);
-          const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-          gradient.addColorStop(0, 'rgba(0, 20, 40, 0.7)');
-          gradient.addColorStop(1, 'rgba(0, 40, 80, 0.8)');
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          const dataUrl = canvas.toDataURL('image/jpeg');
-          onUpdate({ ...content, backgroundImage: dataUrl });
-        }
-      };
-      img.src = heroBackground;
-    }
-  }, []);
+useEffect(() => {
+  if (!content.backgroundImage) {
+    const img = new Image();
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            ctx.drawImage(img, 0, 0);
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, 'rgba(0, 20, 40, 0.7)');
-            gradient.addColorStop(1, 'rgba(0, 40, 80, 0.8)');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            const dataUrl = canvas.toDataURL('image/jpeg');
-            onUpdate({ ...content, backgroundImage: dataUrl });
-          }
-        };
-        img.src = event.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+
+      // 🔥 Resize logic (critical)
+      const maxWidth = 600;
+      const scale = Math.min(1, maxWidth / img.width);
+
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      // Draw resized image
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // 🔥 Gradient overlay (same effect as before)
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, "rgba(0, 20, 40, 0.7)");
+      gradient.addColorStop(1, "rgba(0, 40, 80, 0.8)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 🔥 Compression
+      let quality = 0.7;
+      let base64 = canvas.toDataURL("image/jpeg", quality);
+
+      // 🔥 Optional: ensure size stays under ~100KB
+      // while (base64.length > 100 * 1024 && quality > 0.3) {
+      //   quality -= 0.05;
+      //   base64 = canvas.toDataURL("image/jpeg", quality);
+      // }
+
+      onUpdate({ ...content, backgroundImage: base64 });
+    };
+
+    img.src = heroBackground;
+  }
+}, []);
+
+const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+
+      // 🔥 Resize logic
+      const maxWidth = 600;
+      const scale = Math.min(1, maxWidth / img.width);
+
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Draw resized image
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // 🔥 Gradient overlay (same as before)
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, 'rgba(0, 20, 40, 0.7)');
+      gradient.addColorStop(1, 'rgba(0, 40, 80, 0.8)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 🔥 Compression
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+
+      onUpdate({ ...content, backgroundImage: dataUrl });
+    };
+
+    img.src = event.target?.result as string;
   };
+
+  reader.readAsDataURL(file);
+};
 
   const backgroundImg = content.backgroundImage || heroBackground;
 
