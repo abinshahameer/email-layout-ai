@@ -1,11 +1,12 @@
 import { NewsletterSection } from "@/components/NewsletterEditor";
 import { format } from "date-fns";
 
-const renderSection = (section: NewsletterSection, isAlternate: boolean = false): string => {
-  const brandBlue = "#4E84C4";
-  const brandBlack = "#000000";
-  const brandWhite = "#FFFFFF";
+const brandBlue = "#4E84C4";
+const brandBlack = "#000000";
+const brandWhite = "#FFFFFF";
+const fontStack = "Calibri, Candara, Arial, sans-serif";
 
+const renderSection = (section: NewsletterSection, isAlternate: boolean = false): string => {
   switch (section.type) {
     case "header": {
       const bgImage = section.content.backgroundImage || '';
@@ -18,7 +19,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-top: 30px;">
           <tr>
             <td style="background-color: ${brandYellow}; border-radius: 4px; text-align: center;">
-              <a href="${section.content.ctaLink}" target="_blank" style="font-size: 16px; font-weight: bold; color: #000000; text-decoration: none; padding: 12px 24px; display: inline-block; border-radius: 4px;">
+              <a href="${section.content.ctaLink}" target="_blank" style="font-family: ${fontStack}; font-size: 16px; font-weight: bold; color: #000000; text-decoration: none; padding: 12px 24px; display: inline-block; border-radius: 4px;">
                 ${section.content.ctaText || "Explore More"}
               </a>
             </td>
@@ -59,17 +60,17 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 </table>
 
                 <!-- Date -->
-                <p style="margin: 0 0 16px 0; color: #FFFFFF; font-family: Calibri, Candara, Arial, sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;" data-property="date" data-date-value="${section.content.date || ''}">
+                <p style="margin: 0 0 16px 0; color: #FFFFFF; font-family: ${fontStack}; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;" data-property="date" data-date-value="${section.content.date || ''}">
                   ${section.content.date ? (isNaN(new Date(section.content.date).getTime()) ? section.content.date : format(new Date(section.content.date), "MMMM yyyy").toUpperCase()) : "JANUARY 2026"}
                 </p>
 
                 <!-- Main Title -->
-                <h1 style="margin: 0; font-size: 36px; font-weight: bold; color: ${brandWhite}; text-transform: uppercase; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.4);" data-property="title">
+                <h1 style="margin: 0; font-family: ${fontStack}; font-size: 36px; font-weight: bold; color: ${brandWhite}; text-transform: uppercase; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.4);" data-property="title">
                   ${section.content.title || "Pace Port Insights"}
                 </h1>
                 
                 <!-- Subtitle -->
-                <p style="margin: 20px auto 0 auto; font-size: 18px; line-height: 1.4; color: ${brandWhite}; max-width: 500px;" data-property="subtitle">
+                <p style="margin: 20px auto 0 auto; font-family: ${fontStack}; font-size: 18px; line-height: 1.4; color: ${brandWhite}; max-width: 500px;" data-property="subtitle">
                   ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations."}
                 </p>
 
@@ -95,17 +96,16 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       const imagePosition = section.content.imagePosition || "top";
       const imageSize = section.content.imageSize || 100;
       const backgroundColor = isAlternate ? '#F5F7FA' : '#FFFFFF';
-      const brandBlue = "#4E84C4";
       
       return `
         <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: ${backgroundColor};">
           <tr>
             <td style="padding: 24px;">
-              <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: bold; color: #000000;" data-property="title">
+              <h3 style="margin: 0 0 10px 0; font-family: ${fontStack}; font-size: 20px; font-weight: bold; color: #000000;" data-property="title">
                 ${section.content.title || ""}
               </h3>
               ${section.content.date ? `
-                <p style="margin: 0 0 16px 0; font-size: 14px; color: #666666;" data-property="date" data-date-value="${section.content.date}">
+                <p style="margin: 0 0 16px 0; font-family: ${fontStack}; font-size: 14px; color: #666666;" data-property="date" data-date-value="${section.content.date}">
                   ${isNaN(new Date(section.content.date).getTime()) ? section.content.date : format(new Date(section.content.date), "PPP")}
                 </p>
               ` : ""}
@@ -145,12 +145,12 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                       </td>
                     ` : ""}
                     <td style="vertical-align: top;">
-                      <p style="margin: 0 0 12px 0; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
+                      <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
                         ${section.content.description || ""}
                       </p>
                       ${section.content.link ? `
                         <p style="margin: 12px 0 0 0;">
-                          <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="color: ${brandBlue}; text-decoration: none; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
+                          <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${brandBlue}; text-decoration: none; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
                             ${section.content.linkText ? `Read more: ${section.content.linkText}` : "Read more"}
                           </a>
                         </p>
@@ -172,12 +172,12 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                   </tr>
                 </table>
               ` : `
-                <p style="margin: 0 0 12px 0; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
+                <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
                   ${section.content.description || ""}
                 </p>
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
-                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="color: ${brandBlue}; text-decoration: none; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
+                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${brandBlue}; text-decoration: none; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
                       ${section.content.linkText ? `Read more: ${section.content.linkText}` : "Read more"}
                     </a>
                   </p>
@@ -188,14 +188,14 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
         </table>
       `;
     }
-        case "comic": {
+    case "comic": {
       if (section.content.image) {
         const imageSize = section.content.imageSize || 100;
         return `
           <table data-section-type="comic" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F5F7FA; border-bottom: 1px solid #E1E8F0;">
             <tr>
               <td style="padding: 24px; text-align: center;">
-                <h3 style="margin: 0 0 20px 0; font-size: 20px; font-weight: bold; color: #4E84C4;">Comic Section</h3>
+                <h3 style="margin: 0 0 20px 0; font-family: ${fontStack}; font-size: 20px; font-weight: bold; color: #4E84C4;">Comic Section</h3>
                 <img 
                   src="${section.content.image}" 
                   alt="${section.content.caption || 'Comic'}" 
@@ -205,7 +205,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                   data-image-size="${imageSize}"
                 />
                 ${section.content.caption ? `
-                  <p style="margin: 16px 0 0 0; font-size: 16px; font-style: italic; color: #333333;" data-property="caption">
+                  <p style="margin: 16px 0 0 0; font-family: ${fontStack}; font-size: 16px; font-style: italic; color: #333333;" data-property="caption">
                     ${section.content.caption}
                   </p>
                 ` : ""}
@@ -216,70 +216,65 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       }
       return "";
     }
-
-
-
-        case "puzzle": {
-          const puzzleType = section.content.puzzleType || "image";
-          const puzzleImageSize = section.content.puzzleImageSize || 100;
-          const brandBlue = "#4E84C4";
-          const brandOrange = "#F15A29";
-          return `
-            <table data-section-type="puzzle" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #E8F1F8; border-bottom: 1px solid #C1D4E5;">
-              <tr>
-                <td style="padding: 24px;">
-                  <h3 style="margin: 0 0 20px 0; font-size: 22px; font-weight: bold; color: ${brandOrange};" data-property="title">
-                    ${section.content.title || "Puzzle"}
-                  </h3>
-                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                      <td width="50%" style="padding-right: 12px; vertical-align: top;" data-property="puzzle" data-puzzle-type="${puzzleType}">
-                        ${puzzleType === "image" && section.content.puzzleImage ? `
+    case "puzzle": {
+      const puzzleType = section.content.puzzleType || "image";
+      const puzzleImageSize = section.content.puzzleImageSize || 100;
+      const brandOrange = "#F15A29";
+      return `
+        <table data-section-type="puzzle" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #E8F1F8; border-bottom: 1px solid #C1D4E5;">
+          <tr>
+            <td style="padding: 24px;">
+              <h3 style="margin: 0 0 20px 0; font-family: ${fontStack}; font-size: 22px; font-weight: bold; color: ${brandOrange};" data-property="title">
+                ${section.content.title || "Puzzle"}
+              </h3>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="50%" style="padding-right: 12px; vertical-align: top;" data-property="puzzle" data-puzzle-type="${puzzleType}">
+                    ${puzzleType === "image" && section.content.puzzleImage ? `
+                      <img 
+                        src="${section.content.puzzleImage}" 
+                        alt="Puzzle" 
+                        width="${puzzleImageSize}%" 
+                        style="display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 4px;"
+                        data-property="puzzleImage"
+                        data-image-size="${puzzleImageSize}"
+                      />
+                    ` : ""}
+                    ${puzzleType === "text" && section.content.puzzleText ? `
+                      <div style="background-color: #ffffff; padding: 16px; border-radius: 4px; border: 1px dashed ${brandBlue};">
+                        <pre style="margin: 0; font-size: 16px; color: #333333; line-height: 1.5; white-space: pre-wrap; font-family: ${fontStack};" data-property="puzzleText">${section.content.puzzleText}</pre>
+                      </div>
+                    ` : ""}
+                  </td>
+                  <td width="50%" style="padding-left: 12px; vertical-align: top;">
+                    ${puzzleType === "image" && section.content.instructions ? `
+                      <pre style="margin: 0 0 20px 0; font-size: 16px; color: #333333; line-height: 1.5; white-space: pre-wrap; font-family: ${fontStack};" data-property="instructions">
+                        ${section.content.instructions}
+                      </pre>
+                    ` : ""}
+                    ${section.content.answerImage || section.content.answerText ? `
+                      <div style="border-top: 1px solid #C1D4E5; padding-top: 20px;" data-property="answer">
+                        <p style="margin: 0 0 12px 0; font-family: ${fontStack}; font-size: 14px; font-weight: bold; color: #333333;">Last Week's Answer</p>
+                        ${section.content.answerImage ? `
                           <img 
-                            src="${section.content.puzzleImage}" 
-                            alt="Puzzle" 
-                            width="${puzzleImageSize}%" 
-                            style="display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 4px;"
-                            data-property="puzzleImage"
-                            data-image-size="${puzzleImageSize}"
+                            src="${section.content.answerImage}" 
+                            alt="Answer" 
+                            style="display: block; max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px;"
+                            data-property="answerImage"
                           />
                         ` : ""}
-                        ${puzzleType === "text" && section.content.puzzleText ? `
-                          <div style="background-color: #ffffff; padding: 16px; border-radius: 4px; border: 1px dashed ${brandBlue};">
-                            <pre style="margin: 0; font-size: 16px; color: #333333; line-height: 1.5; white-space: pre-wrap; font-family: Calibri, Candara, Arial, sans-serif;" data-property="puzzleText">${section.content.puzzleText}</pre>
-                          </div>
-                        ` : ""}
-                      </td>
-                      <td width="50%" style="padding-left: 12px; vertical-align: top;">
-                        ${puzzleType === "image" && section.content.instructions ? `
-                          <pre style="margin: 0 0 20px 0; font-size: 16px; color: #333333; line-height: 1.5; white-space: pre-wrap; font-family: Calibri, Candara, Arial, sans-serif;" data-property="instructions">
-                            ${section.content.instructions}
-                          </pre>
-                        ` : ""}
-                        ${section.content.answerImage || section.content.answerText ? `
-                          <div style="border-top: 1px solid #C1D4E5; padding-top: 20px;" data-property="answer">
-                            <p style="margin: 0 0 12px 0; font-size: 14px; font-weight: bold; color: #333333;">Last Week's Answer</p>
-                            ${section.content.answerImage ? `
-                              <img 
-                                src="${section.content.answerImage}" 
-                                alt="Answer" 
-                                style="display: block; max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px;"
-                                data-property="answerImage"
-                              />
-                            ` : ""}
-                                                    ${section.content.answerText ? `<div style="margin: 8px 0 0 0; padding: 12px; background-color: #FFFFFF; border-radius: 4px; border: 1px solid #C1D4E5;"><pre style="margin: 0; font-size: 16px; color: #333333; white-space: pre-wrap; font-family: Calibri, Candara, Arial, sans-serif;" data-property="answerText">${section.content.answerText}</pre></div>` : ""}
-                                                  </div>
-                                                ` : ""}
-                                              </td>
-                                            </tr>
-                                          </table>
-                                        </td>
-                                      </tr>
-                                    </table>
-                                            `;
-                                          }
-                                      case "extended-reading": {
-      const brandBlue = "#4E84C4";
+                        ${section.content.answerText ? `<div style="margin: 8px 0 0 0; padding: 12px; background-color: #FFFFFF; border-radius: 4px; border: 1px solid #C1D4E5;"><pre style="margin: 0; font-size: 16px; color: #333333; white-space: pre-wrap; font-family: ${fontStack};" data-property="answerText">${section.content.answerText}</pre></div>` : ""}
+                      </div>
+                    ` : ""}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
+    }
+    case "extended-reading": {
       const brandGreen = "#54B948";
       const links = (section.content.links || [])
         .map((link: { title: string; url: string }) => `
@@ -289,8 +284,8 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 <tr>
                   <td style="padding: 12px 16px;">
                      <a href="${link.url}" style="text-decoration: none; display: block;" data-property="url">
-                      <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: bold; color: #000000;" data-property="title">${link.title}</p>
-                      <p style="margin: 0; font-size: 14px; color: #666666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 500px;">${link.url}</p>
+                      <p style="margin: 0 0 4px 0; font-family: ${fontStack}; font-size: 16px; font-weight: bold; color: #000000;" data-property="title">${link.title}</p>
+                      <p style="margin: 0; font-family: ${fontStack}; font-size: 14px; color: #666666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 500px;">${link.url}</p>
                     </a>
                   </td>
                   <td width="40" align="center" style="padding-right: 16px;">
@@ -308,7 +303,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
           <table data-section-type="extended-reading" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F0F4F8; border-bottom: 1px solid #E1E8F0;">
             <tr>
               <td style="padding: 24px;">
-                <h3 style="margin: 0 0 20px 0; font-size: 22px; font-weight: bold; color: ${brandBlue};">Extended Reading</h3>
+                <h3 style="margin: 0 0 20px 0; font-family: ${fontStack}; font-size: 22px; font-weight: bold; color: ${brandBlue};">Extended Reading</h3>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   ${links}
                 </table>
@@ -319,11 +314,9 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       }
       return "";
     }
-
     case "footer": {
-      const brandBlue = "#4E84C4";
       const footerLinks = (section.content.links || [])
-        .map((link: string, index: any) => `<a href="${section.content.url?.[index] || 'https://www.tcs.com/'}" target="_blank" rel="noopener noreferrer" style="color: #ffffff !important; text-decoration: none; margin: 0 12px; font-size: 13px;" data-property="link">${link}</a>`)
+        .map((link: string, index: any) => `<a href="${section.content.url?.[index] || 'https://www.tcs.com/'}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: #ffffff !important; text-decoration: none; margin: 0 12px; font-size: 13px;" data-property="link">${link}</a>`)
         .join("");
       
       return `
@@ -337,26 +330,26 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
           <!-- Copyright -->
           <tr>
             <td style="background-color: #000000; padding: 12px 24px; text-align: center;">
-              <p style="margin: 0; font-size: 11px; color: #FFFFFF;" data-property="copyright">
+              <p style="margin: 0; font-family: ${fontStack}; font-size: 11px; color: #FFFFFF;" data-property="copyright">
                 ${section.content.copyright || "© TCS Pace Port. All rights reserved."}
               </p>
             </td>
           </tr>
         </table>
-      `;}
-
+      `;
+    }
     default:
       return "";
   }
 };
 
 export const exportToHTML = (sections: NewsletterSection[]): string => {
-  // Outlook-compatible inline styles with Calibri as primary font
+  const fontStack = "Calibri, Candara, Arial, sans-serif";
   const styles = `
     body {
       margin: 0;
       padding: 0;
-      font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+      font-family: ${fontStack};
       background-color: #f5f5f5;
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
@@ -377,7 +370,6 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     a {
       text-decoration: none;
     }
-    /* Outlook Specific Hack */
     #newsletter-container {
       mso-line-height-rule: exactly;
     }
@@ -390,28 +382,23 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
   while (i < sections.length) {
     const section = sections[i];
 
-    // Skip hero articles (now handled by header)
     if (section.type === "article" && section.content.isHero) {
       i++;
       continue;
     }
 
-    // Header, footer, and extended reading are always full width and don't affect alternation
     if (section.type === "header" || section.type === "footer" || section.type === "extended-reading") {
       bodyContent += renderSection(section);
       i++;
       continue;
     }
 
-    // Check if current section is half width and there's a next section also half width
     if (section.rowLayout === "half" && i + 1 < sections.length && sections[i + 1].rowLayout === "half") {
       const nextSection = sections[i + 1];
-      // Skip if next is header/footer/extended-reading
       if (nextSection.type !== "header" && nextSection.type !== "footer" && nextSection.type !== "extended-reading" && !nextSection.content?.isHero) {
         const leftBgColor = isAlternate ? '#F9FAFB' : '#FFFFFF';
         const rightBgColor = !isAlternate ? '#F9FAFB' : '#FFFFFF';
         
-        // Render two sections side by side
         bodyContent += `
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
@@ -425,15 +412,14 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
           </table>
         `;
         i += 2;
-        isAlternate = !isAlternate; // Toggle for the next row
+        isAlternate = !isAlternate;
         continue;
       }
     }
 
-    // Render single section
     bodyContent += renderSection(section, isAlternate);
     i++;
-    isAlternate = !isAlternate; // Toggle for the next section
+    isAlternate = !isAlternate;
   }
 
   return `
@@ -446,23 +432,21 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
   <meta name="x-apple-disable-message-reformatting">
   <title>Newsletter - TCS Pace Port São Paulo</title>
   <!--[if mso]>
-  <noscript>
-    <xml>
-      <o:OfficeDocumentSettings>
-        <o:PixelsPerInch>96</o:PixelsPerInch>
-      </o:OfficeDocumentSettings>
-    </xml>
-  </noscript>
+  <xml>
+    <o:OfficeDocumentSettings>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+  </xml>
   <![endif]-->
   <style>${styles}</style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f5f5f5;">
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: ${fontStack};">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f5f5f5;">
     <tr>
       <td align="center" style="padding: 0;">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; max-width: 600px;" id="newsletter-container">
           <tr>
-            <td style="font-size: 0;">
+            <td style="font-size: 16px; line-height: 1.5;">
               ${bodyContent}
             </td>
           </tr>
