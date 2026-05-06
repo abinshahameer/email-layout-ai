@@ -41,9 +41,9 @@ const initialSections: NewsletterSection[] = [
     type: "header",
     content: {
       logo: "TCS",
-      episode: "Episode 01",
-      lab: "Pace Port, São Paulo",
-      date: "January 2026"
+      date: "JANUARY 2026",
+      title: "Pace Port Insights",
+      subtitle: "A monthly digest of the latest news, events, and innovations."
     }
   },
   {
@@ -69,56 +69,12 @@ const initialSections: NewsletterSection[] = [
     rowLayout: "half"
   },
   {
-    id: "article-3",
-    type: "article",
-    content: {
-      title: "Design Thinking Session",
-      description: "Experience our hands-on design thinking workshop. This interactive session helps teams develop creative problem-solving skills and innovative approaches to complex challenges. Perfect for product teams and innovators.",
-      link: "#",
-      linkText: "Book Your Spot"
-    },
-    rowLayout: "half"
-  },
-  {
-    id: "article-4",
-    type: "article",
-    content: {
-      title: "Cloud Computing Masterclass",
-      description: "Deep dive into cloud architecture and best practices with our expert-led masterclass. Learn about scalable solutions, security frameworks, and cost optimization strategies for enterprise cloud deployments.",
-      link: "#",
-      linkText: "Enroll Today"
-    },
-    rowLayout: "half"
-  },
-  {
-    id: "article-5",
-    type: "article",
-    content: {
-      title: "Startup Pitch Day",
-      description: "Calling all entrepreneurs! Present your innovative ideas to a panel of investors and industry experts. This is your chance to get funding, mentorship, and valuable feedback for your startup.",
-      link: "#",
-      linkText: "Apply Now"
-    },
-    rowLayout: "half"
-  },
-  {
-    id: "article-6",
-    type: "article",
-    content: {
-      title: "AI & Machine Learning Forum",
-      description: "Explore the cutting edge of artificial intelligence and machine learning. Industry practitioners share real-world case studies and implementation strategies for AI-powered solutions.",
-      link: "#",
-      linkText: "Join Us"
-    },
-    rowLayout: "half"
-  },
-  {
     id: "footer",
     type: "footer",
     content: {
       links: ["Subscribe", "View in browser", "Privacy policy"],
       url: ["https://www.tcs.com/", "https://www.tcs.com/", "https://www.tcs.com/"],
-      copyright: "TCS Pace Port, São Paulo. All rights reserved"
+      copyright: "© TCS Pace Port. All rights reserved."
     }
   }
 ];

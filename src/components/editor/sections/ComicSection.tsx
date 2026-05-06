@@ -38,17 +38,20 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
   };
 
   return (
-    <div className={cn("p-4 sm:p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-muted/20", isHalfWidth && "bg-muted/30")}>
-      <h3 className="text-lg sm:text-xl font-bold text-primary mb-4">Comic Section</h3>
+    <div 
+      className={cn("p-4 sm:p-6 border-b border-gray-100", isAlternate ? "bg-[#F5F7FA]" : "bg-white")}
+      style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}
+    >
+      <h3 className="text-lg sm:text-xl font-bold mb-4" style={{ color: '#4E84C4' }}>Comic Section</h3>
 
       {content.image ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="relative group flex justify-center ">
             <img
               src={content.image}
               alt={content.caption || "Comic"}
               style={{ width: `${content.imageSize || 100}%` }}
-              className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+              className="h-auto rounded shadow-sm"
             />
             <Button
               variant="destructive"
@@ -60,15 +63,15 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
             </Button>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground">Image Size: {content.imageSize || 100}%</label>
+          <div className="space-y-2 max-w-xs mx-auto">
+            <label className="text-xs font-bold uppercase text-gray-500">Image Size: {content.imageSize || 100}%</label>
             <input
               type="range"
               min="20"
               max="100"
               value={content.imageSize || 100}
               onChange={(e) => onUpdate({ ...content, imageSize: Number(e.target.value) })}
-              className="w-full"
+              className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#4E84C4]"
             />
           </div>
 
@@ -77,12 +80,13 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
               value={content.caption || ""}
               onChange={(e) => onUpdate({ ...content, caption: e.target.value })}
               onBlur={() => setIsEditing(null)}
+              className="max-w-md mx-auto text-center"
               placeholder="Add a caption..."
               autoFocus
             />
           ) : (
             <p
-              className="text-base text-center italic text-foreground/70 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 transition-colors"
+              className="text-base text-center italic text-gray-600 cursor-pointer hover:bg-black/5 rounded px-2 py-1 transition-colors"
               onClick={() => setIsEditing("caption")}
             >
               {content.caption || "Click to add caption..."}
@@ -92,22 +96,16 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
       ) : (
         <div>
           {isEditing === "image" ? (
-            <div className="space-y-3 p-3 border rounded-md bg-background">
-              <p className="text-xs text-muted-foreground">
-                Need a comic? Try the <a href="http://172.210.248.28:3053/" target="_blank" rel="noopener noreferrer" className="underline">Comic Generation Tool</a> to generate one.
+            <div className="space-y-4 p-4 border rounded-lg bg-gray-50 shadow-inner">
+              <p className="text-xs text-gray-500 text-center">
+                Need a comic? Try the <a href="http://172.210.248.28:3053/" target="_blank" rel="noopener noreferrer" className="text-[#4E84C4] font-bold underline">Comic Generation Tool</a>.
               </p>
               <Tabs defaultValue="url">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="url">
-                    <LinkIcon className="w-4 h-4 mr-2" />
-                    URL
-                  </TabsTrigger>
-                  <TabsTrigger value="upload">
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload
-                  </TabsTrigger>
+                  <TabsTrigger value="url">URL</TabsTrigger>
+                  <TabsTrigger value="upload">Upload</TabsTrigger>
                 </TabsList>
-                <TabsContent value="url" className="space-y-2">
+                <TabsContent value="url" className="space-y-2 mt-2">
                   <Input
                     placeholder="Image URL (https://...)"
                     onChange={(e) => {
@@ -119,18 +117,18 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
                     autoFocus
                   />
                 </TabsContent>
-                <TabsContent value="upload" className="space-y-2">
+                <TabsContent value="upload" className="space-y-2 mt-2">
                   <Input
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload}
                   />
-                  <p className="text-xs text-muted-foreground">Image will be embedded as Base64 for email compatibility</p>
                 </TabsContent>
               </Tabs>
               <Button
                 variant="ghost"
                 size="sm"
+                className="w-full h-8"
                 onClick={() => setIsEditing(null)}
               >
                 Cancel
@@ -139,7 +137,7 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
           ) : (
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full border-dashed border-2 h-20"
               onClick={() => setIsEditing("image")}
             >
               <Upload className="w-4 h-4 mr-2" />
@@ -159,3 +157,4 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
     </div>
   );
 };
+

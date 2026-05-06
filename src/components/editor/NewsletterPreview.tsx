@@ -75,11 +75,11 @@ export const NewsletterPreview = ({ sections, onUpdateSection, previewMode }: Ne
           const secondRendered = renderSection(nextSection, true, !isAlternate);
           
           if (firstRendered && secondRendered) {
-            const leftBg = isAlternate ? "bg-gray-50" : "bg-white";
-            const rightBg = !isAlternate ? "bg-gray-50" : "bg-white";
+            const leftBg = isAlternate ? "bg-[#F5F7FA]" : "bg-white";
+            const rightBg = !isAlternate ? "bg-[#F5F7FA]" : "bg-white";
             elements.push(
               <div key={`row-${section.id}-${nextSection.id}`} className="grid grid-cols-1 sm:grid-cols-2">
-                <div className={`border-b sm:border-r border-gray-200 ${leftBg}`}>{firstRendered}</div>
+                <div className={`border-b sm:border-r border-gray-100 ${leftBg}`}>{firstRendered}</div>
                 <div className={rightBg}>{secondRendered}</div>
               </div>
             );

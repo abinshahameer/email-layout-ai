@@ -58,23 +58,27 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
   }
 
   const imagePosition = content.imagePosition || "top";
+  const brandBlue = "#4E84C4";
 
   return (
-    <div className={cn("p-4 sm:p-6", isAlternate ? "bg-gray-50" : "bg-white", isHalfWidth && "")}>
+    <div 
+      className={cn("p-4 sm:p-6 transition-colors", isAlternate ? "bg-[#F5F7FA]" : "bg-white")}
+      style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}
+    >
       {isEditing === "title" ? (
         <Input
           value={content.title || ""}
           onChange={(e) => onUpdate({ ...content, title: e.target.value })}
           onBlur={() => setIsEditing(null)}
-          className="mb-3 text-base sm:text-lg font-bold"
-          style={{ color: 'hsl(220 60% 10%)' }}
+          className="mb-3 text-lg sm:text-xl font-bold border-brand"
+          style={{ color: '#000000' }}
           placeholder="Article title..."
           autoFocus
         />
       ) : (
         <h3
-          className="text-base sm:text-lg font-bold mb-3 cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
-          style={{ color: 'hsl(220 60% 10%)' }}
+          className="text-lg sm:text-xl font-bold mb-3 cursor-pointer hover:bg-black/5 rounded px-2 py-1 -mx-2 transition-colors"
+          style={{ color: '#000000' }}
           onClick={() => setIsEditing("title")}
         >
           {content.title || "Click to add title..."}
@@ -87,7 +91,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
             <Button
               variant={"outline"}
               className={cn(
-                "w-full justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal border-gray-200",
                 !content.date && "text-muted-foreground"
               )}
             >
@@ -113,31 +117,33 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
       </div>
 
       {content.image && (
-        <div className="mb-4 space-y-3 p-3 border rounded-md bg-muted/30">
-          <div className="space-y-2">
-            <label className="text-xs font-medium">Image Position</label>
-            <Select value={imagePosition} onValueChange={(value: "top" | "left" | "right") => onUpdate({ ...content, imagePosition: value })}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="top">Above Text</SelectItem>
-                <SelectItem value="left">Left of Text</SelectItem>
-                <SelectItem value="right">Right of Text</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="mb-4 space-y-3 p-3 border rounded-md bg-white/50">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase text-gray-500">Position</label>
+              <Select value={imagePosition} onValueChange={(value: "top" | "left" | "right") => onUpdate({ ...content, imagePosition: value })}>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="top">Above Text</SelectItem>
+                  <SelectItem value="left">Left of Text</SelectItem>
+                  <SelectItem value="right">Right of Text</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-medium">Image Width: {content.imageSize || 100}%</label>
-            <Slider
-              value={[content.imageSize || 100]}
-              onValueChange={(value) => onUpdate({ ...content, imageSize: value[0] })}
-              min={20}
-              max={100}
-              step={5}
-              className="w-full"
-            />
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase text-gray-500">Width: {content.imageSize || 100}%</label>
+              <Slider
+                value={[content.imageSize || 100]}
+                onValueChange={(value) => onUpdate({ ...content, imageSize: value[0] })}
+                min={20}
+                max={100}
+                step={5}
+                className="py-2"
+              />
+            </div>
           </div>
 
           <div className="relative group flex justify-center">
@@ -145,15 +151,15 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
               src={content.image}
               alt={content.imageAlt || "Article image"}
               style={{ width: `${content.imageSize || 100}%`, maxWidth: "100%" }}
-              className="h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+              className="h-auto rounded shadow-sm"
             />
             <Button
               variant="destructive"
               size="sm"
-              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7 p-0"
               onClick={() => onUpdate({ ...content, image: undefined, imageAlt: undefined, imageSize: undefined, imagePosition: undefined })}
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
@@ -163,7 +169,7 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
         <Button
           variant="outline"
           size="sm"
-          className="mb-3"
+          className="mb-4 border-dashed border-2 h-10 w-full"
           onClick={() => setIsEditing("image")}
         >
           <ImagePlus className="w-4 h-4 mr-2" />
@@ -172,19 +178,13 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
       )}
 
       {isEditing === "image" && !content.image && (
-        <div className="mb-3 space-y-3 p-3 border rounded-md bg-muted/30">
+        <div className="mb-4 space-y-3 p-3 border rounded-md bg-white shadow-sm">
           <Tabs defaultValue="url">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="url">
-                <LinkIcon className="w-4 h-4 mr-2" />
-                URL
-              </TabsTrigger>
-              <TabsTrigger value="upload">
-                <Upload className="w-4 h-4 mr-2" />
-                Upload
-              </TabsTrigger>
+              <TabsTrigger value="url">URL</TabsTrigger>
+              <TabsTrigger value="upload">Upload</TabsTrigger>
             </TabsList>
-            <TabsContent value="url" className="space-y-2">
+            <TabsContent value="url" className="space-y-2 mt-2">
               <Input
                 placeholder="Image URL (https://...)"
                 onChange={(e) => {
@@ -196,18 +196,18 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
                 autoFocus
               />
             </TabsContent>
-            <TabsContent value="upload" className="space-y-2">
+            <TabsContent value="upload" className="space-y-2 mt-2">
               <Input
                 type="file"
                 accept="image/*"
                 onChange={handleImageUpload}
               />
-              <p className="text-xs text-muted-foreground">Image will be embedded as Base64 for email compatibility</p>
             </TabsContent>
           </Tabs>
           <Button
             variant="ghost"
             size="sm"
+            className="w-full h-8"
             onClick={() => setIsEditing(null)}
           >
             Cancel
@@ -215,30 +215,30 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
         </div>
       )}
 
-      <div className={imagePosition === "left" || imagePosition === "right" ? "md:flex gap-4 md:items-center" : ""}>
+      <div className={imagePosition === "left" || imagePosition === "right" ? "md:flex gap-5 md:items-start" : ""}>
         {content.image && imagePosition === "left" && (
-          <div style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
+          <div className="mb-4 md:mb-0" style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
             <img
               src={content.image}
               alt={content.imageAlt || "Article image"}
-              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))] self-center"
+              className="w-full h-auto rounded shadow-sm"
             />
           </div>
         )}
 
-        <div className="flex-1 space-y-2 mb-3">
+        <div className="flex-1 space-y-2 mb-4">
           {isEditing === "description" ? (
             <Textarea
               value={content.description || ""}
               onChange={(e) => onUpdate({ ...content, description: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="min-h-32 text-base text-foreground/80 leading-relaxed"
+              className="min-h-32 text-base text-gray-700 leading-relaxed border-brand"
               placeholder="Article content..."
               autoFocus
             />
           ) : (
             <p
-              className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+              className="text-base text-gray-700 leading-relaxed cursor-pointer hover:bg-black/5 rounded px-2 py-1 -mx-2 transition-colors whitespace-pre-wrap"
               onClick={() => setIsEditing("description")}
             >
               {content.description || "Click to add content..."}
@@ -247,49 +247,52 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
         </div>
 
         {content.image && imagePosition === "right" && (
-          <div style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
+          <div className="mb-4 md:mb-0" style={{ flex: `0 0 ${content.imageSize || 40}%` }}>
             <img
               src={content.image}
               alt={content.imageAlt || "Article image"}
-              className="w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+              className="w-full h-auto rounded shadow-sm"
             />
           </div>
         )}
       </div>
 
-      {isEditing === "link" ? (
-        <div className="space-y-2 p-3 border rounded-md bg-muted/30">
-          <Input
-            value={content.link || ""}
-            onChange={(e) => onUpdate({ ...content, link: e.target.value })}
-            className="text-sm"
-            placeholder="https://..."
-            autoFocus
-          />
-          <Input
-            value={content.linkText || ""}
-            onChange={(e) => onUpdate({ ...content, linkText: e.target.value })}
-            className="text-sm"
-            placeholder={`Link text (e.g., ${content.title})`}
-          />
-          <Button variant="ghost" size="sm" onClick={() => setIsEditing(null)}>Done</Button>
-        </div>
-      ) : (
-        <a
-          href={content.link || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-base text-[hsl(var(--newsletter-link))] hover:underline cursor-pointer"
-          onClick={(e) => {
-            e.preventDefault();
-            setIsEditing("link");
-          }}
-        >
-          {content.link 
-            ? (content.linkText ? `Read more: ${content.linkText}` : content.link) 
-            : "Click to add link..."}
-        </a>
-      )}
+      <div className="mt-2">
+        {isEditing === "link" ? (
+          <div className="space-y-2 p-3 border rounded-md bg-white shadow-sm">
+            <Input
+              value={content.link || ""}
+              onChange={(e) => onUpdate({ ...content, link: e.target.value })}
+              className="text-sm"
+              placeholder="https://..."
+              autoFocus
+            />
+            <Input
+              value={content.linkText || ""}
+              onChange={(e) => onUpdate({ ...content, linkText: e.target.value })}
+              className="text-sm"
+              placeholder={`Link text`}
+            />
+            <Button variant="secondary" size="sm" className="w-full" onClick={() => setIsEditing(null)}>Done</Button>
+          </div>
+        ) : (
+          <a
+            href={content.link || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-base font-bold hover:underline cursor-pointer inline-flex items-center"
+            style={{ color: brandBlue }}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsEditing("link");
+            }}
+          >
+            {content.link 
+              ? (content.linkText ? `Read more: ${content.linkText}` : "Read more") 
+              : "Click to add link..."}
+          </a>
+        )}
+      </div>
 
       {croppingImage && (
         <ImageCropper
@@ -301,3 +304,4 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
     </div>
   );
 };
+

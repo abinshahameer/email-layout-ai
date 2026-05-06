@@ -59,7 +59,7 @@ export const parseImportedHTML = (html: string): NewsletterSection[] => {
         if (propName) {
           if (propName === 'backgroundImage') {
             content[propName] = getAttribute(propNode, 'data-value');
-          } else if (propName === 'image' || propName === 'puzzleImage' || propName === 'answerImage') {
+          } else if (propName === 'image' || propName === 'puzzleImage' || propName === 'answerImage' || propName === 'tata-logo') {
             content[propName] = getAttribute(propNode, 'src');
             const imageSize = getAttribute(propNode, 'data-image-size');
             if (imageSize) {

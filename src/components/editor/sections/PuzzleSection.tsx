@@ -26,6 +26,8 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [croppingImage, setCroppingImage] = useState<{field: "puzzleImage" | "answerImage", src: string} | null>(null);
   const puzzleType = content.puzzleType || "image";
+  const brandBlue = "#4E84C4";
+  const brandOrange = "#F15A29";
 
   const handleImageUpload = (field: "puzzleImage" | "answerImage") => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,20 +49,25 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
   };
 
   return (
-    <div className={cn("p-4 sm:p-6 border-b border-[hsl(var(--newsletter-section-border))] bg-[hsl(var(--newsletter-puzzle-bg))]", isHalfWidth && "bg-[hsl(var(--newsletter-puzzle-bg-alt))]")}>
-      <div className="mb-4 space-y-3">
+    <div 
+      className={cn("p-4 sm:p-6 border-b border-gray-100 bg-[#E8F1F8]")}
+      style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}
+    >
+      <div className="mb-6 space-y-4">
         {isEditing === "title" ? (
           <Input
             value={content.title || ""}
             onChange={(e) => onUpdate({ ...content, title: e.target.value })}
             onBlur={() => setIsEditing(null)}
-            className="text-xl sm:text-2xl font-bold text-primary"
+            className="text-xl sm:text-2xl font-bold bg-white/50 border-brand"
+            style={{ color: brandBlue }}
             placeholder="Puzzle title..."
             autoFocus
           />
         ) : (
           <h3
-            className="text-xl sm:text-2xl font-bold text-primary cursor-pointer hover:bg-muted/50 rounded px-2 py-1 -mx-2 transition-colors"
+            className="text-xl sm:text-2xl font-bold cursor-pointer hover:bg-black/5 rounded px-2 py-1 -mx-2 transition-colors"
+            style={{ color: brandBlue }}
             onClick={() => setIsEditing("title")}
           >
             {content.title || "Click to add puzzle title..."}
@@ -68,24 +75,24 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
         )}
 
         <Tabs value={puzzleType} onValueChange={(value: "image" | "text") => onUpdate({ ...content, puzzleType: value })}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="image">Image-Based Puzzle</TabsTrigger>
-            <TabsTrigger value="text">Text-Based Puzzle</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 max-w-xs">
+            <TabsTrigger value="image">Image Puzzle</TabsTrigger>
+            <TabsTrigger value="text">Text Puzzle</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div className="space-y-4">
           {puzzleType === "image" ? (
             content.puzzleImage ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="relative group">
                 <img
                   src={content.puzzleImage}
                   alt="Puzzle"
                   style={{ width: `${content.puzzleImageSize || 100}%` }}
-                  className="h-auto rounded border border-[hsl(var(--newsletter-section-border))] mx-auto"
+                  className="h-auto rounded shadow-md mx-auto"
                 />
                 <Button
                   variant="destructive"
@@ -96,15 +103,15 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                   <X className="w-4 h-4" />
                 </Button>
               </div>
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-muted-foreground">Image Size: {content.puzzleImageSize || 100}%</label>
+              <div className="space-y-2 max-w-xs mx-auto sm:mx-0">
+                <label className="text-xs font-bold uppercase text-gray-500">Image Size: {content.puzzleImageSize || 100}%</label>
                 <input
                   type="range"
                   min="20"
                   max="100"
                   value={content.puzzleImageSize || 100}
                   onChange={(e) => onUpdate({ ...content, puzzleImageSize: Number(e.target.value) })}
-                  className="w-full"
+                  className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#4E84C4]"
                 />
               </div>
             </div>
@@ -113,26 +120,20 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
               {isEditing !== "puzzleImage" ? (
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full border-dashed border-2 h-32"
                   onClick={() => setIsEditing("puzzleImage")}
                 >
                   <ImagePlus className="w-4 h-4 mr-2" />
                   Add Puzzle Image
                 </Button>
               ) : (
-                <div className="space-y-3 p-3 border rounded-md bg-muted/30">
+                <div className="space-y-4 p-4 border rounded-lg bg-white shadow-sm">
                   <Tabs defaultValue="url">
                     <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="url">
-                        <LinkIcon className="w-4 h-4 mr-2" />
-                        URL
-                      </TabsTrigger>
-                      <TabsTrigger value="upload">
-                        <Upload className="w-4 h-4 mr-2" />
-                        Upload
-                      </TabsTrigger>
+                      <TabsTrigger value="url">URL</TabsTrigger>
+                      <TabsTrigger value="upload">Upload</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="url" className="space-y-2">
+                    <TabsContent value="url" className="space-y-2 mt-2">
                       <Input
                         placeholder="Image URL (https://...)"
                         onChange={(e) => {
@@ -144,18 +145,18 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                         autoFocus
                       />
                     </TabsContent>
-                    <TabsContent value="upload" className="space-y-2">
+                    <TabsContent value="upload" className="space-y-2 mt-2">
                       <Input
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload("puzzleImage")}
                       />
-                      <p className="text-xs text-muted-foreground">Image will be embedded as Base64</p>
                     </TabsContent>
                   </Tabs>
                   <Button
                     variant="ghost"
                     size="sm"
+                    className="w-full h-8"
                     onClick={() => setIsEditing(null)}
                   >
                     Cancel
@@ -170,13 +171,13 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                 value={content.puzzleText || ""}
                 onChange={(e) => onUpdate({ ...content, puzzleText: e.target.value })}
                 onBlur={() => setIsEditing(null)}
-                className="min-h-32"
+                className="min-h-40 bg-white border-brand"
                 placeholder="Enter your text-based puzzle here..."
                 autoFocus
               />
             ) : (
               <div
-                className="text-base whitespace-pre-wrap text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 border border-dashed border-[hsl(var(--newsletter-section-border))]"
+                className="text-base whitespace-pre-wrap text-gray-700 leading-relaxed cursor-pointer hover:bg-white/50 rounded p-4 transition-colors min-h-40 border-2 border-dashed border-gray-300 bg-white/30"
                 onClick={() => setIsEditing("puzzleText")}
               >
                 {content.puzzleText || "Click to add text-based puzzle..."}
@@ -185,7 +186,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
           )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           {puzzleType === "image" && (
             <>
               {isEditing === "instructions" ? (
@@ -193,13 +194,13 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                   value={content.instructions || ""}
                   onChange={(e) => onUpdate({ ...content, instructions: e.target.value })}
                   onBlur={() => setIsEditing(null)}
-                  className="min-h-32 text-base"
+                  className="min-h-32 text-base bg-white border-brand"
                   placeholder="Puzzle instructions..."
                   autoFocus
                 />
               ) : (
                 <div
-                  className="text-base text-foreground/80 leading-relaxed cursor-pointer hover:bg-muted/50 rounded px-2 py-2 transition-colors min-h-32 whitespace-pre-wrap"
+                  className="text-base text-gray-700 leading-relaxed cursor-pointer hover:bg-white/50 rounded p-3 transition-colors min-h-32 whitespace-pre-wrap italic"
                   onClick={() => setIsEditing("instructions")}
                 >
                   {content.instructions || "Click to add instructions..."}
@@ -208,22 +209,22 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
             </>
           )}
 
-          <div className="border-t pt-4">
-            <h4 className="text-sm font-semibold mb-2">Last Week's Answer</h4>
+          <div className="border-t border-gray-200 pt-6">
+            <h4 className="text-sm font-bold uppercase text-gray-500 mb-3">Last Week's Answer</h4>
             
             {content.answerImage || content.answerText ? (
-              <div className="space-y-2">
+              <div className="space-y-4">
                 {content.answerImage && (
                   <div className="relative group inline-block">
                     <img
                       src={content.answerImage}
                       alt="Answer"
-                      className="max-w-full h-auto rounded border border-[hsl(var(--newsletter-section-border))]"
+                      className="max-w-full h-auto rounded shadow-sm border border-white"
                     />
                     <Button
                       variant="destructive"
                       size="sm"
-                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
                       onClick={() => onUpdate({ ...content, answerImage: undefined })}
                     >
                       <X className="w-3 h-3" />
@@ -231,12 +232,12 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                   </div>
                 )}
                 {content.answerText && (
-                  <div className="relative group p-3 bg-muted/30 rounded border">
-                    <p className="text-base whitespace-pre-wrap">{content.answerText}</p>
+                  <div className="relative group p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                    <p className="text-base text-gray-700 whitespace-pre-wrap">{content.answerText}</p>
                     <Button
                       variant="destructive"
                       size="sm"
-                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
                       onClick={() => onUpdate({ ...content, answerText: undefined })}
                     >
                       <X className="w-3 h-3" />
@@ -250,26 +251,21 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                   <Button
                     variant="outline"
                     size="sm"
+                    className="w-full h-10"
                     onClick={() => setIsEditing("answer")}
                   >
                     <ImagePlus className="w-4 h-4 mr-2" />
                     Add Answer
                   </Button>
                 ) : (
-                  <div className="space-y-3 p-3 border rounded-md bg-muted/30">
+                  <div className="space-y-4 p-4 border rounded-lg bg-white shadow-sm">
                     <Tabs defaultValue="text">
                       <TabsList className="grid w-full grid-cols-3">
                         <TabsTrigger value="text">Text</TabsTrigger>
-                        <TabsTrigger value="url">
-                          <LinkIcon className="w-4 h-4 mr-2" />
-                          URL
-                        </TabsTrigger>
-                        <TabsTrigger value="upload">
-                          <Upload className="w-4 h-4 mr-2" />
-                          Upload
-                        </TabsTrigger>
+                        <TabsTrigger value="url">URL</TabsTrigger>
+                        <TabsTrigger value="upload">File</TabsTrigger>
                       </TabsList>
-                      <TabsContent value="text" className="space-y-2">
+                      <TabsContent value="text" className="mt-2">
                         <Textarea
                           placeholder="Type the answer..."
                           defaultValue={content.answerText || ""}
@@ -279,19 +275,13 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                               setIsEditing(null);
                             }
                           }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                              onUpdate({ ...content, answerText: e.currentTarget.value });
-                              setIsEditing(null);
-                            }
-                          }}
+                          className="min-h-24"
                           autoFocus
-                          rows={3}
                         />
                       </TabsContent>
-                      <TabsContent value="url" className="space-y-2">
+                      <TabsContent value="url" className="mt-2">
                         <Input
-                          placeholder="Image URL (https://...)"
+                          placeholder="Image URL"
                           onChange={(e) => {
                             if (e.target.value) {
                               onUpdate({ ...content, answerImage: e.target.value });
@@ -300,18 +290,18 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
                           }}
                         />
                       </TabsContent>
-                      <TabsContent value="upload" className="space-y-2">
+                      <TabsContent value="upload" className="mt-2">
                         <Input
                           type="file"
                           accept="image/*"
                           onChange={handleImageUpload("answerImage")}
                         />
-                        <p className="text-xs text-muted-foreground">Image will be embedded as Base64</p>
                       </TabsContent>
                     </Tabs>
                     <Button
                       variant="ghost"
                       size="sm"
+                      className="w-full h-8"
                       onClick={() => setIsEditing(null)}
                     >
                       Cancel

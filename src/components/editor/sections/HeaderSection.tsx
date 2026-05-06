@@ -92,10 +92,10 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       // Draw resized image
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // 🔥 Gradient overlay (same as before)
+      // 🔥 Gradient overlay
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, 'rgba(0, 20, 40, 0.7)');
-      gradient.addColorStop(1, 'rgba(0, 40, 80, 0.8)');
+      gradient.addColorStop(0, "rgba(78, 132, 196, 0.6)"); // #4E84C4 with alpha
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.7)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -114,42 +114,52 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   const backgroundImg = content.backgroundImage || heroBackground;
 
   return (
-    <div className="relative font-sans">
+    <div className="relative" style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}>
       {/* Hero section with background image */}
       <div
-        className="relative py-12 sm:py-20 px-4 sm:px-8 text-center"
+        className="relative py-10 sm:py-16 px-4 sm:px-8 text-center"
         style={{
           backgroundImage: `url(${backgroundImg})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          backgroundColor: '#4E84C4'
         }}
       >
-    {/* Dark overlay */}
-    
+        {/* Overlay for brand tint */}
+        <div className="absolute inset-0 bg-[#4E84C4]/50 z-0"></div>
 
         {/* Content */}
         <div className="relative z-10">
-          {/* Logo and Date */}
-          <div className="flex items-center justify-between mb-8 sm:mb-12">
+          {/* Logos Row */}
+          <div className="flex items-center justify-between mb-8">
             <img
               src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
               alt="TCS Logo"
               className="h-6 sm:h-7"
             />
+            <img
+              src="https://www.tata.com/etc.clientlibs/tata/clientlibs/assets/resources/img/pages/nav/Tata_Logo2.svg"
+              alt="Tata Logo"
+              className="h-8 sm:h-10"
+            />
+          </div>
+
+          {/* Date */}
+          <div className="mb-6">
             {isEditing === "date" ? (
               <Input
                 value={content.date}
                 onChange={(e) => onUpdate({ ...content, date: e.target.value })}
                 onBlur={() => setIsEditing(null)}
-                className="w-40 h-8 bg-transparent border-white/20 text-white text-right font-mono"
+                className="w-40 h-8 mx-auto bg-transparent border-white/20 text-white text-center uppercase tracking-widest text-xs"
                 autoFocus
               />
             ) : (
               <span
-                className="text-white/80 font-mono text-sm cursor-pointer hover:text-white"
+                className="text-white/90 uppercase tracking-widest text-xs cursor-pointer hover:text-white"
                 onClick={() => setIsEditing("date")}
               >
-                {content.date || "JAN 2026"}
+                {content.date || "JANUARY 2026"}
               </span>
             )}
           </div>
@@ -160,15 +170,15 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               value={content.title}
               onChange={(e) => onUpdate({ ...content, title: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="w-full bg-transparent border-y-2 border-x-0 border-white/20 text-white text-center font-black tracking-[0.2em] uppercase py-2 sm:py-4 text-3xl sm:text-4xl"
+              className="w-full bg-transparent border-y border-white/30 text-white text-center font-bold uppercase py-2 sm:py-4 text-2xl sm:text-3xl"
               placeholder="YOUR TITLE"
               autoFocus
             />
           ) : (
             <h1
-              className="text-white font-black tracking-[0.2em] uppercase border-y-2 border-white/20 py-2 sm:py-4 text-3xl sm:text-4xl cursor-pointer hover:bg-white/5"
+              className="text-white font-bold uppercase border-y border-white/30 py-2 sm:py-4 text-2xl sm:text-3xl cursor-pointer hover:bg-white/5"
               onClick={() => setIsEditing("title")}
-              style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)' }}
+              style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)' }}
             >
               {content.title || "Pace Port Insights"}
             </h1>
@@ -180,42 +190,42 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               value={content.subtitle}
               onChange={(e) => onUpdate({ ...content, subtitle: e.target.value })}
               onBlur={() => setIsEditing(null)}
-              className="w-full max-w-2xl mx-auto bg-transparent border-none text-white text-center text-base sm:text-lg mt-6"
+              className="w-full max-w-xl mx-auto bg-transparent border-none text-white text-center text-sm sm:text-base mt-4"
               placeholder="Your engaging subtitle here..."
               autoFocus
             />
           ) : (
             <p
-              className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto mt-6 cursor-pointer hover:bg-white/5 rounded py-2"
+              className="text-white text-sm sm:text-base max-w-xl mx-auto mt-4 cursor-pointer hover:bg-white/5 rounded py-1"
               onClick={() => setIsEditing("subtitle")}
             >
-              {content.subtitle || "A monthly digest of the latest news, events, and innovations from Pace Port São Paulo, designed to inspire and inform."}
+              {content.subtitle || "A monthly digest of the latest news, events, and innovations."}
             </p>
           )}
 
           {/* CTA Button */}
-          <div className="mt-6 sm:mt-10">
+          <div className="mt-8">
             {isEditing === "cta" ? (
-              <div className="space-y-2 max-w-sm mx-auto">
+              <div className="space-y-2 max-w-sm mx-auto p-4 bg-white/10 rounded-lg">
                 <Input
                   value={content.ctaText}
                   onChange={(e) => onUpdate({ ...content, ctaText: e.target.value })}
-                  className="w-full bg-white/90 border-transparent text-gray-800 text-center"
+                  className="w-full bg-white text-gray-800"
                   placeholder="Button Text"
                 />
                 <Input
                   value={content.ctaLink}
                   onChange={(e) => onUpdate({ ...content, ctaLink: e.target.value })}
-                  className="w-full bg-white/90 border-transparent text-gray-800 text-center"
+                  className="w-full bg-white text-gray-800"
                   placeholder="https://example.com"
                 />
-                 <Button size="sm" variant="secondary" onClick={() => setIsEditing(null)}>Done</Button>
+                 <Button size="sm" className="mt-2" variant="secondary" onClick={() => setIsEditing(null)}>Done</Button>
               </div>
             ) : (
               <a href={content.ctaLink || "#"} target="_blank" rel="noopener noreferrer">
                 <Button
                   size="lg"
-                  className="bg-[#f5c518] text-[#0a1628] font-bold hover:bg-[#f5c518]/90 relative group"
+                  className="bg-[#FBB034] text-black font-bold hover:bg-[#FBB034]/90 relative group"
                   onClick={(e) => {
                     e.preventDefault();
                     setIsEditing("cta");
