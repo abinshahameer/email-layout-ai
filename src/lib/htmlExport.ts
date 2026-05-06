@@ -12,7 +12,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       const brandYellow = "#FBB034";
       const heroStyle = bgImage 
         ? `background-image: url('${bgImage}'); background-size: cover; background-position: center; background-repeat: no-repeat;`
-        : `background-color: ${brandBlue};`;
+        : `background-color: #000000;`;
       
       const ctaButton = section.content.ctaLink ? `
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-top: 30px;">
@@ -28,14 +28,14 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       return `
         <table data-section-type="header" data-section-id="${section.id}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
-            <td style="${heroStyle} text-align: center; background-color: ${brandBlue};" data-property="backgroundImage" data-value="${bgImage}">
+            <td style="${heroStyle} text-align: center; background-color: #000000;" data-property="backgroundImage" data-value="${bgImage}">
               <!--[if mso]>
               <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:600px;">
-                <v:fill type="frame" src="${bgImage}" color="${brandBlue}" />
+                <v:fill type="frame" src="${bgImage}" color="#000000" />
                 <v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0">
-                  <div style="background-color: rgba(78, 132, 196, 0.4); padding:20px 24px 40px 24px;">
+                  <div style="background-color: rgba(0, 0, 0, 0.3); padding:20px 24px 40px 24px;">
               <![endif]-->
-              <div style="background-color: rgba(78, 132, 196, 0.5); padding:20px 24px 40px 24px;">
+              <div style="background-color: rgba(0, 0, 0, 0.3); padding:20px 24px 40px 24px;">
                 <!-- Logos Row -->
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 30px;">
                   <tr>

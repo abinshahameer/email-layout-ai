@@ -45,10 +45,11 @@ useEffect(() => {
 
       // 🔥 Gradient overlay (same effect as before)
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "rgba(0, 20, 40, 0.7)");
-      gradient.addColorStop(1, "rgba(0, 40, 80, 0.8)");
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0.3)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.5)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 
       // 🔥 Compression
       let quality = 0.7;
@@ -94,8 +95,8 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
       // 🔥 Gradient overlay
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "rgba(78, 132, 196, 0.6)"); // #4E84C4 with alpha
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0.7)");
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0.3)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.5)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -122,11 +123,11 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           backgroundImage: `url(${backgroundImg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundColor: '#4E84C4'
+          backgroundColor: '#000000'
         }}
       >
-        {/* Overlay for brand tint */}
-        <div className="absolute inset-0 bg-[#4E84C4]/50 z-0"></div>
+        {/* Overlay for black tint */}
+        <div className="absolute inset-0 bg-black/30 z-0"></div>
 
         {/* Content */}
         <div className="relative z-10">

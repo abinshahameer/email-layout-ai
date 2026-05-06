@@ -60,14 +60,14 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
             onChange={(e) => onUpdate({ ...content, title: e.target.value })}
             onBlur={() => setIsEditing(null)}
             className="text-xl sm:text-2xl font-bold bg-white/50 border-brand"
-            style={{ color: brandBlue }}
+            style={{ color: brandOrange }}
             placeholder="Puzzle title..."
             autoFocus
           />
         ) : (
           <h3
             className="text-xl sm:text-2xl font-bold cursor-pointer hover:bg-black/5 rounded px-2 py-1 -mx-2 transition-colors"
-            style={{ color: brandBlue }}
+            style={{ color: brandOrange }}
             onClick={() => setIsEditing("title")}
           >
             {content.title || "Click to add puzzle title..."}

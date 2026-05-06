@@ -16,6 +16,7 @@ export const ExtendedReadingSection = ({ content, onUpdate }: ExtendedReadingSec
 
   const links = content.links || [];
   const brandBlue = "#4E84C4";
+  const brandGreen = "#54B948";
 
   const handleAddLink = () => {
     if (newLink.title && newLink.url) {
@@ -45,7 +46,7 @@ export const ExtendedReadingSection = ({ content, onUpdate }: ExtendedReadingSec
             >
               <div className="flex items-center gap-4 flex-1 min-w-0">
                 <div className="w-10 h-10 rounded-full bg-[#E8F1F8] flex items-center justify-center flex-shrink-0">
-                   <ExternalLink className="w-5 h-5" style={{ color: brandBlue }} />
+                   <ExternalLink className="w-5 h-5" style={{ color: brandGreen }} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-bold text-base text-black truncate">{link.title}</p>
