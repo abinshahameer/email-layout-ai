@@ -45,8 +45,8 @@ useEffect(() => {
 
       // 🔥 Gradient overlay (same effect as before)
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0.2)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0.4)");
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0.1)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.3)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -95,8 +95,8 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
       // 🔥 Gradient overlay
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0.2)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0.4)");
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0.1)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.3)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
