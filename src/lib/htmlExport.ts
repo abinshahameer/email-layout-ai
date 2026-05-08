@@ -71,7 +71,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 
                 <!-- Subtitle -->
                 <p style="margin: 20px auto 0 auto; font-family: ${fontStack}; font-size: 18px; line-height: 1.4; color: ${brandWhite}; max-width: 500px;" data-property="subtitle">
-                  ${section.content.subtitle || "A monthly digest of the latest news, events, and innovations."}
+                  ${(section.content.subtitle || "A monthly digest of the latest news, events, and innovations.").replace(/\n/g, '<br />')}
                 </p>
 
                 <!-- CTA Button -->
@@ -146,7 +146,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                     ` : ""}
                     <td style="vertical-align: top;">
                       <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
-                        ${section.content.description || ""}
+                        ${(section.content.description || "").replace(/\n/g, '<br />')}
                       </p>
                       ${section.content.link ? `
                         <p style="margin: 12px 0 0 0;">
@@ -173,7 +173,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 </table>
               ` : `
                 <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
-                  ${section.content.description || ""}
+                  ${(section.content.description || "").replace(/\n/g, '<br />')}
                 </p>
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
@@ -344,7 +344,6 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
 };
 
 export const exportToHTML = (sections: NewsletterSection[]): string => {
-  const fontStack = "Calibri, Candara, Arial, sans-serif";
   const styles = `
     body {
       margin: 0;
@@ -372,6 +371,9 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     }
     #newsletter-container {
       mso-line-height-rule: exactly;
+    }
+    body, table, td, p, a, h1, h2, h3, h4, h5, h6, span {
+      font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif !important;
     }
   `;
 

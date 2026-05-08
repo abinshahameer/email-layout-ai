@@ -19,6 +19,9 @@ const getText = (node: any): string => {
   if (node.type === 'text') {
     return node.data;
   }
+  if (node.type === 'tag' && node.name === 'br') {
+    return '\n';
+  }
   if (node.children) {
     return node.children.map(getText).join('');
   }
