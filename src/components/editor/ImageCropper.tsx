@@ -42,7 +42,7 @@ const getCroppedImg = () => {
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
 
-  const maxWidth = 600; // 🔥 important for email
+  const maxWidth = 1000; // Increased for better quality on high-DPI/Retina screens
   const scale = Math.min(1, maxWidth / crop.width);
 
   canvas.width = crop.width * scale;
@@ -68,7 +68,7 @@ const getCroppedImg = () => {
   );
 
   // 🔥 quality compression
-  return canvas.toDataURL("image/jpeg", 0.7);
+  return canvas.toDataURL("image/jpeg", 0.8);
 };
 
   const handleCrop = () => {

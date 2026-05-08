@@ -32,7 +32,7 @@ useEffect(() => {
       const canvas = document.createElement("canvas");
 
       // 🔥 Resize logic (critical)
-      const maxWidth = 600;
+      const maxWidth = 1000;
       const scale = Math.min(1, maxWidth / img.width);
 
       canvas.width = img.width * scale;
@@ -53,7 +53,7 @@ useEffect(() => {
 
 
       // 🔥 Compression
-      let quality = 0.7;
+      let quality = 0.8;
       let base64 = canvas.toDataURL("image/jpeg", quality);
 
       // 🔥 Optional: ensure size stays under ~100KB
@@ -82,7 +82,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       const canvas = document.createElement('canvas');
 
       // 🔥 Resize logic
-      const maxWidth = 600;
+      const maxWidth = 1000;
       const scale = Math.min(1, maxWidth / img.width);
 
       canvas.width = img.width * scale;
@@ -102,7 +102,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // 🔥 Compression
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
 
       onUpdate({ ...content, backgroundImage: dataUrl });
     };
