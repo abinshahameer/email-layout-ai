@@ -35,23 +35,39 @@ export function ImageCropper({ image, onCrop, onClose }: ImageCropperProps) {
 
 const getCroppedImg = () => {
   const image = imageRef.current;
-  if (!image || !crop || !crop.width || !crop.height) return;
+
+  if (!image || !crop?.width || !crop?.height) return null;
 
   const canvas = document.createElement("canvas");
 
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
 
-  const maxWidth = 1000; // Increased for better quality on high-DPI/Retina screens
-  const scale = Math.min(1, maxWidth / crop.width);
+  // Actual crop size in original image resolution
+  const naturalCropWidth = crop.width * scaleX;
+  const naturalCropHeight = crop.height * scaleY;
 
-  canvas.width = crop.width * scale;
-  canvas.height = crop.height * scale;
+  let targetWidth = naturalCropWidth;
+  let targetHeight = naturalCropHeight;
+
+  // Downscale only if image is too large
+  const maxWidth = 1000;
+
+  if (naturalCropWidth > maxWidth) {
+    const resizeScale = maxWidth / naturalCropWidth;
+
+    targetWidth = maxWidth;
+    targetHeight = naturalCropHeight * resizeScale;
+  }
+
+  // Prevent blurry fractional canvas sizes
+  canvas.width = Math.round(targetWidth);
+  canvas.height = Math.round(targetHeight);
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) return null;
 
-    // Better image quality
+  // Better rendering quality
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
 
@@ -59,16 +75,18 @@ const getCroppedImg = () => {
     image,
     crop.x * scaleX,
     crop.y * scaleY,
-    crop.width * scaleX,
-    crop.height * scaleY,
+    naturalCropWidth,
+    naturalCropHeight,
     0,
     0,
     canvas.width,
     canvas.height
   );
 
-  // 🔥 quality compression
-  return canvas.toDataURL("image/jpeg", 0.8);
+  // Adaptive compression
+  const quality = targetWidth < 600 ? 0.9 : 0.82;
+
+  return canvas.toDataURL("image/jpeg", quality);
 };
 
   const handleCrop = () => {
