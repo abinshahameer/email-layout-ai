@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, ImagePlus, X, Upload, Link as LinkIcon, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import { CalendarIcon, ImagePlus, X, Upload, Link as LinkIcon, AlignLeft, AlignCenter, AlignRight, Check } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
@@ -34,6 +34,7 @@ interface ArticleSectionProps {
 export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: ArticleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [croppingImage, setCroppingImage] = useState<string | null>(null);
+  const descriptionRef = useRef<HTMLDivElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,6 +51,13 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
   const handleCrop = (croppedImage: string) => {
     onUpdate({ ...content, image: croppedImage });
     setCroppingImage(null);
+  };
+
+  const handleDescriptionSave = () => {
+    if (descriptionRef.current) {
+      onUpdate({ ...content, description: descriptionRef.current.innerHTML });
+    }
+    setIsEditing(null);
   };
 
   // Hero section is now part of HeaderSection, but keep for backward compatibility
@@ -228,21 +236,63 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
 
         <div className="flex-1 space-y-2 mb-4">
           {isEditing === "description" ? (
-            <Textarea
-              value={content.description || ""}
-              onChange={(e) => onUpdate({ ...content, description: e.target.value })}
-              onBlur={() => setIsEditing(null)}
-              className="min-h-32 text-base text-gray-700 leading-relaxed border-brand"
-              placeholder="Article content..."
-              autoFocus
-            />
+            <div className="space-y-2 border-brand border rounded-md p-2 bg-white shadow-md">
+              <div className="flex items-center justify-between mb-2 pb-2 border-b">
+                <div className="flex gap-1">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-8 w-8 p-0" 
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      document.execCommand('bold', false);
+                    }}
+                    title="Bold"
+                  >
+                    <span className="font-bold text-base">B</span>
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-8 w-8 p-0" 
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      document.execCommand('italic', false);
+                    }}
+                    title="Italic"
+                  >
+                    <span className="italic text-base">I</span>
+                  </Button>
+                </div>
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="h-8 gap-1 px-3"
+                  onClick={handleDescriptionSave}
+                >
+                  <Check className="h-3.5 w-3.5" />
+                  Done
+                </Button>
+              </div>
+              <div
+                ref={descriptionRef}
+                contentEditable
+                className="min-h-32 text-base text-gray-700 leading-relaxed outline-none"
+                dangerouslySetInnerHTML={{ __html: content.description || "" }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') {
+                    handleDescriptionSave();
+                  }
+                }}
+                autoFocus
+              />
+            </div>
           ) : (
-            <p
-              className="text-base text-gray-700 leading-relaxed cursor-pointer hover:bg-black/5 rounded px-2 py-1 -mx-2 transition-colors whitespace-pre-wrap"
+            <div
+              className="text-base text-gray-700 leading-relaxed cursor-pointer hover:bg-black/5 rounded px-2 py-1 -mx-2 transition-colors whitespace-pre-wrap prose prose-sm max-w-none"
               onClick={() => setIsEditing("description")}
-            >
-              {content.description || "Click to add content..."}
-            </p>
+              dangerouslySetInnerHTML={{ __html: content.description || "Click to add content..." }}
+            />
           )}
         </div>
 

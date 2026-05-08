@@ -14,6 +14,20 @@ const findNodesByAttribute = (nodes: any[], attribute: string): any[] => {
   return result;
 };
 
+const getHtml = (node: any): string => {
+  if (!node) return '';
+  if (node.type === 'text') {
+    return node.data;
+  }
+  if (node.type === 'tag') {
+    const tagName = node.name;
+    const childrenHtml = node.children ? node.children.map(getHtml).join('') : '';
+    if (tagName === 'br') return '<br />';
+    return `<${tagName}>${childrenHtml}</${tagName}>`;
+  }
+  return '';
+};
+
 const getText = (node: any): string => {
   if (!node) return '';
   if (node.type === 'text') {
@@ -80,6 +94,9 @@ export const parseImportedHTML = (html: string): NewsletterSection[] => {
           } else if (propName === 'date') {
             const dateValue = getAttribute(propNode, 'data-date-value');
             content[propName] = dateValue || getText(propNode);
+          } else if (propName === 'description' || propName === 'subtitle') {
+            // For description and subtitle, we want to preserve the internal HTML (like <b>, <i>, <br>)
+            content[propName] = propNode.children ? propNode.children.map(getHtml).join('') : getHtml(propNode);
           }
           else {
             content[propName] = getText(propNode);

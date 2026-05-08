@@ -146,7 +146,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                     ` : ""}
                     <td style="vertical-align: top;">
                       <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
-                        ${(section.content.description || "").replace(/\n/g, '<br />')}
+                        ${section.content.description || ""}
                       </p>
                       ${section.content.link ? `
                         <p style="margin: 12px 0 0 0;">
@@ -173,7 +173,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
                 </table>
               ` : `
                 <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
-                  ${(section.content.description || "").replace(/\n/g, '<br />')}
+                  ${section.content.description || ""}
                 </p>
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
