@@ -101,7 +101,7 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // 🔥 Compression
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
 
       onUpdate({ ...content, backgroundImage: dataUrl });
     };

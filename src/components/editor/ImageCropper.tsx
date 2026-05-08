@@ -51,6 +51,10 @@ const getCroppedImg = () => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+    // Better image quality
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
   ctx.drawImage(
     image,
     crop.x * scaleX,
@@ -64,7 +68,7 @@ const getCroppedImg = () => {
   );
 
   // 🔥 quality compression
-  return canvas.toDataURL("image/jpeg", 0.6);
+  return canvas.toDataURL("image/jpeg", 0.7);
 };
 
   const handleCrop = () => {
