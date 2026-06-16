@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Upload, Link as LinkIcon, Edit, Check } from "lucide-react";
+import { Upload, Edit } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RichTextEditor } from "../RichTextEditor";
 import heroBackground from "@/assets/hero-background.jpg";
 
 interface HeaderSectionProps {
@@ -22,7 +23,6 @@ interface HeaderSectionProps {
 
 export const HeaderSection = ({ content, onUpdate }: HeaderSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
-  const subtitleRef = useRef<HTMLDivElement>(null);
 
 useEffect(() => {
   if (!content.backgroundImage) {
@@ -113,13 +113,6 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
   reader.readAsDataURL(file);
 };
 
-  const handleSubtitleSave = () => {
-    if (subtitleRef.current) {
-      onUpdate({ ...content, subtitle: subtitleRef.current.innerHTML });
-    }
-    setIsEditing(null);
-  };
-
   const backgroundImg = content.backgroundImage || heroBackground;
 
   return (
@@ -194,65 +187,15 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
           )}
           
           {/* Subtitle */}
-          {isEditing === "subtitle" ? (
-            <div className="w-full max-w-xl mx-auto bg-black/40 p-4 rounded-lg border border-white/20 shadow-xl mt-4">
-              <div className="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
-                <div className="flex gap-1">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="h-8 w-8 p-0 text-white hover:bg-white/10" 
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      document.execCommand('bold', false);
-                    }}
-                    title="Bold"
-                  >
-                    <span className="font-bold text-base">B</span>
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="h-8 w-8 p-0 text-white hover:bg-white/10" 
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      document.execCommand('italic', false);
-                    }}
-                    title="Italic"
-                  >
-                    <span className="italic text-base">I</span>
-                  </Button>
-                </div>
-                <Button 
-                  variant="secondary" 
-                  size="sm" 
-                  className="h-8 gap-1 px-3"
-                  onClick={handleSubtitleSave}
-                >
-                  <Check className="h-3.5 w-3.5" />
-                  Done
-                </Button>
-              </div>
-              <div
-                ref={subtitleRef}
-                contentEditable
-                className="text-white text-center text-sm sm:text-base outline-none min-h-[3rem]"
-                dangerouslySetInnerHTML={{ __html: content.subtitle || "" }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') {
-                    handleSubtitleSave();
-                  }
-                }}
-                autoFocus
-              />
-            </div>
-          ) : (
-            <p
-              className="text-white text-sm sm:text-base max-w-xl mx-auto mt-4 cursor-pointer hover:bg-white/5 rounded py-1"
-              onClick={() => setIsEditing("subtitle")}
-              dangerouslySetInnerHTML={{ __html: content.subtitle || "A monthly digest of the latest news, events, and innovations." }}
+          <div className="w-full max-w-xl mx-auto mt-4 [&_.ProseMirror]:text-center">
+            <RichTextEditor
+              value={content.subtitle || ""}
+              onChange={(html) => onUpdate({ ...content, subtitle: html })}
+              placeholder="A monthly digest of the latest news, events, and innovations."
+              className="text-white text-center text-sm sm:text-base"
+              variant="dark"
             />
-          )}
+          </div>
 
           {/* CTA Button */}
           <div className="mt-8">

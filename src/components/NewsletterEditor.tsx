@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Sidebar } from "@/components/ui/sidebar";
-import { Download, Sparkles, Eye, Copy, Upload, Menu } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Download, Sparkles, Eye, Copy, Upload, Menu, Mail, FileDown } from "lucide-react";
 import { EditorSidebar } from "./editor/EditorSidebar";
 import { NewsletterPreview } from "./editor/NewsletterPreview";
 import { AIAssistant } from "./editor/AIAssistant";
 import { exportToHTML } from "@/lib/htmlExport";
+import { exportToEML } from "@/lib/emlExport";
 import { parseImportedHTML } from "@/lib/htmlImport";
 import { useToast } from "@/hooks/use-toast";
 import { getSections, saveSections } from "@/lib/db";
@@ -212,6 +214,58 @@ const NewsletterEditor = () => {
     }
   };
 
+  const handleOpenInOutlook = async () => {
+    const html = exportToHTML(sections);
+    // Outlook on the web (Microsoft 365 / work or school account) compose deeplink.
+    // For personal outlook.com accounts use: https://outlook.live.com/mail/0/deeplink/compose
+    const outlookComposeUrl = "https://outlook.office.com/mail/deeplink/compose?subject=Newsletter";
+
+    try {
+      // Put the markup on the clipboard as text/html so a plain Ctrl+V into the
+      // Outlook message body renders it as a formatted email (no inspect-element needed).
+      if (navigator.clipboard && typeof window.ClipboardItem !== "undefined") {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": new Blob([html], { type: "text/html" }),
+            "text/plain": new Blob([html], { type: "text/plain" }),
+          }),
+        ]);
+      } else {
+        await navigator.clipboard.writeText(html);
+      }
+      toast({
+        title: "Copied — ready to paste in Outlook",
+        description: "Outlook is opening in a new tab. Click in the message body and press Ctrl+V (⌘V) to paste the formatted newsletter.",
+      });
+    } catch (err) {
+      console.error("Copy for Outlook failed:", err);
+      toast({
+        title: "Couldn't copy automatically",
+        description: "Use the 'Copy HTML' button, then paste into the Outlook message body.",
+        variant: "destructive",
+      });
+    }
+
+    // Opened after the copy so the clipboard write happens while this tab still has focus.
+    window.open(outlookComposeUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDownloadEml = () => {
+    const eml = exportToEML(sections);
+    const blob = new Blob([eml], { type: "message/rfc822" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "newsletter.eml";
+    a.click();
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Outlook file ready",
+      description: "Open newsletter.eml in Outlook desktop — it opens as a ready-to-send message with images and styling intact.",
+    });
+  };
+
   const handleImport = () => {
     importInputRef.current?.click();
   };
@@ -286,7 +340,8 @@ const NewsletterEditor = () => {
             <p className="text-sm text-muted-foreground">Email newsletter editor</p>
           </div>
           
-          <div className="flex items-center gap-3 flex-wrap justify-center">
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            {/* View control */}
             <Button
               variant="outline"
               size="sm"
@@ -295,9 +350,10 @@ const NewsletterEditor = () => {
               <Eye className="w-4 h-4 mr-2" />
               {previewMode === "desktop" ? "Desktop" : "Mobile"}
             </Button>
-            
 
+            <Separator orientation="vertical" className="mx-1 h-6 hidden sm:block" />
 
+            {/* HTML in / out (secondary utilities) */}
             <input
               type="file"
               ref={importInputRef}
@@ -305,20 +361,43 @@ const NewsletterEditor = () => {
               accept=".html"
               onChange={handleFileChange}
             />
-            <Button onClick={handleImport} variant="outline">
+            <Button onClick={handleImport} variant="outline" size="sm">
               <Upload className="w-4 h-4 mr-2" />
               Import HTML
             </Button>
 
-            <Button onClick={handleCopyHtml}>
+            <Button onClick={handleCopyHtml} variant="outline" size="sm">
               <Copy className="w-4 h-4 mr-2" />
               Copy HTML
             </Button>
-            
-            <Button onClick={handleExport}>
+
+            <Button onClick={handleExport} variant="outline" size="sm">
               <Download className="w-4 h-4 mr-2" />
               Export HTML
             </Button>
+
+            <Separator orientation="vertical" className="mx-1 h-6 hidden sm:block" />
+
+            {/* Primary action: send to Outlook (segmented control) */}
+            <div className="inline-flex rounded-md shadow-sm">
+              <Button
+                size="sm"
+                className="rounded-r-none"
+                onClick={handleOpenInOutlook}
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Open in Outlook
+              </Button>
+              <Button
+                size="sm"
+                className="rounded-l-none border-l border-primary-foreground/25"
+                onClick={handleDownloadEml}
+                title="Download .eml — opens in Outlook desktop with images & styling intact"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                .eml
+              </Button>
+            </div>
           </div>
         </header>
 

@@ -38,8 +38,8 @@ export const ComicSection = ({ content, onUpdate, isHalfWidth }: ComicSectionPro
   };
 
   return (
-    <div 
-      className={cn("p-4 sm:p-6 border-b border-gray-100", isAlternate ? "bg-[#F5F7FA]" : "bg-white")}
+    <div
+      className={cn("p-4 sm:p-6 border-b border-gray-100 bg-[#F5F7FA]")}
       style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}
     >
       <h3 className="text-lg sm:text-xl font-bold mb-4" style={{ color: '#4E84C4' }}>Comic Section</h3>

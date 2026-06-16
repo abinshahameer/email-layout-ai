@@ -118,3 +118,29 @@ All colors MUST be HSL.
     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
   }
 }
+
+/* TipTap rich-text editor (used for article body & hero subtitle).
+   The editor inherits font-family from its parent section, so pasted
+   content from other documents takes on the app's Calibri rather than
+   the source document's font. */
+.ProseMirror {
+  outline: none;
+}
+.ProseMirror p {
+  margin: 0;
+}
+.ProseMirror p + p {
+  margin-top: 0.5rem;
+}
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: #9ca3af;
+}
+.rte-dark .ProseMirror p.is-editor-empty:first-child::before {
+  float: none;
+  height: auto;
+  color: rgba(255, 255, 255, 0.6);
+}
