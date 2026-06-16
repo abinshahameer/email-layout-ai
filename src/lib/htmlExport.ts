@@ -4,7 +4,7 @@ import { format } from "date-fns";
 const brandBlue = "#4E84C4";
 const brandBlack = "#000000";
 const brandWhite = "#FFFFFF";
-const fontStack = "Calibri, Candara, Arial, sans-serif";
+const fontStack = "Calibri";
 
 const renderSection = (section: NewsletterSection, isAlternate: boolean = false): string => {
   switch (section.type) {
@@ -373,7 +373,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
       mso-line-height-rule: exactly;
     }
     body, table, td, p, a, h1, h2, h3, h4, h5, h6, span {
-      font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif !important;
+      font-family: Calibri !important;
     }
   `;
 
