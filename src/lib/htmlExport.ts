@@ -4,9 +4,10 @@ import { format } from "date-fns";
 const brandBlue = "#4E84C4";
 const brandBlack = "#000000";
 const brandWhite = "#FFFFFF";
+const linkColor = "#2C5AA0"; // darker blue for in-content links (WCAG AA on white & tint)
 const fontStack = "Calibri";
 
-const renderSection = (section: NewsletterSection, isAlternate: boolean = false): string => {
+const renderSection = (section: NewsletterSection, isAlternate: boolean = false, withDivider: boolean = true): string => {
   switch (section.type) {
     case "header": {
       const bgImage = section.content.backgroundImage || '';
@@ -95,12 +96,13 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false)
       
       const imagePosition = section.content.imagePosition || "top";
       const imageSize = section.content.imageSize || 100;
-      const backgroundColor = isAlternate ? '#F5F7FA' : '#FFFFFF';
-      
+      const backgroundColor = isAlternate ? '#EEF3F9' : '#FFFFFF';
+      const dividerStyle = withDivider ? ' border-bottom: 1px solid #E5E7EB;' : '';
+
       return `
         <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: ${backgroundColor};">
           <tr>
-            <td style="padding: 24px;">
+            <td style="padding: 24px;${dividerStyle}">
               <h3 style="margin: 0 0 10px 0; font-family: ${fontStack}; font-size: 20px; font-weight: bold; color: #000000;" data-property="title">
                 ${section.content.title || ""}
               </h3>
@@ -398,17 +400,16 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     if (section.rowLayout === "half" && i + 1 < sections.length && sections[i + 1].rowLayout === "half") {
       const nextSection = sections[i + 1];
       if (nextSection.type !== "header" && nextSection.type !== "footer" && nextSection.type !== "extended-reading" && !nextSection.content?.isHero) {
-        const leftBgColor = isAlternate ? '#F9FAFB' : '#FFFFFF';
-        const rightBgColor = !isAlternate ? '#F9FAFB' : '#FFFFFF';
-        
+        const rowBgColor = isAlternate ? '#EEF3F9' : '#FFFFFF';
+
         bodyContent += `
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <td width="50%" style="vertical-align: top; border-right: 1px solid #e5e7eb; background-color: ${leftBgColor};">
-                ${renderSection(section, isAlternate)}
+              <td width="50%" style="vertical-align: top; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #E5E7EB; background-color: ${rowBgColor};">
+                ${renderSection(section, isAlternate, false)}
               </td>
-              <td width="50%" style="vertical-align: top; background-color: ${rightBgColor};">
-                ${renderSection(nextSection, !isAlternate)}
+              <td width="50%" style="vertical-align: top; border-bottom: 1px solid #E5E7EB; background-color: ${rowBgColor};">
+                ${renderSection(nextSection, isAlternate, false)}
               </td>
             </tr>
           </table>

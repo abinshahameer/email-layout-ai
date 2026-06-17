@@ -50,7 +50,7 @@ export const PuzzleSection = ({ content, onUpdate, isHalfWidth }: PuzzleSectionP
 
   return (
     <div 
-      className={cn("p-4 sm:p-6 border-b border-gray-100 bg-[#E8F1F8]")}
+      className={cn("p-4 sm:p-6 bg-[#E8F1F8]")}
       style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}
     >
       <div className="mb-6 space-y-4">

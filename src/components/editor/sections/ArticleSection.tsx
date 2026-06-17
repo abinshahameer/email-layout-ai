@@ -28,10 +28,9 @@ interface ArticleSectionProps {
   };
   onUpdate: (content: any) => void;
   isHalfWidth?: boolean;
-  isAlternate?: boolean;
 }
 
-export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: ArticleSectionProps) => {
+export const ArticleSection = ({ content, onUpdate, isHalfWidth }: ArticleSectionProps) => {
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [croppingImage, setCroppingImage] = useState<string | null>(null);
 
@@ -61,8 +60,8 @@ export const ArticleSection = ({ content, onUpdate, isHalfWidth, isAlternate }: 
   const brandBlue = "#4E84C4";
 
   return (
-    <div 
-      className={cn("p-4 sm:p-6 transition-colors", isAlternate ? "bg-[#F5F7FA]" : "bg-white")}
+    <div
+      className="p-4 sm:p-6 transition-colors"
       style={{ fontFamily: 'Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif' }}
     >
       {isEditing === "title" ? (
