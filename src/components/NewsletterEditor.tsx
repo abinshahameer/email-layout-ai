@@ -378,26 +378,19 @@ const NewsletterEditor = () => {
 
             <Separator orientation="vertical" className="mx-1 h-6 hidden sm:block" />
 
-            {/* Primary action: send to Outlook (segmented control) */}
-            <div className="inline-flex rounded-md shadow-sm">
-              <Button
-                size="sm"
-                className="rounded-r-none"
-                onClick={handleOpenInOutlook}
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Open in Outlook
-              </Button>
-              <Button
-                size="sm"
-                className="rounded-l-none border-l border-primary-foreground/25"
-                onClick={handleDownloadEml}
-                title="Download .eml — opens in Outlook desktop with images & styling intact"
-              >
-                <FileDown className="w-4 h-4 mr-2" />
-                .eml
-              </Button>
-            </div>
+            {/* Primary actions: send to Outlook */}
+            <Button size="sm" onClick={handleOpenInOutlook}>
+              <Mail className="w-4 h-4 mr-2" />
+              Open in Outlook
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleDownloadEml}
+              title="Download .eml — opens in Outlook desktop with images & styling intact"
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              .eml
+            </Button>
           </div>
         </header>
 
