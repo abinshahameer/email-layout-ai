@@ -147,12 +147,12 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                       </td>
                     ` : ""}
                     <td style="vertical-align: top;">
-                      <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
+                      <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: 16px; color: #333333;" data-property="description">
                         ${section.content.description || ""}
                       </p>
                       ${section.content.link ? `
                         <p style="margin: 12px 0 0 0;">
-                          <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${brandBlue}; text-decoration: none; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
+                          <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
                             ${section.content.linkText ? `Read more: ${section.content.linkText}` : "Read more"}
                           </a>
                         </p>
@@ -174,12 +174,12 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                   </tr>
                 </table>
               ` : `
-                <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.5; font-size: 16px; color: #333333;" data-property="description">
+                <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: 16px; color: #333333;" data-property="description">
                   ${section.content.description || ""}
                 </p>
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
-                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${brandBlue}; text-decoration: none; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
+                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
                       ${section.content.linkText ? `Read more: ${section.content.linkText}` : "Read more"}
                     </a>
                   </p>
@@ -425,6 +425,20 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     isAlternate = !isAlternate;
   }
 
+  // Preheader (inbox preview text) derived from the header subtitle/title.
+  const stripTags = (s = "") =>
+    s.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+  const escapeHtml = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const headerSection = sections.find((s) => s.type === "header");
+  const preheaderText = escapeHtml(
+    stripTags((headerSection?.content?.subtitle as string) || "") ||
+      stripTags((headerSection?.content?.title as string) || "") ||
+      "Pace Port Insights — the latest news, events, and innovations."
+  );
+  // Spacer keeps body content (logos, date) from bleeding into the inbox preview snippet.
+  const preheaderSpacer = "&zwnj;&nbsp;".repeat(30);
+
   return `
 <!DOCTYPE html>
 <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -444,6 +458,10 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
   <style>${styles}</style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: ${fontStack};">
+  <!-- Preheader: shown in the inbox preview, hidden inside the message body -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#f5f5f5;">
+    ${preheaderText}${preheaderSpacer}
+  </div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f5f5f5;">
     <tr>
       <td align="center" style="padding: 0;">
