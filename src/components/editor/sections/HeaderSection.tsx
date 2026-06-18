@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, Edit } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RichTextEditor } from "../RichTextEditor";
+import { capCanvasToLimit } from "@/lib/image";
 import heroBackground from "@/assets/hero-background.jpg";
 
 interface HeaderSectionProps {
@@ -52,15 +53,8 @@ useEffect(() => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 
-      // 🔥 Compression
-      let quality = 0.8;
-      let base64 = canvas.toDataURL("image/jpeg", quality);
-
-      // 🔥 Optional: ensure size stays under ~100KB
-      // while (base64.length > 100 * 1024 && quality > 0.3) {
-      //   quality -= 0.05;
-      //   base64 = canvas.toDataURL("image/jpeg", quality);
-      // }
+      // Encode, capping very large images down to the size limit.
+      const base64 = capCanvasToLimit(canvas, 0.8);
 
       onUpdate({ ...content, backgroundImage: base64 });
     };
@@ -101,8 +95,8 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // 🔥 Compression
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      // Encode, capping very large images down to the size limit.
+      const dataUrl = capCanvasToLimit(canvas, 0.8);
 
       onUpdate({ ...content, backgroundImage: dataUrl });
     };

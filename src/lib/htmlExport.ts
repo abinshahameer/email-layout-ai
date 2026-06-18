@@ -7,7 +7,9 @@ const brandWhite = "#FFFFFF";
 const linkColor = "#2C5AA0"; // darker blue for in-content links (WCAG AA on white & tint)
 const fontStack = "Calibri";
 
-const renderSection = (section: NewsletterSection, isAlternate: boolean = false, withDivider: boolean = true): string => {
+// contentWidth = usable px width of the column the section sits in
+// (600px container - 24px padding each side = 552; half-width column ≈ 252).
+const renderSection = (section: NewsletterSection, isAlternate: boolean = false, withDivider: boolean = true, contentWidth: number = 552): string => {
   switch (section.type) {
     case "header": {
       const bgImage = section.content.backgroundImage || '';
@@ -19,8 +21,8 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
       const ctaButton = section.content.ctaLink ? `
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-top: 30px;">
           <tr>
-            <td style="background-color: ${brandYellow}; border-radius: 4px; text-align: center;">
-              <a href="${section.content.ctaLink}" target="_blank" style="font-family: ${fontStack}; font-size: 16px; font-weight: bold; color: #000000; text-decoration: none; padding: 12px 24px; display: inline-block; border-radius: 4px;">
+            <td align="center" bgcolor="${brandYellow}" style="background-color: ${brandYellow}; border-radius: 4px; text-align: center; padding: 12px 24px;">
+              <a href="${section.content.ctaLink}" target="_blank" style="font-family: ${fontStack}; font-size: 16px; font-weight: bold; color: #000000; text-decoration: none; display: inline-block;">
                 ${section.content.ctaText || "Explore More"}
               </a>
             </td>
@@ -96,6 +98,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
       
       const imagePosition = section.content.imagePosition || "top";
       const imageSize = section.content.imageSize || 100;
+      const imageWidthPx = Math.round((contentWidth * imageSize) / 100);
       const backgroundColor = isAlternate ? '#EEF3F9' : '#FFFFFF';
       const dividerStyle = withDivider ? ' border-bottom: 1px solid #E5E7EB;' : '';
 
@@ -119,7 +122,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                       <img 
                         src="${section.content.image}" 
                         alt="${section.content.imageAlt || 'Article image'}" 
-                        width="${imageSize}%" 
+                        width="${imageWidthPx}" 
                         style="display: block; max-width: 100%; height: auto; border-radius: 4px;"
                         data-property="image"
                         data-image-size="${imageSize}"
@@ -134,7 +137,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
                     ${imagePosition === "left" ? `
-                      <td width="${imageSize}%" style="padding-right: 20px; vertical-align: middle;">
+                      <td width="${imageWidthPx}" style="padding-right: 20px; vertical-align: middle;">
                         <img 
                           src="${section.content.image}" 
                           alt="${section.content.imageAlt || 'Article image'}" 
@@ -159,7 +162,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                       ` : ""}
                     </td>
                     ${imagePosition === "right" ? `
-                      <td width="${imageSize}%" style="padding-left: 20px; vertical-align: middle;">
+                      <td width="${imageWidthPx}" style="padding-left: 20px; vertical-align: middle;">
                         <img 
                           src="${section.content.image}" 
                           alt="${section.content.imageAlt || 'Article image'}" 
@@ -193,6 +196,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
     case "comic": {
       if (section.content.image) {
         const imageSize = section.content.imageSize || 100;
+        const imageWidthPx = Math.round((contentWidth * imageSize) / 100);
         return `
           <table data-section-type="comic" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F5F7FA; border-bottom: 1px solid #E1E8F0;">
             <tr>
@@ -201,7 +205,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                 <img 
                   src="${section.content.image}" 
                   alt="${section.content.caption || 'Comic'}" 
-                  width="${imageSize}%"
+                  width="${imageWidthPx}"
                   style="display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 4px;"
                   data-property="image"
                   data-image-size="${imageSize}"
@@ -221,6 +225,8 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
     case "puzzle": {
       const puzzleType = section.content.puzzleType || "image";
       const puzzleImageSize = section.content.puzzleImageSize || 100;
+      // Puzzle image sits in a 50% sub-column (with 12px gutter).
+      const puzzleImageWidthPx = Math.round(((contentWidth / 2 - 12) * puzzleImageSize) / 100);
       const brandOrange = "#F15A29";
       return `
         <table data-section-type="puzzle" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #E8F1F8; border-bottom: 1px solid #C1D4E5;">
@@ -236,7 +242,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                       <img 
                         src="${section.content.puzzleImage}" 
                         alt="Puzzle" 
-                        width="${puzzleImageSize}%" 
+                        width="${puzzleImageWidthPx}"
                         style="display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 4px;"
                         data-property="puzzleImage"
                         data-image-size="${puzzleImageSize}"
@@ -406,10 +412,10 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td width="50%" style="vertical-align: top; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #E5E7EB; background-color: ${rowBgColor};">
-                ${renderSection(section, isAlternate, false)}
+                ${renderSection(section, isAlternate, false, 252)}
               </td>
               <td width="50%" style="vertical-align: top; border-bottom: 1px solid #E5E7EB; background-color: ${rowBgColor};">
-                ${renderSection(nextSection, isAlternate, false)}
+                ${renderSection(nextSection, isAlternate, false, 252)}
               </td>
             </tr>
           </table>

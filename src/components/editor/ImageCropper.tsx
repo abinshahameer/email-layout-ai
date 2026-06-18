@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { capCanvasToLimit } from "@/lib/image";
 
 interface ImageCropperProps {
   image: string;
@@ -83,10 +84,10 @@ const getCroppedImg = () => {
     canvas.height
   );
 
-  // Adaptive compression
+  // Adaptive compression, with a hard size cap for oversized images.
   const quality = targetWidth < 600 ? 0.9 : 0.82;
 
-  return canvas.toDataURL("image/jpeg", quality);
+  return capCanvasToLimit(canvas, quality);
 };
 
   const handleCrop = () => {
