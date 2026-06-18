@@ -24,7 +24,7 @@ const fromEditorHTML = (html: string): string => {
   if (!html) return "";
   return html
     .replace(/<p[^>]*>\s*<\/p>/g, "")
-    .replace(/<\/p>\s*<p[^>]*>/g, "<br>")
+    .replace(/<\/p>\s*<p[^>]*>/g, "<br><br>")
     .replace(/^\s*<p[^>]*>/, "")
     .replace(/<\/p>\s*$/, "")
     .replace(/<p[^>]*>/g, "")
