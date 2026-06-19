@@ -46,8 +46,14 @@ interface InlineImage {
  *  - The `X-Unsent: 1` header makes Outlook desktop open the file as a new,
  *    editable, ready-to-send message instead of a read-only received item.
  */
-export const exportToEML = (sections: NewsletterSection[], subject?: string): string => {
-  let html = exportToHTML(sections);
+export const exportToEML = (
+  sections: NewsletterSection[],
+  subject?: string,
+  logos?: { tcs?: string; tata?: string }
+): string => {
+  // Embedded logos arrive as base64 data URLs and are picked up by the data-URI
+  // → CID conversion below, same as content images.
+  let html = exportToHTML(sections, logos);
 
   // Pull every base64 data-URI image out of the HTML and swap it for a cid: reference.
   // The same data URI can appear more than once (e.g. the hero bg in both the <td>

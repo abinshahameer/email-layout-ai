@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RichTextEditor } from "../RichTextEditor";
 import { capCanvasToLimit } from "@/lib/image";
 import heroBackground from "@/assets/hero-background.jpg";
+import tataLogo from "@/assets/tata-logo.svg";
+import tcsLogo from "@/assets/tcs-logo.png";
 
 interface HeaderSectionProps {
   content: {
@@ -132,11 +134,21 @@ const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
               src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
               alt="TCS Logo"
               className="h-6 sm:h-7"
+              onError={(e) => {
+                // Fall back to the locally bundled copy if the remote URL fails.
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = tcsLogo;
+              }}
             />
             <img
               src="https://www.tata.com/etc.clientlibs/tata/clientlibs/assets/resources/img/pages/nav/Tata_Logo2.svg"
               alt="Tata Logo"
               className="h-8 sm:h-10"
+              onError={(e) => {
+                // Fall back to the locally bundled copy if the remote URL fails.
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = tataLogo;
+              }}
             />
           </div>
 

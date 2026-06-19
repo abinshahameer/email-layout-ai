@@ -7,13 +7,24 @@ const brandWhite = "#FFFFFF";
 const linkColor = "#2C5AA0"; // darker blue for in-content links (WCAG AA on white & tint)
 const fontStack = "Calibri";
 
+interface EmailLogos {
+  tcs?: string;
+  tata?: string;
+}
+
+const TCS_LOGO_URL = "https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png";
+const TATA_LOGO_URL = "https://www.tata.com/etc.clientlibs/tata/clientlibs/assets/resources/img/pages/nav/Tata_Logo2.svg";
+
 // contentWidth = usable px width of the column the section sits in
 // (600px container - 24px padding each side = 552; half-width column ≈ 252).
-const renderSection = (section: NewsletterSection, isAlternate: boolean = false, withDivider: boolean = true, contentWidth: number = 552): string => {
+const renderSection = (section: NewsletterSection, isAlternate: boolean = false, withDivider: boolean = true, contentWidth: number = 552, logos?: EmailLogos): string => {
   switch (section.type) {
     case "header": {
       const bgImage = section.content.backgroundImage || '';
       const brandYellow = "#FBB034";
+      // Prefer embedded (base64) logos for reliable email rendering; fall back to remote URLs.
+      const tcsLogoSrc = logos?.tcs || TCS_LOGO_URL;
+      const tataLogoSrc = logos?.tata || TATA_LOGO_URL;
       const heroStyle = bgImage 
         ? `background-image: url('${bgImage}'); background-size: cover; background-position: center; background-repeat: no-repeat;`
         : `background-color: #000000;`;
@@ -45,7 +56,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                   <tr>
                     <td style="text-align: left; vertical-align: middle;">
                       <img
-                        src="https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png"
+                        src="${tcsLogoSrc}"
                         alt="TCS Logo"
                         style="height: 24px; width: auto; display: block;"
                         data-property="logo"
@@ -53,7 +64,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                     </td>
                     <td style="text-align: right; vertical-align: middle;">
                       <img
-                        src="https://www.tata.com/etc.clientlibs/tata/clientlibs/assets/resources/img/pages/nav/Tata_Logo2.svg"
+                        src="${tataLogoSrc}"
                         alt="Tata Logo"
                         style="height: 35px; width: auto; display: block; margin-left: auto;"
                         data-property="tata-logo"
@@ -351,7 +362,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
   }
 };
 
-export const exportToHTML = (sections: NewsletterSection[]): string => {
+export const exportToHTML = (sections: NewsletterSection[], logos?: EmailLogos): string => {
   const styles = `
     body {
       margin: 0;
@@ -398,7 +409,7 @@ export const exportToHTML = (sections: NewsletterSection[]): string => {
     }
 
     if (section.type === "header" || section.type === "footer" || section.type === "extended-reading") {
-      bodyContent += renderSection(section);
+      bodyContent += renderSection(section, false, true, 552, logos);
       i++;
       continue;
     }

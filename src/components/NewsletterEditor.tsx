@@ -9,6 +9,7 @@ import { NewsletterPreview } from "./editor/NewsletterPreview";
 import { AIAssistant } from "./editor/AIAssistant";
 import { exportToHTML } from "@/lib/htmlExport";
 import { exportToEML } from "@/lib/emlExport";
+import { loadEmailLogos } from "@/lib/logos";
 import { parseImportedHTML } from "@/lib/htmlImport";
 import { useToast } from "@/hooks/use-toast";
 import { getSections, saveSections } from "@/lib/db";
@@ -154,8 +155,9 @@ const NewsletterEditor = () => {
     setSections(sections.filter(s => s.id !== id));
   };
 
-  const handleExport = () => {
-    const html = exportToHTML(sections);
+  const handleExport = async () => {
+    const logos = await loadEmailLogos();
+    const html = exportToHTML(sections, logos);
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -172,8 +174,9 @@ const NewsletterEditor = () => {
 
 
   const handleCopyHtml = async () => {
-    const html = exportToHTML(sections);
-  
+    const logos = await loadEmailLogos();
+    const html = exportToHTML(sections, logos);
+
     try {
       // Modern Clipboard API approach
       await navigator.clipboard.writeText(html);
@@ -215,7 +218,8 @@ const NewsletterEditor = () => {
   };
 
   const handleOpenInOutlook = async () => {
-    const html = exportToHTML(sections);
+    const logos = await loadEmailLogos();
+    const html = exportToHTML(sections, logos);
     // Outlook on the web (Microsoft 365 / work or school account) compose deeplink.
     // For personal outlook.com accounts use: https://outlook.live.com/mail/0/deeplink/compose
     const outlookComposeUrl = "https://outlook.office.com/mail/deeplink/compose?subject=Newsletter";
@@ -250,8 +254,9 @@ const NewsletterEditor = () => {
     window.open(outlookComposeUrl, "_blank", "noopener,noreferrer");
   };
 
-  const handleDownloadEml = () => {
-    const eml = exportToEML(sections);
+  const handleDownloadEml = async () => {
+    const logos = await loadEmailLogos();
+    const eml = exportToEML(sections, undefined, logos);
     const blob = new Blob([eml], { type: "message/rfc822" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
