@@ -15,6 +15,33 @@ interface EmailLogos {
 const TCS_LOGO_URL = "https://www.tcs.com/content/dam/global-tcs/en/images/who-we-are/media-kit/logo-rgb-white.png";
 const TATA_LOGO_URL = "https://www.tata.com/etc.clientlibs/tata/clientlibs/assets/resources/img/pages/nav/Tata_Logo2.svg";
 
+/**
+ * Render rich text (paragraphs separated by <br><br> from the editor, or by <p>
+ * blocks if it came from a re-imported export) as real <p> blocks with an
+ * explicit, controlled gap. Explicit <p> margins are Outlook-safe; the default
+ * <p> spacing is not, and a raw <br><br> leaves a full ~26px blank line.
+ * Returns the <p> blocks only — wrap in a single data-property container so the
+ * importer round-trips it as one node.
+ */
+const renderParagraphs = (html: string, pStyle: string, gap: number = 12): string => {
+  const normalized = (html || "")
+    .replace(/<p[^>]*>\s*<\/p>/gi, "")
+    .replace(/<\/p>\s*<p[^>]*>/gi, "<br><br>")
+    .replace(/<\/?p[^>]*>/gi, "")
+    .trim();
+  const paras = normalized
+    .split(/(?:<br\s*\/?>\s*){2,}/i)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!paras.length) return "";
+  return paras
+    .map(
+      (p, i) =>
+        `<p style="margin: 0 0 ${i === paras.length - 1 ? 0 : gap}px 0; ${pStyle}">${p}</p>`
+    )
+    .join("");
+};
+
 // contentWidth = usable px width of the column the section sits in
 // (600px container - 24px padding each side = 552; half-width column ≈ 252).
 const renderSection = (section: NewsletterSection, isAlternate: boolean = false, withDivider: boolean = true, contentWidth: number = 552, logos?: EmailLogos): string => {
@@ -84,9 +111,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                 </h1>
                 
                 <!-- Subtitle -->
-                <p style="margin: 20px auto 0 auto; font-family: ${fontStack}; font-size: 18px; line-height: 1.4; color: ${brandWhite}; max-width: 500px;" data-property="subtitle">
-                  ${(section.content.subtitle || "A monthly digest of the latest news, events, and innovations.").replace(/\n/g, '<br />')}
-                </p>
+                <div data-property="subtitle" style="max-width: 500px; margin: 20px auto 0 auto;">${renderParagraphs((section.content.subtitle || "A monthly digest of the latest news, events, and innovations.").replace(/\n/g, '<br />'), `font-family: ${fontStack}; font-size: 18px; line-height: 1.4; color: ${brandWhite}; text-align: center;`)}</div>
 
                 <!-- CTA Button -->
                 ${ctaButton}
@@ -170,9 +195,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                       </td>
                     ` : ""}
                     <td style="vertical-align: top;">
-                      <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: ${bodyFontSize}px; color: #333333;" data-property="description">
-                        ${section.content.description || ""}
-                      </p>
+                      <div data-property="description">${renderParagraphs(section.content.description || "", `font-family: ${fontStack}; line-height: 1.6; font-size: ${bodyFontSize}px; color: #333333;`)}</div>
                       ${section.content.link ? `
                         <p style="margin: 12px 0 0 0;">
                           <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: ${bodyFontSize}px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
@@ -197,9 +220,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                   </tr>
                 </table>
               ` : `
-                <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: ${bodyFontSize}px; color: #333333;" data-property="description">
-                  ${section.content.description || ""}
-                </p>
+                <div data-property="description">${renderParagraphs(section.content.description || "", `font-family: ${fontStack}; line-height: 1.6; font-size: ${bodyFontSize}px; color: #333333;`)}</div>
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
                     <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: ${bodyFontSize}px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
