@@ -109,14 +109,23 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
       
       const imagePosition = section.content.imagePosition || "top";
       const imageSize = section.content.imageSize || 100;
-      const imageWidthPx = Math.round((contentWidth * imageSize) / 100);
+      // Wide single column → more side padding (shorter, more readable line length)
+      // and 16px body. Narrow half-width column → less padding wasted, smaller 14px
+      // body so text doesn't wrap every few words.
+      const isFull = contentWidth > 400;
+      const hPad = isFull ? 32 : 20;
+      const bodyFontSize = isFull ? 16 : 14;
+      // contentWidth assumed 24px padding; recompute usable width for the new padding
+      // so image widths still line up with the text column.
+      const contentInner = contentWidth + 48 - hPad * 2;
+      const imageWidthPx = Math.round((contentInner * imageSize) / 100);
       const backgroundColor = isAlternate ? '#EEF3F9' : '#FFFFFF';
       const dividerStyle = withDivider ? ' border-bottom: 1px solid #E5E7EB;' : '';
 
       return `
         <table data-section-type="article" data-section-id="${section.id}" data-row-layout="${section.rowLayout || 'full'}" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: ${backgroundColor};">
           <tr>
-            <td style="padding: 24px;${dividerStyle}">
+            <td style="padding: 24px ${hPad}px;${dividerStyle}">
               <h3 style="margin: 0 0 10px 0; font-family: ${fontStack}; font-size: 20px; font-weight: bold; color: #000000;" data-property="title">
                 ${section.content.title || ""}
               </h3>
@@ -161,12 +170,12 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                       </td>
                     ` : ""}
                     <td style="vertical-align: top;">
-                      <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: 16px; color: #333333;" data-property="description">
+                      <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: ${bodyFontSize}px; color: #333333;" data-property="description">
                         ${section.content.description || ""}
                       </p>
                       ${section.content.link ? `
                         <p style="margin: 12px 0 0 0;">
-                          <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
+                          <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: ${bodyFontSize}px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
                             ${section.content.linkText ? `Read more: ${section.content.linkText}` : "Read more"}
                           </a>
                         </p>
@@ -188,12 +197,12 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                   </tr>
                 </table>
               ` : `
-                <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: 16px; color: #333333;" data-property="description">
+                <p style="margin: 0 0 12px 0; font-family: ${fontStack}; line-height: 1.6; font-size: ${bodyFontSize}px; color: #333333;" data-property="description">
                   ${section.content.description || ""}
                 </p>
                 ${section.content.link ? `
                   <p style="margin: 12px 0 0 0;">
-                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: 16px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
+                    <a href="${section.content.link}" target="_blank" rel="noopener noreferrer" style="font-family: ${fontStack}; color: ${linkColor}; text-decoration: underline; font-size: ${bodyFontSize}px; font-weight: bold;" data-property="link" data-link-text="${section.content.linkText || ''}">
                       ${section.content.linkText ? `Read more: ${section.content.linkText}` : "Read more"}
                     </a>
                   </p>
@@ -266,11 +275,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
                     ` : ""}
                   </td>
                   <td width="50%" style="padding-left: 12px; vertical-align: top;">
-                    ${puzzleType === "image" && section.content.instructions ? `
-                      <pre style="margin: 0 0 20px 0; font-size: 16px; color: #333333; line-height: 1.5; white-space: pre-wrap; font-family: ${fontStack};" data-property="instructions">
-                        ${section.content.instructions}
-                      </pre>
-                    ` : ""}
+                    ${puzzleType === "image" && section.content.instructions ? `<pre style="margin: 0 0 20px 0; font-size: 16px; color: #333333; line-height: 1.5; white-space: pre-wrap; font-family: ${fontStack};" data-property="instructions">${section.content.instructions}</pre>` : ""}
                     ${section.content.answerImage || section.content.answerText ? `
                       <div style="border-top: 1px solid #C1D4E5; padding-top: 20px;" data-property="answer">
                         <p style="margin: 0 0 12px 0; font-family: ${fontStack}; font-size: 14px; font-weight: bold; color: #333333;">Last Week's Answer</p>
