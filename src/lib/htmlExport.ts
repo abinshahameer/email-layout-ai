@@ -60,7 +60,7 @@ const renderSection = (section: NewsletterSection, isAlternate: boolean = false,
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-top: 30px;">
           <tr>
             <td align="center" bgcolor="${brandYellow}" style="background-color: ${brandYellow}; border-radius: 4px; text-align: center; padding: 12px 24px;">
-              <a href="${section.content.ctaLink}" target="_blank" style="font-family: ${fontStack}; font-size: 16px; font-weight: bold; color: #000000; text-decoration: none; display: inline-block;">
+              <a href="${section.content.ctaLink}" target="_blank" data-property="cta" style="font-family: ${fontStack}; font-size: 16px; font-weight: bold; color: #000000; text-decoration: none; display: inline-block;">
                 ${section.content.ctaText || "Explore More"}
               </a>
             </td>

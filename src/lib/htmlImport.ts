@@ -89,17 +89,22 @@ export const parseImportedHTML = (html: string): NewsletterSection[] => {
           } else if (propName === 'link') {
             content.link = getAttribute(propNode, 'href');
             content.linkText = getAttribute(propNode, 'data-link-text');
+          } else if (propName === 'cta') {
+            content.ctaLink = getAttribute(propNode, 'href');
+            content.ctaText = getText(propNode).trim();
+          } else if (propName === 'puzzle') {
+            content.puzzleType = getAttribute(propNode, 'data-puzzle-type');
           } else if (propName === 'quote') {
-            content[propName] = getText(propNode).replace(/"/g, '');
+            content[propName] = getText(propNode).replace(/"/g, '').trim();
           } else if (propName === 'date') {
             const dateValue = getAttribute(propNode, 'data-date-value');
-            content[propName] = dateValue || getText(propNode);
+            content[propName] = dateValue || getText(propNode).trim();
           } else if (propName === 'description' || propName === 'subtitle') {
             // For description and subtitle, we want to preserve the internal HTML (like <b>, <i>, <br>)
             content[propName] = propNode.children ? propNode.children.map(getHtml).join('') : getHtml(propNode);
           }
           else {
-            content[propName] = getText(propNode);
+            content[propName] = getText(propNode).trim();
           }
         }
       }
